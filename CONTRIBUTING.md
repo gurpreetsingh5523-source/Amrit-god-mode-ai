@@ -1,42 +1,76 @@
-# Contributing to Amrit-god-mode-ai
+# Contributing to AMRIT GODMODE
 
-Thank you for considering contributing to Amrit-god-mode-ai! We appreciate your help in improving this project. Here are some guidelines to keep in mind while contributing:
+☬ ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ Thank you for contributing!
+
+## Development Setup
+
+```bash
+# Clone
+git clone https://github.com/gurpreetsingh5523-source/Amrit-god-mode-ai.git
+cd Amrit-god-mode-ai
+
+# Virtual environment
+python3 -m venv .venv
+source .venv/bin/activate    # macOS/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install Ollama + model
+# https://ollama.com
+ollama pull gemma3:4b
+```
+
+## Running
+
+```bash
+python main.py                          # Interactive mode
+python main.py --mode selffix           # Self-fix mode
+python main.py --mode evolve            # Self-evolution
+python main.py --goal "your task"       # Goal execution
+```
 
 ## Code Style
-- Please follow the [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guide for Python code.
-- Try to maintain a consistent coding style throughout the project.
-- Ensure that your code is properly commented and easy to understand.
+- Follow [PEP 8](https://peps.python.org/pep-0008/)
+- Keep modules under 200 lines when possible
+- All modules are flat (no package subdirectories) — import directly: `from event_bus import EventBus`
+- Use async/await for agent methods
 
-## Testing Requirements
-- Before submitting any changes, please run the existing test suite to ensure that your changes do not break any existing functionality.
-- Add new tests for any new features or bug fixes you implement. This will help assure the quality of the code.
+## Testing
+
+```bash
+# Run all tests (must be 23/23 passing)
+python -m pytest test_godmode.py -v
+
+# Run selffix (automated test + fix cycle)
+python main.py --mode selffix
+```
+
+Before submitting a PR:
+1. All 23 tests must pass
+2. `python main.py --mode selffix` must complete without errors
+3. No hardcoded API keys or personal paths
 
 ## Pull Request Process
-1. Fork the repository and create your branch from `main`.
-2. Make your changes and commit them with a clear message that describes your changes.
-3. Push to your branch and submit a pull request.
-4. Ensure that your pull request includes a description of what you have done and why it is necessary. 
-5. Reviewers will provide feedback, which you may need to address before your pull request is merged.
 
-## Development Setup Instructions
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/gurpreetsingh2009-cmyk/Amrit-god-mode-ai.git
-   cd Amrit-god-mode-ai
-   ```
-2. **Create a virtual environment:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # for Unix or MacOS
-   .\venv\Scripts\activate  # for Windows
-   ```
-3. **Install the dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. **Run the application:**
-   ```bash
-   python app.py
-   ```
+1. Fork the repo and branch from `main`
+2. Make changes — keep them focused and minimal
+3. Add tests for new features in `test_godmode.py`
+4. Run `python -m pytest test_godmode.py -v` — all must pass
+5. Submit PR with clear description
 
-Thank you for contributing! We look forward to your pull requests!
+## What to Contribute
+
+- **New agents** — Add specialized agents (e.g., database agent, API testing agent)
+- **Memory improvements** — Better vector search, smarter context management
+- **Model support** — Add new LLM providers to `llm_router.py`
+- **Security** — Improve sandboxing, add more safety checks
+- **Tests** — More test coverage is always welcome
+- **Punjabi NLP** — Improve Punjabi language support
+
+## Architecture Notes
+
+- `orchestrator.py` is the central brain — all agents register here
+- `llm_router.py` handles model selection (8 categories: coding, reasoning, deep, etc.)
+- `self_evolution.py` has 7 phases — be careful modifying the phase pipeline
+- `config.yaml` controls all settings — don't hardcode values in Python files
