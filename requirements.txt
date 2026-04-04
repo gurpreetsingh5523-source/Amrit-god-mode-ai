@@ -1,0 +1,59 @@
+# AMRIT GODMODE v2.0 Dependencies
+
+# Core
+pyyaml>=6.0
+python-dotenv>=1.0
+psutil>=5.9
+
+# LLM APIs
+openai>=1.0.0
+anthropic>=0.20.0
+groq>=0.4.0
+google-generativeai>=0.4.0
+
+# Embeddings / Vector
+sentence-transformers>=2.5.0
+faiss-cpu>=1.7.4
+chromadb>=0.4.0
+
+# Voice
+openai-whisper>=20231117
+pyttsx3>=2.90
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.13
+
+# Vision
+Pillow>=10.0.0
+opencv-python>=4.8.0
+pytesseract>=0.3.10
+
+# Web / Browser
+playwright>=1.40.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+
+# Data
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0
+pyarrow>=14.0.0
+datasets>=2.14.0
+scikit-learn>=1.3.0
+
+# ML / Training
+torch>=2.0.0
+transformers>=4.35.0
+peft>=0.6.0
+accelerate>=0.25.0
+
+# Git
+gitpython>=3.1.40
+
+# Utils
+rich>=13.0.0
+httpx>=0.25.0
+aiofiles>=23.0.0
+
+# Video
+moviepy>=1.0.3
+imageio-ffmpeg>=0.4.7

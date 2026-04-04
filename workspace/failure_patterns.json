@@ -1,0 +1,6018 @@
+[
+  {
+    "error_key": "nameerror: name 'test_var_xyz' is not defined",
+    "error": "NameError: name 'test_var_xyz' is not defined",
+    "agent": "coder",
+    "task": "test task",
+    "fixes": [
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      }
+    ],
+    "count": 1464,
+    "first_seen": "2026-04-01T12:59:31.852249",
+    "last_seen": "2026-04-04T23:50:50.273443"
+  },
+  {
+    "error_key": "fix regression: before=74ok/16fail, after=73ok/17fail",
+    "error": "Fix regression: before=74ok/16fail, after=73ok/17fail",
+    "agent": "self_evolution",
+    "task": "cycle_1_fix",
+    "fixes": [],
+    "count": 5,
+    "first_seen": "2026-04-01T13:44:19.439464",
+    "last_seen": "2026-04-01T14:18:17.083389"
+  },
+  {
+    "error_key": "llm produced invalid syntax",
+    "error": "LLM produced invalid syntax",
+    "agent": "self_evolution",
+    "task": "fix embedding_model.py",
+    "fixes": [],
+    "count": 37,
+    "first_seen": "2026-04-01T13:44:19.701589",
+    "last_seen": "2026-04-01T23:32:08.072048"
+  },
+  {
+    "error_key": "regressed",
+    "error": "regressed",
+    "agent": "self_evolution",
+    "task": "fix_impact",
+    "fixes": [],
+    "count": 27,
+    "first_seen": "2026-04-01T13:44:19.701873",
+    "last_seen": "2026-04-01T23:19:56.542433"
+  },
+  {
+    "error_key": "fix regression: before=75ok/15fail, after=74ok/16fail",
+    "error": "Fix regression: before=75ok/15fail, after=74ok/16fail",
+    "agent": "self_evolution",
+    "task": "cycle_5_fix",
+    "fixes": [],
+    "count": 7,
+    "first_seen": "2026-04-01T14:29:58.137464",
+    "last_seen": "2026-04-01T15:55:04.522998"
+  },
+  {
+    "error_key": "fix regression: before=76ok/14fail, after=75ok/15fail",
+    "error": "Fix regression: before=76ok/14fail, after=75ok/15fail",
+    "agent": "self_evolution",
+    "task": "cycle_98_fix",
+    "fixes": [],
+    "count": 2,
+    "first_seen": "2026-04-01T17:50:05.550626",
+    "last_seen": "2026-04-01T17:50:53.436350"
+  },
+  {
+    "error_key": "fix regression: before=79ok/11fail, after=78ok/12fail",
+    "error": "Fix regression: before=79ok/11fail, after=78ok/12fail",
+    "agent": "self_evolution",
+    "task": "cycle_180_fix",
+    "fixes": [],
+    "count": 3,
+    "first_seen": "2026-04-01T20:16:08.216045",
+    "last_seen": "2026-04-01T20:33:31.636520"
+  },
+  {
+    "error_key": "fix regression: before=80ok/10fail, after=79ok/11fail",
+    "error": "Fix regression: before=80ok/10fail, after=79ok/11fail",
+    "agent": "self_evolution",
+    "task": "cycle_221_fix",
+    "fixes": [],
+    "count": 4,
+    "first_seen": "2026-04-01T22:13:24.537071",
+    "last_seen": "2026-04-01T22:40:49.024245"
+  },
+  {
+    "error_key": "fix regression: before=81ok/9fail, after=80ok/10fail",
+    "error": "Fix regression: before=81ok/9fail, after=80ok/10fail",
+    "agent": "self_evolution",
+    "task": "cycle_2_fix",
+    "fixes": [],
+    "count": 2,
+    "first_seen": "2026-04-01T23:17:54.960342",
+    "last_seen": "2026-04-01T23:19:56.174266"
+  },
+  {
+    "error_key": "likely missing dependency: 'name' appears in 8/10 errors",
+    "error": "Likely missing dependency: 'name' appears in 8/10 errors",
+    "agent": "self_evolution",
+    "task": "root_cause",
+    "fixes": [],
+    "count": 2,
+    "first_seen": "2026-04-01T23:21:54.125475",
+    "last_seen": "2026-04-01T23:22:20.101551"
+  },
+  {
+    "error_key": "likely missing dependency: 'name' appears in 7/11 errors",
+    "error": "Likely missing dependency: 'name' appears in 7/11 errors",
+    "agent": "self_evolution",
+    "task": "root_cause",
+    "fixes": [],
+    "count": 15,
+    "first_seen": "2026-04-01T23:37:36.426496",
+    "last_seen": "2026-04-02T03:00:57.830080"
+  },
+  {
+    "error_key": "likely missing dependency: 'name' appears in 6/11 errors",
+    "error": "Likely missing dependency: 'name' appears in 6/11 errors",
+    "agent": "self_evolution",
+    "task": "root_cause",
+    "fixes": [],
+    "count": 6,
+    "first_seen": "2026-04-01T23:38:32.867968",
+    "last_seen": "2026-04-02T03:00:07.244481"
+  },
+  {
+    "error_key": "likely missing dependency: 'name' appears in 6/10 errors",
+    "error": "Likely missing dependency: 'name' appears in 6/10 errors",
+    "agent": "self_evolution",
+    "task": "root_cause",
+    "fixes": [],
+    "count": 6,
+    "first_seen": "2026-04-01T23:43:19.602019",
+    "last_seen": "2026-04-02T03:01:48.700481"
+  },
+  {
+    "error_key": "[errno 32] broken pipe",
+    "error": "[Errno 32] Broken pipe",
+    "agent": "self_evolution",
+    "task": "cycle_16",
+    "fixes": [],
+    "count": 1,
+    "first_seen": "2026-04-02T03:03:40.611582",
+    "last_seen": "2026-04-02T03:03:40.611584"
+  },
+  {
+    "agent": "coder",
+    "action": "refactor",
+    "error_key": "syntaxerror: bad indent",
+    "count": 1,
+    "first_seen": "2026-04-04T23:07:42.779343",
+    "last_seen": "2026-04-04T23:07:42.779345",
+    "fix": "\u0a07\u0a70\u0a21\u0a48\u0a02\u0a1f \u0a20\u0a40\u0a15 \u0a15\u0a30\u0a4b \u0a05\u0a24\u0a47 retry \u0a15\u0a30\u0a4b",
+    "fixed_at": "2026-04-04T23:07:42.782287"
+  },
+  {
+    "agent": "test",
+    "action": "test_action",
+    "error_key": "test error",
+    "count": 7,
+    "first_seen": "2026-04-04T23:43:14.635766",
+    "last_seen": "2026-04-04T23:50:49.990789",
+    "fix": null
+  }
+]

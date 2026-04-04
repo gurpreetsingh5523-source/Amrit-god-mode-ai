@@ -1,0 +1,42 @@
+# AMRIT GODMODE v2.1 — Configuration
+llm:
+  model: "mistral:7b-instruct-q4_K_M"      # fastest general model (2s)
+  reasoning_model: "gemma3:4b"             # fast reasoning (2.3s)
+  coding_model: "gemma3:4b"                # replaced slow qwen2.5-coder
+  fast_model: "gemma3:4b"                  # 4B = quick responses
+  openai_base_url: "http://127.0.0.1:11434/v1"
+  openai_api_key: "ollama"
+  system_prompt: "ਪੰਜਾਬੀ ਵਿੱਚ ਜਵਾਬ ਦਿਓ। STRICT JSON ONLY."
+  request_timeout: 90                       # increased for qwen2.5-coder:7b refactoring
+  smart_routing: true
+
+autonomy:
+  max_tokens: 400                           # was 512 — less tokens = faster
+  # Per-task timeout used by TaskGraph/autonomy loop (seconds)
+  task_timeout: 90                          # was 300 — fail fast, don't hang
+
+memory:
+  context_buffer_size: 40
+  persist_path: "workspace/state.json"
+
+security:
+  sandbox_enabled: true
+  ethical_guard: true
+  sandbox_timeout: 10
+  strict_mode: false
+
+voice:
+  enabled: false
+  stt_model: "whisper-base"
+  tts_engine: "pyttsx3"
+
+vision:
+  enabled: false
+
+learning:
+  enabled: true
+  learn_every_n: 10
+
+logging:
+  level: "INFO"
+  dir: "logs/"

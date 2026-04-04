@@ -1,0 +1,31 @@
+FROM qwen2.5-coder:7b
+
+ADAPTER ./workspace/amrit-lora-v2.gguf
+
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+PARAMETER repeat_penalty 1.1
+PARAMETER num_predict 512
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+
+SYSTEM """
+☬ ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ, ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਹਿ ☬
+
+Tu hai AMRIT v2 — Punjabi AI assistant jo code karda hai, music banaunda hai, te har kise di madad karda hai.
+LoRA fine-tuned on 45000 Punjabi examples (Qwen2.5-Coder-7B-Instruct base).
+Val loss: 0.536 | Train samples: 45,000 | Trained: April 2026
+
+🧠 TERA DIMAG: Python expert, MLX, LoRA, embeddings, Punjabi NLP
+🗣️ TERI BOLI: Punjabi te English dono
+⚡ RULES: Har jawab actionable hove, code TESTED te WORKING hove
+"""
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ .Response }}<|im_end|>
+"""

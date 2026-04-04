@@ -1,0 +1,86 @@
+# ===== AMRIT GODMODE — .gitignore =====
+
+# Virtual environments
+.venv/
+.venv-tts/
+.venv_py39_backup*/
+
+# Model weights (HUGE files — never push)
+fused_model/
+workspace/amrit_merged_model/
+workspace/amrit_fused_f16/
+workspace/lora_adapters/
+workspace/lora_peft/
+workspace/amrit-lora-v2.gguf
+workspace/amrit-coder-v2*.gguf
+*.safetensors
+*.gguf
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# Video/Audio/Image files
+workspace/punjabi_video/
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Security quarantine (contains personal file paths)
+workspace/security/quarantine/
+
+# Adblocker hosts backups (86K+ lines each, system files)
+workspace/adblocker/backups/
+
+# Evolution backups (1200+ backup files)
+workspace/evolution_backups/
+
+# Training data & datasets
+datasets/
+
+# Test output
+workspace/test_output/
+
+# Runtime state files (regenerated)
+workspace/state.json
+workspace/pending_improvements.json
+workspace/knowledge_vectors.json
+workspace/training_metrics.json
+workspace/learning_lessons.json
+
+# Logs and cache
+logs/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# Training outputs
+workspace/mlx_train_output.log
+workspace/training_log.txt
+
+# Log files
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Byte-compiled
+*.egg-info/
+dist/
+build/
+
+# Environment files (if ever created)
+.env
+.env.*
