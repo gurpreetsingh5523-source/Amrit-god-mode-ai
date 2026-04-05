@@ -9,7 +9,12 @@ NOT just an LLM wrapper anymore. Does REAL analysis:
   - Root-cause analysis using causal reasoning
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
-import re, ast, sys, subprocess, traceback, tempfile
+import re
+import ast
+import sys
+import subprocess
+import traceback
+import tempfile
 from pathlib import Path
 from base_agent import BaseAgent
 
@@ -61,13 +66,20 @@ class DebuggerAgent(BaseAgent):
         d = task.get("data", {})
         action = d.get("action", "analyze")
         await self.report(f"Debugger [{action}]")
-        if action == "analyze":    return await self._analyze(d)
-        if action == "fix":        return await self._fix(d)
-        if action == "trace":      return await self._parse_trace(d.get("trace",""))
-        if action == "root_cause": return await self._root_cause(d)
-        if action == "optimize":   return await self._optimize(d)
-        if action == "inspect":    return await self._inspect_file(d)
-        if action == "validate":   return await self._validate_code(d)
+        if action == "analyze":
+            return await self._analyze(d)
+        if action == "fix":
+            return await self._fix(d)
+        if action == "trace":
+            return await self._parse_trace(d.get("trace",""))
+        if action == "root_cause":
+            return await self._root_cause(d)
+        if action == "optimize":
+            return await self._optimize(d)
+        if action == "inspect":
+            return await self._inspect_file(d)
+        if action == "validate":
+            return await self._validate_code(d)
         return await self._analyze(d)
 
     # ══════════════════════════════════════════════════════════════
@@ -77,7 +89,7 @@ class DebuggerAgent(BaseAgent):
     async def _analyze(self, d: dict) -> dict:
         error = d.get("error", "")
         code  = d.get("code", "")
-        filepath = d.get("file", "")
+        d.get("file", "")
 
         findings = []
 
@@ -240,7 +252,7 @@ Provide:
                 suggestions.append({
                     "type": "quality",
                     "line": node.lineno,
-                    "message": f"Global variables used. Consider passing as parameters instead.",
+                    "message": "Global variables used. Consider passing as parameters instead.",
                 })
 
         # 5. Check imports
@@ -328,7 +340,7 @@ Provide:
 
     async def _parse_trace(self, trace: str) -> dict:
         lines  = trace.strip().splitlines()
-        errors = [l for l in lines if "Error" in l or "Exception" in l]
+        errors = [ln for ln in lines if "Error" in ln or "Exception" in ln]
         files  = re.findall(r'File "(.*?)", line (\d+)', trace)
 
         # Also pattern-match the error

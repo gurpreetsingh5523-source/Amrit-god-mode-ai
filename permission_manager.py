@@ -21,12 +21,16 @@ DEFAULTS = {
 }
 
 class PermissionManager:
-    def __init__(self): self._perms = dict(DEFAULTS); self._audit = []
+    def __init__(self):
+        self._perms = dict(DEFAULTS)
+        self._audit = []
 
     def can(self, agent: str, action: str) -> bool:
         allowed = self._perms.get(agent,[])
-        if "*" in allowed: return True
-        if action in allowed: return True
+        if "*" in allowed:
+            return True
+        if action in allowed:
+            return True
         prefix = action.split(".")[0]+".*"
         result = prefix in allowed
         self._audit.append({"agent":agent,"action":action,"granted":result})
@@ -34,15 +38,19 @@ class PermissionManager:
 
     def grant(self, agent: str, perm: str):
         self._perms.setdefault(agent,[])
-        if perm not in self._perms[agent]: self._perms[agent].append(perm)
+        if perm not in self._perms[agent]:
+            self._perms[agent].append(perm)
         logger.info(f"Granted {agent}: {perm}")
 
     def revoke(self, agent: str, perm: str):
         if agent in self._perms:
-            try: self._perms[agent].remove(perm)
-            except ValueError: pass
+            try:
+                self._perms[agent].remove(perm)
+            except ValueError:
+                pass
 
     def list_perms(self, agent: str) -> list: return self._perms.get(agent,[])
     def audit(self, limit=50) -> list: return self._audit[-limit:]
     def require(self, agent: str, action: str):
-        if not self.can(agent,action): raise PermissionError(f"{agent} cannot {action}")
+        if not self.can(agent,action):
+            raise PermissionError(f"{agent} cannot {action}")

@@ -1,5 +1,6 @@
 """Planner Agent — LLM-powered goal decomposition into task graphs."""
-import json, re
+import json
+import re
 from base_agent import BaseAgent
 
 class PlannerAgent(BaseAgent):
@@ -46,7 +47,8 @@ Return ONLY JSON array: [{{"name":"short task description","agent":"agent_name",
     def _parse(self, text: str) -> list:
         clean = re.sub(r"```(?:json)?|```", "", text).strip()
         m = re.search(r'\[.*\]', clean, re.DOTALL)
-        if not m: return self._fallback("")
+        if not m:
+            return self._fallback("")
         return [{**t, "priority": int(t.get("priority", 5))} for t in json.loads(m.group())]
 
     def _fallback(self, goal: str) -> list:

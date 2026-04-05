@@ -29,129 +29,71 @@ MCP_VERSION = "2024-11-05"
 
 def _build_tools(orchestrator) -> list[dict]:
     """Build MCP tool definitions from AMRIT capabilities."""
-    tools = [
+    tool_definitions = [
         {
             "name": "amrit_goal",
             "description": "Set and execute a high-level goal. AMRIT decomposes it into tasks and runs agents.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "goal": {"type": "string", "description": "The goal to achieve"},
-                },
-                "required": ["goal"],
-            },
+            "inputSchema": _create_input_schema(["goal"]),
         },
         {
             "name": "amrit_agent_run",
             "description": "Run a specific AMRIT agent with a task. Agents: coder, researcher, tester, debugger, planner, internet, vision, voice, memory, tool.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "agent": {"type": "string", "description": "Agent name (coder, researcher, tester, etc.)"},
-                    "task": {"type": "object", "description": "Task dict with 'name' and optional 'action', 'data'"},
-                },
-                "required": ["agent", "task"],
-            },
+            "inputSchema": _create_input_schema(["agent", "task"]),
         },
         {
             "name": "amrit_swarm",
             "description": "Launch a multi-agent swarm with queen/worker coordination to solve complex objectives.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "objective": {"type": "string", "description": "What the swarm should accomplish"},
-                    "tasks": {
-                        "type": "array",
-                        "description": "List of tasks [{name, agent, data, priority, depends_on}]",
-                        "items": {"type": "object"},
-                    },
-                },
-                "required": ["objective"],
-            },
+            "inputSchema": _create_input_schema(["objective"], {"tasks"}),
         },
         {
             "name": "amrit_code",
             "description": "Generate, refactor, or analyze code using AMRIT's coding agent with local LLM.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "action": {"type": "string", "enum": ["generate", "refactor", "review", "explain"], "description": "Code action"},
-                    "code": {"type": "string", "description": "Source code (for refactor/review/explain)"},
-                    "prompt": {"type": "string", "description": "What to generate or how to refactor"},
-                    "language": {"type": "string", "description": "Programming language", "default": "python"},
-                },
-                "required": ["action"],
-            },
+            "inputSchema": _create_input_schema(["action"], ["code", "prompt", "language"]),
         },
         {
             "name": "amrit_research",
             "description": "Research a topic using AMRIT's internet agent + arXiv pipeline.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string", "description": "Research query or topic"},
-                    "depth": {"type": "string", "enum": ["quick", "medium", "deep"], "default": "medium"},
-                },
-                "required": ["query"],
-            },
+            "inputSchema": _create_input_schema(["query"], ["depth"]),
         },
         {
             "name": "amrit_test",
             "description": "Run tests or generate tests for code.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "action": {"type": "string", "enum": ["run", "generate"], "description": "Test action"},
-                    "file": {"type": "string", "description": "File to test"},
-                    "code": {"type": "string", "description": "Code to generate tests for"},
-                },
-                "required": ["action"],
-            },
+            "inputSchema": _create_input_schema(["action"], ["file", "code"]),
         },
         {
             "name": "amrit_memory_search",
             "description": "Search AMRIT's vector memory (episodic, semantic, long-term).",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string", "description": "Search query"},
-                    "memory_type": {"type": "string", "enum": ["episodic", "semantic", "long_term", "all"], "default": "all"},
-                    "limit": {"type": "integer", "default": 5},
-                },
-                "required": ["query"],
-            },
+            "inputSchema": _create_input_schema(["query"], ["memory_type", "limit"]),
         },
         {
             "name": "amrit_selffix",
             "description": "Run AMRIT's self-evolution engine to analyze and fix its own code.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "max_cycles": {"type": "integer", "default": 1, "description": "Number of fix cycles"},
-                },
-            },
+            "inputSchema": _create_input_schema(["max_cycles"], strict=False),
         },
         {
             "name": "amrit_status",
             "description": "Get current AMRIT system status — agents, swarm, memory, LLM stats.",
-            "inputSchema": {"type": "object", "properties": {}},
+            "inputSchema": _create_input_schema([], strict=False),
         },
         {
             "name": "amrit_llm",
             "description": "Direct LLM completion using AMRIT's local models (Ollama/AirLLM). Zero API cost.",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "prompt": {"type": "string", "description": "Prompt for the LLM"},
-                    "system": {"type": "string", "description": "System prompt"},
-                    "model": {"type": "string", "description": "Model category: coding, reasoning, fast, creative, deep"},
-                    "max_tokens": {"type": "integer", "default": 400},
-                },
-                "required": ["prompt"],
-            },
+            "inputSchema": _create_input_schema(["prompt"], ["system", "model", "max_tokens"]),
         },
     ]
-    return tools
+    return tool_definitions
+
+
+def _create_input_schema(required_fields: list[str], optional_fields: list[str] = [], strict: bool = True) -> dict:
+    """Helper to create input schemas."""
+    properties = {field: {"type": "string"} for field in required_fields}
+    if optional_fields:
+        properties.update({field: {"type": "string"} for field in optional_fields})
+    return {
+        "type": "object",
+        "properties": properties,
+        "required": required_fields if strict else [],
+    }
 
 
 # ─── Tool Execution ─────────────────────────────────────────────

@@ -1670,3 +1670,378 @@ def calculate_area(rectangle_width: float, rectangle_height: float) -> float:
         raise ValueError("Width and height must be greater than zero.")
     
     return rectangle_width * rectangle_height
+
+
+# Generated Code (python)
+
+def calculate_average(numbers: list[float]) -> float:
+    """
+    Calculate the average of a list of numbers.
+
+    Args:
+        numbers (list[float]): A list of floating-point numbers.
+
+    Returns:
+        float: The average of the numbers in the list.
+
+    Raises:
+        ValueError: If the input list is empty.
+    """
+    if not numbers:
+        raise ValueError("The list of numbers must not be empty.")
+
+    return sum(numbers) / len(numbers)
+
+# Example usage:
+try:
+    avg = calculate_average([1.5, 2.5, 3.0])
+    print(f"The average is: {avg}")
+except ValueError as e:
+    print(e)
+
+
+# Generated Code (python)
+
+def divide_numbers(dividend: float, divisor: float) -> float:
+    """
+    Divides two numbers and returns the result.
+
+    Parameters:
+    dividend (float): The number to be divided.
+    divisor (float): The number by which to divide.
+
+    Returns:
+    float: The quotient of the division.
+
+    Raises:
+    ValueError: If the divisor is zero.
+    TypeError: If either the dividend or divisor is not a number.
+    """
+    
+    # Check if inputs are numbers
+    if not isinstance(dividend, (int, float)) or not isinstance(divisor, (int, float)):
+        raise TypeError("Both dividend and divisor must be numbers.")
+    
+    # Check if divisor is zero
+    if divisor == 0:
+        raise ValueError("Divisor cannot be zero.")
+    
+    return dividend / divisor
+
+# Example usage:
+try:
+    result = divide_numbers(10, 2)
+    print(f"The result of division is: {result}")
+except (ValueError, TypeError) as e:
+    print(e)
+
+
+# Research Summary
+
+Okay, based on these web results, here’s a definition of calculator operations:
+
+**Calculator operations** are the mathematical calculations performed by a calculator using electronic circuits and logic gates. These operations primarily include:
+
+*   **Basic Operations:** Addition, subtraction, multiplication, and division.
+*   **Advanced Operations:** More complex functions can be found in advanced calculators, including square roots, exponents, trigonometric functions (sine, cosine, tangent), logarithms, and more.
+
+**How they work:**
+
+Calculators achieve these operations by employing integrated circuits – tiny arrangements of transistors – that execute specific instructions for each mathematical function. They essentially process input numbers through a series of logic gates to arrive at the correct answer.
+
+---
+
+Do you want me to elaborate on any specific aspect of this definition, such as:
+
+*   The history of calculators?
+*   How logic gates contribute to calculations?
+
+
+# Research Summary
+
+To create a simple CLI-based calculator in Python, you can follow these steps. This example will include basic arithmetic operations such as addition, subtraction, multiplication, and division.
+
+```python
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y == 0:
+        raise ValueError("Cannot divide by zero.")
+    return x / y
+
+def main():
+    print("Select operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+
+    while True:
+        choice = input("Enter choice(1/2/3/4): ")
+
+        if choice in ['1', '2', '3', '4']:
+            try:
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+
+                if choice == '1':
+                    print(f"{num1} + {num2} = {add(num1, num2)}")
+                    
+                elif choice == '2':
+                    print(f"{num1} - {num2} = {subtract(num1, num2)}")
+                    
+                elif choice == '3':
+                    print(f"{num1} * {num2} = {multiply(num1, num2)}")
+                    
+                elif choice == '4':
+                    result = divide(num1, num2)
+                    print(f"{num1} / {num2} = {result}")
+                    
+            except ValueError:
+                print("Invalid input. Please enter numeric values.")
+                
+        else:
+            print("Invalid option. Please enter a valid choice.")
+            
+        next_calculation = input("Do you want to perform another calculation? (yes/no): ")
+        if next_calculation.lower() != 'yes':
+            break
+
+if __name__ == "__main__":
+    main()
+```
+
+### Explanation:
+
+1. **Function Definitions**:
+   - `add(x, y)`: Adds two numbers.
+   - `subtract(x, y)`: Subtracts the second number from the first.
+   - `multiply(x, y)`: Multiplies two numbers.
+   - `divide(x, y)`: Divides the first number by the second. Includes a check to prevent division by zero.
+
+2. **Main Function**:
+   - Displays a menu of options to the user.
+   - Prompts the user to enter their choice.
+   - Reads the input values and calls the appropriate function based on the user's choice.
+   - Handles invalid inputs (e.g., non-numeric values) gracefully.
+   - Asks the user if they want to perform another calculation.
+
+3. **Running the Program**:
+   - The program runs in a loop until the user decides to stop.
+
+### Usage:
+
+To run this script, save it as `calculator.py` and execute it using Python:
+
+```bash
+python calculator.py
+```
+
+This will open the CLI interface, allowing you to input operations and numbers to get the results.
+
+
+# Research Summary
+
+Okay, based on the provided web results, here’s a definition of “System Requirements”:
+
+**System requirements are the specifications needed for a software application, game, or digital tool to operate efficiently on a computer system.**
+
+Here’s a breakdown of what that encompasses, drawing from the different sources:
+
+*   **Components:** They cover a broad range of aspects, including:
+    *   **Hardware:** (e.g., processor speed, RAM, graphics card) – This is a core part of the definition.
+    *   **Software:** (e.g., operating system versions)
+    *   **Connectivity:** (e.g., internet speed, network protocols)
+*   **Purpose:** Meeting these requirements ensures the software runs smoothly without performance issues.
+*   **Transformation (SEBoK):** The process of defining system requirements involves translating stakeholder needs (what they *want* the system to do) into a technical description for developers (how the system will *achieve* those things).
+*   **Traceability (Systems Requirements Definition):**  Requirements are linked back to the original stakeholder needs for accuracy and verification.
+
+**In essence, system requirements are a blueprint for ensuring a piece of software or hardware will function correctly within a specific technological environment.**
+
+---
+
+Do you want me to elaborate on any specific aspect of system requirements, such as:
+
+*   How they’re different between “minimum” and “recommended” specifications?
+*   The process of gathering system requirements?
+
+
+# Research Summary
+
+To determine the best programming language to learn first, consider your interests, goals, and project requirements. Popular choices include Python, JavaScript (for web development), Java (for enterprise applications), C++ (for system-level software). Each has its strengths: Python is excellent for beginners due to its simplicity; JavaScript is essential if you want to work in web development; Java is versatile for both front-end and back-end web development; C++ is great for system programming. Ultimately, the best language depends on your specific learning objectives and future career plans.
+
+
+# Research Summary
+
+Based on the provided web results, the answer is **Design System Architecture**.
+
+Here's a breakdown of why, drawing from the definitions and explanations given:
+
+* **System Design** broadly encompasses the process of designing the architecture, components, and interfaces of a system.
+* **System Architecture** specifically focuses on the *structure* of a system – the high-level building blocks, how they communicate, and where they reside.  It's about the overall organization and relationships within a system.
+* **System Architecture Design Definition** clearly states that it defines the *behavior and structure characteristics* of a system.
+
+
+The sources consistently use these terms interchangeably and emphasize the importance of understanding system architecture.
+
+Do you want me to elaborate on any specific aspect of system architecture, such as its components, principles, or how it differs from other system design concepts?
+
+
+# Research Summary
+
+To set up a connection to an LLM (Large Language Model) via HTTP POST request using the Ollama REST API, you can use any programming language that supports making HTTP requests. Below is an example in Python using the `requests` library. If you don't have the `requests` library installed, you can install it using `pip install requests`.
+
+### Example: Sending a POST Request to Ollama LLM via HTTP
+
+```python
+import requests
+import json
+
+# Replace with your Ollama API endpoint URL
+api_url = 'http://localhost:7865/answer'
+
+# Set up the headers, typically including content type as application/json
+headers = {
+    'Content-Type': 'application/json'
+}
+
+# Payload data to be sent in the POST request
+payload = {
+    "prompt": "Tell me a story about a unicorn.",
+    "max_tokens": 50,
+    "temperature": 0.7
+}
+
+# Convert the payload dictionary to a JSON string
+json_payload = json.dumps(payload)
+
+try:
+    # Send the POST request
+    response = requests.post(api_url, headers=headers, data=json_payload)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the response as JSON
+        result = response.json()
+        print("Story about a unicorn:")
+        print(result['text'])
+    else:
+        print(f"Failed to fetch story: {response.status_code}")
+        print(response.text)
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
+
+### Explanation:
+
+1. **API URL**: Replace `"http://localhost:7865/answer"` with the actual API endpoint URL provided by Ollama.
+2. **Headers**: Set the `Content-Type` to `application/json` since you are sending JSON data.
+3. **Payload**: Define the payload as a dictionary containing the parameters for the LLM request (e.g., prompt, max_tokens, temperature).
+4. **Convert Payload to JSON**: Use `json.dumps()` to convert the dictionary to a JSON string.
+5. **Send POST Request**: Use `requests.post()` to send the POST request to the Ollama API.
+6. **Handle Response**:
+   - Check if the response status code is 200 (OK).
+   - Parse the JSON response and print the result.
+   - Handle errors by checking the status code or exceptions.
+
+### Note:
+
+- Ensure that the Ollama server is running and accessible at the specified URL.
+- You may need to adjust the headers, payload parameters, or error handling based on your specific use case and the documentation provided by Ollama.
+- Always handle sensitive information securely, such as API keys or authentication tokens.
+
+This example should give you a good starting point to connect to an LLM via HTTP POST request using the Ollama REST API.
+
+
+# Research Summary
+
+To implement handling HTTP requests both as command submissions and for interacting with external APIs, you can follow these steps. Below is a basic example in Python using Flask for the HTTP server and a hypothetical `handle_command` function that processes any received commands.
+
+### Step 1: Set Up the Flask Server
+First, install Flask if you haven't already:
+```bash
+pip install flask
+```
+
+Now, create a simple Flask application to handle both GET and POST requests:
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Hypothetical function that handles commands
+def handle_command(command):
+    # Implement your command handling logic here
+    return f"Processed command: {command}"
+
+@app.route('/submit-command', methods=['GET', 'POST'])
+def submit_command():
+    if request.method == 'POST':
+        # Handle POST request to send a command to the server
+        data = request.get_json()  # Expecting JSON payload with command key
+        command = data.get('command')
+        result = handle_command(command)
+        return jsonify({'status': 'success', 'result': result}), 200
+        
+    elif request.method == 'GET':
+        # Handle GET request to fetch some information or list available commands
+        available_commands = ['help', 'info']
+        return jsonify({'available_commands': available_commands}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+### Explanation:
+- **Flask Application**: Sets up a simple web server.
+- **Route `/submit-command`**:
+  - **POST Request**: Expects JSON data containing a `command` key. Passes the command to the `handle_command` function, which you should implement with your specific business logic.
+  - **GET Request**: Responds with a list of available commands.
+
+### Step 2: Test the Flask Server
+You can test the server using tools like Postman or curl:
+
+**Testing POST Request:**
+```bash
+curl -X POST http://127.0.0.1:5000/submit-command -H "Content-Type: application/json" -d '{"command": "shutdown"}'
+```
+This should return a JSON response indicating the command was processed.
+
+**Testing GET Request:**
+```bash
+curl http://127.0.0.1:5000/submit-command
+```
+This should return a list of available commands.
+
+### Step 3: Interacting with External APIs (Optional)
+If you need to interact with external APIs or perform other HTTP operations, you can use Python's `requests` library:
+
+```python
+import requests
+
+def fetch_data_from_api(url):
+    response = requests.get(url)  # GET request to the specified URL
+    if response.status_code == 200:
+        return response.json()  # Assuming the API returns JSON data
+    else:
+        return {'error': 'Failed to retrieve data'}
+
+if __name__ == '__main__':
+    api_url = 'https://api.example.com/data'
+    data = fetch_data_from_api(api_url)
+    print(data)
+```
+
+### Explanation:
+- **requests.get(url)**: Sends a GET request to the specified URL.
+- **response.json()**: Converts the response content from JSON format to a Python dictionary.
+
+You can extend this setup further by adding more sophisticated routing, error handling, and integrating additional command handlers as needed.

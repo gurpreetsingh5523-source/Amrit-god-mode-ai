@@ -66,7 +66,6 @@ class AutonomyLoop:
         await self._learn()
 
     async def _execute(self, task):
-        graph  = self.orc.task_graph
 
         task.mark_running()
         # Central EthicalGuard check: silently block unsafe tasks before execution

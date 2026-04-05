@@ -1,5 +1,6 @@
 """Goal Parser — NL goal to structured task list via LLM + rules."""
-import re, json
+import re
+import json
 from logger import setup_logger
 logger = setup_logger("GoalParser")
 
@@ -120,12 +121,14 @@ class GoalParser:
             ]
         for pat, builder in PATTERNS:
             m = re.match(pat, n)
-            if m: return builder(m)
+            if m:
+                return builder(m)
         return []
 
     def _parse_json(self, text: str) -> list:
         import ast
-        import re, json
+        import re
+        import json
         clean = re.sub(r"\`\`\`(?:json)?|\`\`\`", "", text).strip()
         # Strip any text before first [ and after last ]
         arr_match = re.search(r'\[.*\]', clean, re.DOTALL)

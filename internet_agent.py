@@ -1,5 +1,9 @@
 """Internet Agent — Deep web crawling, scientific research, multi-source data extraction."""
-import re, json, urllib.request, urllib.parse, xml.etree.ElementTree as ET
+import re
+import json
+import urllib.request
+import urllib.parse
+import xml.etree.ElementTree as ET
 from base_agent import BaseAgent
 
 class InternetAgent(BaseAgent):
@@ -21,16 +25,26 @@ class InternetAgent(BaseAgent):
         d = task.get("data", {})
         action = d.get("action", "search")
         await self.report(f"Internet [{action}]")
-        if action == "search":    return await self._search(d.get("query",""))
-        if action == "browse":    return await self._browse(d.get("url",""), d.get("query",""))
-        if action == "crawl":     return await self._crawl(d.get("url",""), d.get("depth",1))
-        if action == "extract":   return await self._extract(d.get("url",""), d.get("fields",[]))
-        if action == "news":      return await self._news(d.get("topic",""))
-        if action == "wikipedia": return await self._wikipedia(d.get("query",""))
-        if action == "download":  return await self._download(d.get("url",""), d.get("dest","workspace/"))
-        if action == "arxiv":     return await self._arxiv(d.get("query",""), d.get("max_results",5))
-        if action == "pubmed":    return await self._pubmed(d.get("query",""), d.get("max_results",5))
-        if action == "scholar":   return await self._scholar_search(d.get("query",""))
+        if action == "search":
+            return await self._search(d.get("query",""))
+        if action == "browse":
+            return await self._browse(d.get("url",""), d.get("query",""))
+        if action == "crawl":
+            return await self._crawl(d.get("url",""), d.get("depth",1))
+        if action == "extract":
+            return await self._extract(d.get("url",""), d.get("fields",[]))
+        if action == "news":
+            return await self._news(d.get("topic",""))
+        if action == "wikipedia":
+            return await self._wikipedia(d.get("query",""))
+        if action == "download":
+            return await self._download(d.get("url",""), d.get("dest","workspace/"))
+        if action == "arxiv":
+            return await self._arxiv(d.get("query",""), d.get("max_results",5))
+        if action == "pubmed":
+            return await self._pubmed(d.get("query",""), d.get("max_results",5))
+        if action == "scholar":
+            return await self._scholar_search(d.get("query",""))
         return await self._search(d.get("query", task.get("name","")))
 
     async def _browse(self, url: str, query: str = "") -> dict:
@@ -81,7 +95,8 @@ class InternetAgent(BaseAgent):
     async def _crawl(self, url: str, depth: int = 1) -> dict:
         visited, pages = set(), []
         async def crawl_page(u, d):
-            if u in visited or d < 0: return
+            if u in visited or d < 0:
+                return
             visited.add(u)
             try:
                 self.logger.info(f"Crawling {u} with depth {d}")
@@ -111,7 +126,8 @@ class InternetAgent(BaseAgent):
             prompt = f"Extract these fields from the text: {fields}\nText: {text}\nReturn JSON."
             extracted = await self.ask_llm(prompt)
             return self.ok(url=url, fields=fields, extracted=extracted)
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def _news(self, topic: str) -> dict:
         return await self._search(f"{topic} news latest 2024")
@@ -124,22 +140,26 @@ class InternetAgent(BaseAgent):
             return self.ok(title=data.get("title",""),
                            summary=data.get("extract",""),
                            url=data.get("content_urls",{}).get("desktop",{}).get("page",""))
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def _download(self, url: str, dest: str) -> dict:
         try:
-            from pathlib import Path; Path(dest).mkdir(parents=True, exist_ok=True)
+            from pathlib import Path
+            Path(dest).mkdir(parents=True, exist_ok=True)
             filename = url.split("/")[-1] or "downloaded_file"
             filepath = f"{dest}/{filename}"
             urllib.request.urlretrieve(url, filepath)
             return self.ok(url=url, saved=filepath)
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def interactive_loop(self, orchestrator):
         print("\n\033[96m🌐 Internet Mode\033[0m")
         while True:
             q = input("\n[Internet] Query (or exit): ").strip()
-            if q.lower() == "exit": break
+            if q.lower() == "exit":
+                break
             r = await self._search(q)
             print(f"\n{r.get('answer','')}\n")
 

@@ -1,5 +1,8 @@
 """Search Engine — Multi-provider web search."""
-import re, json, urllib.request, urllib.parse
+import re
+import json
+import urllib.request
+import urllib.parse
 from logger import setup_logger
 logger = setup_logger("SearchEngine")
 
@@ -16,7 +19,9 @@ class SearchEngine:
                         re.findall(r'class="result__snippet"[^>]*>(.*?)</div>', html, re.S)][:n]
             urls     = re.findall(r'class="result__url"[^>]*>(.*?)</a>', html, re.S)[:n]
             return [{"title":t,"snippet":s,"url":u.strip()} for t,s,u in zip(titles,snippets,urls)]
-        except Exception as e: logger.warning(f"Search error: {e}"); return []
+        except Exception as e:
+            logger.warning(f"Search error: {e}")
+            return []
 
     def wikipedia_summary(self, query: str) -> dict:
         url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{urllib.parse.quote(query)}"
@@ -25,7 +30,8 @@ class SearchEngine:
                 data = json.loads(r.read())
             return {"title":data.get("title"),"summary":data.get("extract"),
                     "url":data.get("content_urls",{}).get("desktop",{}).get("page")}
-        except Exception as e: return {"error":str(e)}
+        except Exception as e:
+            return {"error":str(e)}
 
     def news(self, topic: str) -> list:
         return self.duckduckgo(f"{topic} news latest")

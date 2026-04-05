@@ -187,7 +187,7 @@ class ReasoningEngine:
         lesson_context = ""
         if relevant_lessons:
             lesson_context = "\n".join(
-                f"- Past lesson: {l['lesson']}" for l in relevant_lessons[:3]
+                f"- Past lesson: {ln['lesson']}" for ln in relevant_lessons[:3]
             )
             lesson_context = f"\nLEARNED FROM PAST:\n{lesson_context}\n"
 

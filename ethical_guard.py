@@ -12,16 +12,21 @@ SEVERITY    = {"CRITICAL":["malware","ransomware","rm -rf","exploit"],
                "HIGH":["hack","steal","ddos"],"MEDIUM":["bypass","phish"]}
 
 class EthicalGuard:
-    def __init__(self, strict=True): self.strict=strict; self._violations=[]
+    def __init__(self, strict=True):
+        self.strict = strict
+        self._violations = []
 
     def check(self, action: str) -> tuple:
         text = action.lower()
         for wp in WHITELIST:
-            if re.search(wp,text): return True,"whitelisted"
+            if re.search(wp,text):
+                return True,"whitelisted"
         for kw in BLOCKED_KW:
-            if kw in text: return self._block(action,f"Keyword: {kw!r}")
+            if kw in text:
+                return self._block(action,f"Keyword: {kw!r}")
         for pat in BLOCKED_PAT:
-            if re.search(pat,text): return self._block(action,f"Pattern: {pat}")
+            if re.search(pat,text):
+                return self._block(action,f"Pattern: {pat}")
         return True,"allowed"
 
     def _block(self, action, reason):
@@ -32,7 +37,8 @@ class EthicalGuard:
     def severity(self, action: str) -> str:
         t = action.lower()
         for sev,kws in SEVERITY.items():
-            if any(k in t for k in kws): return sev
+            if any(k in t for k in kws):
+                return sev
         return "LOW"
 
     def violations(self) -> list: return list(self._violations)

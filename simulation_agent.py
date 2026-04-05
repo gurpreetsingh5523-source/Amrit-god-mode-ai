@@ -1,5 +1,8 @@
 """Simulation Agent — Scientific simulations, hypothesis testing, virtual experiments."""
-import random, time, math, json
+import random
+import time
+import math
+import json
 from pathlib import Path
 from base_agent import BaseAgent
 
@@ -13,14 +16,22 @@ class SimulationAgent(BaseAgent):
         d = task.get("data", {})
         action = d.get("action", "simulate")
         await self.report(f"Simulation [{action}]")
-        if action == "monte_carlo":  return self._monte_carlo(d)
-        if action == "hypothesis":   return await self._hypothesis(d)
-        if action == "benchmark":    return self._benchmark_code(d.get("code", ""))
-        if action == "experiment":   return await self._experiment(d)
-        if action == "validate":     return await self._validate(d)
-        if action == "ab_test":      return await self._ab_test(d)
-        if action == "sensitivity":  return await self._sensitivity(d)
-        if action == "simulate_code":return await self._simulate_code(d)
+        if action == "monte_carlo":
+            return self._monte_carlo(d)
+        if action == "hypothesis":
+            return await self._hypothesis(d)
+        if action == "benchmark":
+            return self._benchmark_code(d.get("code", ""))
+        if action == "experiment":
+            return await self._experiment(d)
+        if action == "validate":
+            return await self._validate(d)
+        if action == "ab_test":
+            return await self._ab_test(d)
+        if action == "sensitivity":
+            return await self._sensitivity(d)
+        if action == "simulate_code":
+            return await self._simulate_code(d)
         return await self._experiment(d)
 
     def _monte_carlo(self, d: dict) -> dict:
@@ -33,7 +44,8 @@ class SimulationAgent(BaseAgent):
             return self.ok(simulation="pi", iterations=n,
                            estimate=estimate, error=abs(estimate - math.pi))
         if sim == "random_walk":
-            pos = 0; positions = [0]
+            pos = 0
+            positions = [0]
             for _ in range(n):
                 pos += random.choice([-1, 1])
                 positions.append(pos)
@@ -67,7 +79,8 @@ Provide:
 
     def _benchmark_code(self, code: str) -> dict:
         import timeit
-        if not code: return self.err("No code provided")
+        if not code:
+            return self.err("No code provided")
         try:
             t = timeit.timeit(code, number=100, globals={})
             return self.ok(code=code[:50], time_100_runs=round(t, 4), avg_ms=round(t * 10, 3))
@@ -164,7 +177,9 @@ For each parameter:
         if not code:
             return self.err("No code provided")
 
-        import subprocess, sys, tempfile
+        import subprocess
+        import sys
+        import tempfile
         with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as f:
             f.write(code)
             tmp = f.name

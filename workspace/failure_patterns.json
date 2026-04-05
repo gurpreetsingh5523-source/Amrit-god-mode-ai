@@ -5860,11 +5860,51 @@
       {
         "fix": "import test_var_xyz",
         "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
+      },
+      {
+        "fix": "import test_var_xyz",
+        "worked": true
       }
     ],
-    "count": 1464,
+    "count": 1474,
     "first_seen": "2026-04-01T12:59:31.852249",
-    "last_seen": "2026-04-04T23:50:50.273443"
+    "last_seen": "2026-04-05T20:51:59.056290"
   },
   {
     "error_key": "fix regression: before=74ok/16fail, after=73ok/17fail",
@@ -6003,16 +6043,16 @@
     "count": 1,
     "first_seen": "2026-04-04T23:07:42.779343",
     "last_seen": "2026-04-04T23:07:42.779345",
-    "fix": "\u0a07\u0a70\u0a21\u0a48\u0a02\u0a1f \u0a20\u0a40\u0a15 \u0a15\u0a30\u0a4b \u0a05\u0a24\u0a47 retry \u0a15\u0a30\u0a4b",
+    "fix": "ਇੰਡੈਂਟ ਠੀਕ ਕਰੋ ਅਤੇ retry ਕਰੋ",
     "fixed_at": "2026-04-04T23:07:42.782287"
   },
   {
     "agent": "test",
     "action": "test_action",
     "error_key": "test error",
-    "count": 7,
+    "count": 19,
     "first_seen": "2026-04-04T23:43:14.635766",
-    "last_seen": "2026-04-04T23:50:49.990789",
+    "last_seen": "2026-04-05T21:00:36.318008",
     "fix": null
   }
 ]

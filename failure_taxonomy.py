@@ -8,7 +8,8 @@ Enables: dashboards, auto-recovery, policy decisions.
 from enum import Enum, auto
 from dataclasses import dataclass, field
 from typing import Optional, Union
-import traceback, time
+import traceback
+import time
 from logger import setup_logger
 
 logger = setup_logger("FailureTaxonomy")

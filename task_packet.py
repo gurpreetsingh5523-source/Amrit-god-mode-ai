@@ -9,7 +9,9 @@ Packets are serializable, diffable, versionable.
 from dataclasses import dataclass, field, asdict
 from enum import Enum, auto
 from typing import Optional
-import json, time, hashlib
+import json
+import time
+import hashlib
 from logger import setup_logger
 
 logger = setup_logger("TaskPacket")

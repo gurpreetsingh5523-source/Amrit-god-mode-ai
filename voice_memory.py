@@ -5,14 +5,18 @@ from pathlib import Path
 
 class VoiceMemory:
     def __init__(self, path="workspace/voice_log.json"):
-        self._log=[]; self._path=Path(path)
+        self._log=[]
+        self._path=Path(path)
         if self._path.exists():
-            try: self._log=json.loads(self._path.read_text())
-            except: pass
+            try:
+                self._log=json.loads(self._path.read_text())
+            except Exception:
+                pass
 
     def record(self, role: str, text: str, emotion: str = "neutral"):
         entry={"role":role,"text":text,"emotion":emotion,"ts":datetime.now().isoformat()}
-        self._log.append(entry); self.save()
+        self._log.append(entry)
+        self.save()
 
     def recent(self, n=20) -> list: return self._log[-n:]
     def search(self, q: str) -> list:

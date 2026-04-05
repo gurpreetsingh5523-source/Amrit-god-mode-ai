@@ -15,21 +15,32 @@ class ErrorAnalyzer:
 
     def _categorize(self, error: str) -> str:
         e = error.lower()
-        if "timeout" in e:    return "timeout"
-        if "import" in e:     return "missing_dependency"
-        if "permission" in e: return "permission_denied"
-        if "not found" in e or "404" in e: return "not_found"
-        if "memory" in e:     return "memory_error"
-        if "connection" in e: return "network_error"
-        if "syntax" in e:     return "syntax_error"
-        if "key" in e or "index" in e: return "data_error"
+        if "timeout" in e:
+            return "timeout"
+        if "import" in e:
+            return "missing_dependency"
+        if "permission" in e:
+            return "permission_denied"
+        if "not found" in e or "404" in e:
+            return "not_found"
+        if "memory" in e:
+            return "memory_error"
+        if "connection" in e:
+            return "network_error"
+        if "syntax" in e:
+            return "syntax_error"
+        if "key" in e or "index" in e:
+            return "data_error"
         return "unknown"
 
     def _severity(self, error: str) -> str:
         e = error.lower()
-        if any(w in e for w in ["crash","fatal","critical","killed"]): return "CRITICAL"
-        if any(w in e for w in ["error","failed","exception"]):        return "HIGH"
-        if any(w in e for w in ["warning","timeout"]):                 return "MEDIUM"
+        if any(w in e for w in ["crash","fatal","critical","killed"]):
+            return "CRITICAL"
+        if any(w in e for w in ["error","failed","exception"]):
+            return "HIGH"
+        if any(w in e for w in ["warning","timeout"]):
+            return "MEDIUM"
         return "LOW"
 
     def _suggestions(self, category: str, error: str) -> list:
@@ -47,6 +58,7 @@ class ErrorAnalyzer:
     def batch_analyze(self, errors: list) -> dict:
         results = [self.analyze(e.get("error","")) for e in errors]
         by_cat  = {}
-        for r in results: by_cat.setdefault(r["category"],[]).append(r)
+        for r in results:
+            by_cat.setdefault(r["category"],[]).append(r)
         return {"total":len(results),"by_category":by_cat,
                 "most_common":max(by_cat,key=lambda k:len(by_cat[k])) if by_cat else "none"}

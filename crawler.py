@@ -1,11 +1,13 @@
 """Crawler — Multi-depth web crawler with link extraction."""
-import re, urllib.request
+import re
+import urllib.request
 from logger import setup_logger
 logger = setup_logger("Crawler")
 
 class Crawler:
     def __init__(self, max_pages=20, timeout=8):
-        self.max_pages=max_pages; self.timeout=timeout
+        self.max_pages=max_pages
+        self.timeout=timeout
         self.headers={"User-Agent":"Mozilla/5.0 (AMRIT-GODMODE)"}
 
     def fetch(self, url: str) -> str:
@@ -13,7 +15,8 @@ class Crawler:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 return r.read().decode("utf-8", errors="ignore")
-        except: return ""
+        except Exception:
+            return ""
 
     def text(self, html: str) -> str:
         return re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", html)).strip()
@@ -23,10 +26,12 @@ class Crawler:
         return list(set(all_links))[:20]
 
     async def crawl(self, start_url: str, depth=1) -> list:
-        visited = set(); pages = []
+        visited = set()
+        pages = []
 
         async def _crawl(url, d):
-            if url in visited or d < 0 or len(pages) >= self.max_pages: return
+            if url in visited or d < 0 or len(pages) >= self.max_pages:
+                return
             visited.add(url)
             html  = self.fetch(url)
             text  = self.text(html)[:1000]

@@ -9,7 +9,8 @@ without human intervention.
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Optional, Callable, Awaitable
-import asyncio, time
+import asyncio
+import time
 from logger import setup_logger
 from failure_taxonomy import ClassifiedFailure, FailureClass, Severity
 

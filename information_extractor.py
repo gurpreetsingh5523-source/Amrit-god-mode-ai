@@ -1,5 +1,8 @@
 """Information Extractor — Structured data from web pages."""
-import re, json, urllib.request, urllib.parse
+import re
+import json
+import urllib.request
+import urllib.parse
 from logger import setup_logger
 logger = setup_logger("InfoExtractor")
 
@@ -12,7 +15,8 @@ class InformationExtractor:
             with urllib.request.urlopen(req, timeout=10) as r:
                 html = r.read().decode("utf-8", errors="ignore")
             return re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", html)).strip()[:8000]
-        except: return ""
+        except Exception:
+            return ""
 
     def extract_emails(self, text: str) -> list:
         return list(set(re.findall(r'[\w.+-]+@[\w-]+\.[\w.]+', text)))
@@ -40,6 +44,8 @@ class InformationExtractor:
         blocks = re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', html, re.S)
         result = []
         for b in blocks:
-            try: result.append(json.loads(b))
-            except: pass
+            try:
+                result.append(json.loads(b))
+            except Exception:
+                pass
         return result

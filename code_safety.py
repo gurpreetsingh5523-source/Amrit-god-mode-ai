@@ -1,5 +1,6 @@
 """Code Safety — Pre-execution safety analysis for generated code."""
-import re, ast
+import re
+import ast
 from logger import setup_logger
 logger = setup_logger("CodeSafety")
 
@@ -10,8 +11,10 @@ class CodeSafety:
     def analyze(self, code: str) -> dict:
         issues = []
         # Check syntax
-        try: ast.parse(code)
-        except SyntaxError as e: return {"safe":False,"issues":[{"type":"syntax","msg":str(e)}]}
+        try:
+            ast.parse(code)
+        except SyntaxError as e:
+            return {"safe":False,"issues":[{"type":"syntax","msg":str(e)}]}
         # Check dangerous imports
         imports = re.findall(r"^(?:import|from)\s+(\w+)", code, re.M)
         for imp in imports:

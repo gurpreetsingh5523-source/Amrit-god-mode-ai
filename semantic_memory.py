@@ -4,12 +4,16 @@ from pathlib import Path
 
 class SemanticMemory:
     def __init__(self, path="workspace/semantic.json"):
-        self._concepts = {}; self._relations = []; self._path = Path(path)
+        self._concepts = {}
+        self._relations = []
+        self._path = Path(path)
         if self._path.exists():
             try:
                 d = json.loads(self._path.read_text())
-                self._concepts = d.get("concepts",{}); self._relations = d.get("relations",[])
-            except: pass
+                self._concepts = d.get("concepts",{})
+                self._relations = d.get("relations",[])
+            except Exception:
+                pass
 
     def add_concept(self, name: str, description: str, properties=None):
         self._concepts[name] = {"description":description,"properties":properties or {}}
@@ -18,7 +22,8 @@ class SemanticMemory:
     def add_relation(self, subject: str, predicate: str, obj: str):
         rel = {"subject":subject,"predicate":predicate,"object":obj}
         if rel not in self._relations:
-            self._relations.append(rel); self.save()
+            self._relations.append(rel)
+            self.save()
 
     def get_relations(self, concept: str) -> list:
         return [r for r in self._relations if r["subject"]==concept or r["object"]==concept]

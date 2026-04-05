@@ -146,11 +146,11 @@ class SelfEvolution:
                 test_results = await self._phase_test()
 
                 # SMART: Separate critical (auto-fixable) from advisory issues
-                FIXABLE_TYPES = {"syntax_error", "not_implemented", "empty_file", "bare_except", "todo"}
+                FIXABLE_TYPES = {"syntax_error", "not_implemented", "empty_file", "bare_except", "todo", "lint_errors"}
                 ADVISORY_TYPES = {"long_function"}
                 critical_issues = [i for i in issues
                                    if any(x["type"] in FIXABLE_TYPES for x in i["issues"])]
-                advisory_count = sum(1 for i in issues
+                sum(1 for i in issues
                                      if all(x["type"] in ADVISORY_TYPES for x in i["issues"]))
                 has_fixable = (bool(critical_issues) or
                                bool(test_results.get("failures")) or
@@ -244,7 +244,7 @@ class SelfEvolution:
                         file_issues.append({"type": "not_implemented", "line": i, "detail": line.strip()})
 
                 # Check 4: Bare except clauses (code smell)
-                bare_excepts = len([l for l in code.splitlines() if l.strip() == "except:"])
+                bare_excepts = len([ln for ln in code.splitlines() if ln.strip() == "except:"])
                 if bare_excepts > 0:
                     file_issues.append({"type": "bare_except", "detail": f"{bare_excepts} bare except clauses"})
 
@@ -268,6 +268,15 @@ class SelfEvolution:
 
             except Exception as e:
                 issues.append({"file": str(fp), "issues": [{"type": "read_error", "detail": str(e)}]})
+
+        # ── Ruff Lint Scan ────────────────────────────────────────
+        ruff_issues = self._run_ruff_check()
+        if ruff_issues:
+            issues.append({
+                "file": "__ruff__",
+                "issues": [{"type": "lint_errors", "detail": f"{ruff_issues} ruff violations"}],
+                "score": max(0.0, 1.0 - ruff_issues * 0.002),
+            })
 
         total = len(py_files)
         bad = len(issues)
@@ -487,9 +496,15 @@ class SelfEvolution:
                     except SyntaxError:
                         self._restore(fp)
                         self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
-            except Exception as e:
+            except Exception:
                 self._restore(fp)
                 self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
+
+        # ── Ruff auto-fix for lint_errors ─────────────────────────────
+        lint_items = [i for i in issues if any(x["type"] == "lint_errors" for x in i["issues"])]
+        if lint_items:
+            ruff_fixed = self._run_ruff_fix()
+            fixed_count += min(ruff_fixed, 1)  # count as 1 bulk fix
 
         logger.info(f"  🔧 Fixed {fixed_count} files this cycle")
         if self._blacklist:
@@ -509,6 +524,56 @@ class SelfEvolution:
             w, c = meaningful[0]
             return f"Likely missing dependency: '{w}' appears in {c}/{len(import_errors)} errors"
         return ""
+
+    def _run_ruff_check(self) -> int:
+        """Run ruff linter and return count of violations."""
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["ruff", "check", ".", "--select=E,F",
+                 "--ignore=E501,F401,F811,E402",
+                 "--exclude=generated_test,workspace",
+                 "--output-format=json"],
+                capture_output=True, text=True, timeout=60,
+                cwd=str(Path(self.orc.workspace if hasattr(self.orc, 'workspace') else '.').resolve())
+            )
+            if result.stdout.strip():
+                import json as _json
+                violations = _json.loads(result.stdout)
+                count = len(violations)
+                if count:
+                    logger.info(f"  🔍 Ruff found {count} lint violations")
+                return count
+        except FileNotFoundError:
+            logger.debug("  ruff not installed — skipping lint check")
+        except Exception as e:
+            logger.debug(f"  ruff check failed: {e}")
+        return 0
+
+    def _run_ruff_fix(self) -> int:
+        """Run ruff --fix and return count of fixed violations."""
+        import subprocess
+        before = self._run_ruff_check()
+        if before == 0:
+            return 0
+        try:
+            subprocess.run(
+                ["ruff", "check", ".", "--fix",
+                 "--select=E,F",
+                 "--ignore=E501,F401,F811,E402",
+                 "--exclude=generated_test,workspace"],
+                capture_output=True, text=True, timeout=60,
+                cwd=str(Path(self.orc.workspace if hasattr(self.orc, 'workspace') else '.').resolve())
+            )
+        except Exception as e:
+            logger.debug(f"  ruff fix failed: {e}")
+            return 0
+        after = self._run_ruff_check()
+        fixed = before - after
+        if fixed > 0:
+            logger.info(f"  ✅ Ruff auto-fixed {fixed} violations ({after} remaining)")
+            self._record(PHASE_FIX, "ruff_autofix", f"fixed {fixed}, remaining {after}")
+        return fixed
 
     # ══════════════════════════════════════════════════════════════
     # PHASE 3b: SELF-REFACTOR — long functions ਨੂੰ split ਕਰੋ
@@ -730,7 +795,7 @@ class SelfEvolution:
         for mod in key_modules:
             t0 = time.perf_counter()
             try:
-                r = subprocess.run(
+                subprocess.run(
                     [sys.executable, "-c", f"import {mod}"],
                     capture_output=True, text=True, timeout=5,
                     cwd=str(Path(".").resolve())
@@ -745,7 +810,7 @@ class SelfEvolution:
         # Benchmark 2: Goal parsing speed (no LLM, rules only)
         t0 = time.perf_counter()
         try:
-            r = subprocess.run(
+            subprocess.run(
                 [sys.executable, "-c",
                  "import asyncio; from goal_parser import GoalParser; "
                  "gp = GoalParser(); gp._use_llm = False; "
@@ -940,7 +1005,7 @@ class SelfEvolution:
                         # Escalate to 32B on final attempt
                         category = "deep" if attempt == 3 else "refactor"
                         if attempt == 3:
-                            logger.info(f"  \U0001f9e0 7B ਫੇਲ੍ਹ — Qwen3-32B ਨਾਲ ਕੋਸ਼ਿਸ਼...")
+                            logger.info("  \U0001f9e0 7B ਫੇਲ੍ਹ — Qwen3-32B ਨਾਲ ਕੋਸ਼ਿਸ਼...")
 
                         result = await coder.execute({
                             "name": f"Improve {func_name} in {fname}",
@@ -1389,7 +1454,7 @@ class SelfEvolution:
         if human_review:
             print(f"  │ 🚨 Human Review: {', '.join(human_review)}")
         if plateau:
-            print(f"  │ 🛑 PLATEAU — no improvements this cycle")
+            print("  │ 🛑 PLATEAU — no improvements this cycle")
         if self._benchmarks.get("goal_parse_rules"):
             print(f"  │ ⏱  Parse Speed: {self._benchmarks['goal_parse_rules']:.3f}s")
         print(f"  {'─' * 50}")
@@ -1427,7 +1492,7 @@ class SelfEvolution:
         issues = await self._phase_analyze()
         test_before = await self._phase_test()
 
-        FIXABLE_TYPES = {"syntax_error", "empty_file", "todo", "not_implemented", "bare_except"}
+        FIXABLE_TYPES = {"syntax_error", "empty_file", "todo", "not_implemented", "bare_except", "lint_errors"}
         ADVISORY_TYPES = {"long_function"}
         critical_issues = [i for i in issues
                            if any(x["type"] in FIXABLE_TYPES for x in i["issues"])]

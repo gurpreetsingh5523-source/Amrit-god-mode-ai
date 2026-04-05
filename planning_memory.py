@@ -5,15 +5,19 @@ from datetime import datetime
 
 class PlanningMemory:
     def __init__(self, path="workspace/plans.json"):
-        self._path = Path(path); self._plans = []
+        self._path = Path(path)
+        self._plans = []
         if self._path.exists():
-            try: self._plans = json.loads(self._path.read_text())
-            except: pass
+            try:
+                self._plans = json.loads(self._path.read_text())
+            except Exception:
+                pass
 
     def store(self, goal: str, tasks: list, result: str = ""):
         self._plans.append({"goal":goal,"tasks":tasks,"result":result,
                              "time":datetime.now().isoformat()})
-        if len(self._plans) > 200: self._plans = self._plans[-200:]
+        if len(self._plans) > 200:
+            self._plans = self._plans[-200:]
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._path.write_text(json.dumps(self._plans, indent=2))
 

@@ -4,7 +4,8 @@ from datetime import datetime
 
 class ContextBuffer:
     def __init__(self, max_size=40):
-        self._buf = deque(maxlen=max_size); self.max_size = max_size
+        self._buf = deque(maxlen=max_size)
+        self.max_size = max_size
 
     def add(self, entry: dict):
         entry.setdefault("timestamp", datetime.now().isoformat())

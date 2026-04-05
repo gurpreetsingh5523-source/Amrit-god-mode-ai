@@ -1,5 +1,7 @@
 """Monitor Agent — System health, resource usage, performance tracking."""
-import os, time, psutil
+import os
+import time
+import psutil
 from base_agent import BaseAgent
 
 class MonitorAgent(BaseAgent):
@@ -11,12 +13,18 @@ class MonitorAgent(BaseAgent):
         d = task.get("data", {})
         action = d.get("action", "check")
         await self.report(f"Monitor [{action}]")
-        if action == "check":    return await self._system_check()
-        if action == "memory":   return self._memory_info()
-        if action == "cpu":      return self._cpu_info()
-        if action == "disk":     return self._disk_info()
-        if action == "alert":    return await self._check_alerts()
-        if action == "history":  return self.ok(metrics=self._metrics[-50:])
+        if action == "check":
+            return await self._system_check()
+        if action == "memory":
+            return self._memory_info()
+        if action == "cpu":
+            return self._cpu_info()
+        if action == "disk":
+            return self._disk_info()
+        if action == "alert":
+            return await self._check_alerts()
+        if action == "history":
+            return self.ok(metrics=self._metrics[-50:])
         return await self._system_check()
 
     async def _system_check(self) -> dict:

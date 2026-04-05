@@ -152,7 +152,7 @@ class PluginManager:
 
         # Verify it's a valid agent (has execute method)
         if not hasattr(agent, "execute") or not callable(agent.execute):
-            raise ValueError(f"register() returned object without execute() method")
+            raise ValueError("register() returned object without execute() method")
 
         return agent
 

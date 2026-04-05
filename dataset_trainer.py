@@ -5,7 +5,8 @@ logger = setup_logger("DatasetTrainer")
 
 class DatasetTrainer:
     def __init__(self, model="microsoft/phi-2", output="workspace/fine_tuned"):
-        self.model = model; self.output = output
+        self.model = model
+        self.output = output
 
     async def train(self, dataset_path: str, epochs=3, lr=2e-4, batch=4) -> dict:
         try:
@@ -22,7 +23,8 @@ class DatasetTrainer:
                                      save_steps=100,logging_steps=10)
             Trainer(model=model,args=args,train_dataset=tokenized,
                     data_collator=DataCollatorForLanguageModeling(tokenizer,mlm=False)).train()
-            model.save_pretrained(self.output); tokenizer.save_pretrained(self.output)
+            model.save_pretrained(self.output)
+            tokenizer.save_pretrained(self.output)
             return {"status":"trained","output":self.output}
         except ImportError as e:
             return {"status":"error","error":f"Missing: {e} — pip install transformers datasets torch"}
@@ -33,5 +35,7 @@ class DatasetTrainer:
         import json
         Path(path).parent.mkdir(exist_ok=True)
         with open(path,"w") as f:
-            for item in items: json.dump(item,f); f.write("\n")
+            for item in items:
+                json.dump(item, f)
+                f.write("\n")
         return path

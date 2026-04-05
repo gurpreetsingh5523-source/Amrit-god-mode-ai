@@ -56,7 +56,8 @@ class Orchestrator:
     # ── Init ──────────────────────────────────────────────────────
 
     async def initialize(self):
-        if self._ready: return
+        if self._ready:
+            return
         logger.info("Initializing AMRIT GODMODE...")
         await self.event_bus.start()
         self._load_agents()
@@ -183,17 +184,25 @@ class Orchestrator:
                 inp = input("\033[95m[GODMODE]> \033[0m").strip()
             except (EOFError, KeyboardInterrupt):
                 break
-            if not inp: continue
+            if not inp:
+                continue
             cmd = inp.lower()
-            if cmd in ("exit", "quit", "ਬੰਦ"): break
-            elif cmd in ("help", "ਮਦਦ"):    self._print_help()
-            elif cmd in ("status", "ਸਥਿਤੀ"):  self._print_status()
-            elif cmd in ("agents", "ਏਜੰਟ"):  self._print_agents()
-            elif cmd in ("graph", "ਗ੍ਰਾਫ"):   self.task_graph.print_summary()
-            elif cmd in ("history", "ਇਤਿਹਾਸ"): self._print_history()
+            if cmd in ("exit", "quit", "ਬੰਦ"):
+                break
+            elif cmd in ("help", "ਮਦਦ"):
+                self._print_help()
+            elif cmd in ("status", "ਸਥਿਤੀ"):
+                self._print_status()
+            elif cmd in ("agents", "ਏਜੰਟ"):
+                self._print_agents()
+            elif cmd in ("graph", "ਗ੍ਰਾਫ"):
+                self.task_graph.print_summary()
+            elif cmd in ("history", "ਇਤਿਹਾਸ"):
+                self._print_history()
             elif cmd.startswith("goal "):
                 await self.run_goal(inp[5:])
-            elif cmd == "godmode": await self.run_godmode()
+            elif cmd == "godmode":
+                await self.run_godmode()
             elif cmd in ("evolve", "ਵਿਕਾਸ"):
                 await self._run_evolve_cycles()
             elif cmd in ("selftest", "ਸਵੈ-ਟੈਸਟ"):
@@ -234,7 +243,8 @@ class Orchestrator:
             elif cmd in ("mcp", "ਐੱਮਸੀਪੀ"):
                 await self._run_mcp()
             elif cmd in ("clear", "ਸਾਫ਼"):
-                import os; os.system("clear")
+                import os
+                os.system("clear")
             else:
                 await self.run_goal(inp)
 
@@ -254,18 +264,24 @@ class Orchestrator:
 
     async def run_voice_mode(self):
         v = self.get_agent("voice")
-        if v: await v.listen_loop(self)
-        else: logger.error("Voice agent not available")
+        if v:
+            await v.listen_loop(self)
+        else:
+            logger.error("Voice agent not available")
 
     async def run_vision_mode(self):
         v = self.get_agent("vision")
-        if v: await v.interactive_loop(self)
-        else: logger.error("Vision agent not available")
+        if v:
+            await v.interactive_loop(self)
+        else:
+            logger.error("Vision agent not available")
 
     async def run_internet_mode(self):
         a = self.get_agent("internet")
-        if a: await a.interactive_loop(self)
-        else: logger.error("Internet agent not available")
+        if a:
+            await a.interactive_loop(self)
+        else:
+            logger.error("Internet agent not available")
 
     async def run_workflow(self, path: str):
         result = await self.workflow.run_file(path)
@@ -323,7 +339,7 @@ class Orchestrator:
         # Print summary
         steps = report.get("steps", {})
         print(f"\n  {'─' * 50}")
-        print(f"  │ 🔬 RESEARCH COMPLETE / ਖੋਜ ਮੁਕੰਮਲ")
+        print("  │ 🔬 RESEARCH COMPLETE / ਖੋਜ ਮੁਕੰਮਲ")
         print(f"  │ ⏱  Time: {report.get('elapsed_seconds', 0)}s")
         if steps.get("literature"):
             print(f"  │ 📚 Literature: {steps['literature'].get('results', 0)} sources")
@@ -334,7 +350,7 @@ class Orchestrator:
             for i, h in enumerate(steps["hypotheses"][:3], 1):
                 hyp = h.get("hypothesis", str(h))[:80]
                 print(f"  │    {i}. {hyp}")
-        print(f"  │ 📝 Report saved in workspace/research/")
+        print("  │ 📝 Report saved in workspace/research/")
         print(f"  {'─' * 50}\n")
 
     async def _run_arxiv(self, query: str):
@@ -403,7 +419,7 @@ class Orchestrator:
         result = await engine.think(question)
 
         print(f"  {'─' * 50}")
-        print(f"  │ 🧠 REASONING RESULT / ਸੋਚ ਦਾ ਨਤੀਜਾ")
+        print("  │ 🧠 REASONING RESULT / ਸੋਚ ਦਾ ਨਤੀਜਾ")
         print(f"  │ 📊 Confidence: {result.get('confidence', '?')}")
         print(f"  │ ⚡ Complexity: {result.get('complexity', '?')}")
         print(f"  │ 🔬 Strategy: {result.get('strategy', '?')}")
@@ -449,7 +465,7 @@ class Orchestrator:
             "name": "Memory Stats",
             "data": {"action": "stats"}
         })
-        print(f"\n  \033[93m🧠 Memory System Stats / ਯਾਦਦਾਸ਼ਤ ਅੰਕੜੇ\033[0m")
+        print("\n  \033[93m🧠 Memory System Stats / ਯਾਦਦਾਸ਼ਤ ਅੰਕੜੇ\033[0m")
         print(f"  ├── Context Buffer: {result.get('context_size', '?')} items")
         print(f"  ├── Long-Term Keys: {result.get('long_term_keys', '?')}")
         print(f"  ├── Knowledge Topics: {result.get('knowledge_topics', '?')}")
@@ -469,7 +485,7 @@ class Orchestrator:
         try:
             from llm_router import LLMRouter
             stats = LLMRouter().get_stats()
-            print(f"\n  \033[93m📊 LLM Statistics / LLM ਅੰਕੜੇ\033[0m")
+            print("\n  \033[93m📊 LLM Statistics / LLM ਅੰਕੜੇ\033[0m")
             print(f"  ├── Total Calls: {stats.get('total', 0)}")
             print(f"  ├── Cache Hits: {stats.get('cache_hits', 0)} "
                   f"({stats.get('cache_hit_rate', 0)*100:.0f}%)")
@@ -478,7 +494,7 @@ class Orchestrator:
             print(f"  ├── Cache Size: {stats.get('cache_size', 0)} entries")
             by_model = stats.get("by_model", {})
             if by_model:
-                print(f"  └── By Model:")
+                print("  └── By Model:")
                 for model, ms in by_model.items():
                     avg = round(ms['latency'] / max(ms['calls'], 1), 2)
                     print(f"       {model}: {ms['calls']} calls, avg {avg}s")
@@ -586,7 +602,7 @@ class Orchestrator:
         print(f"  Tasks:  {s}")
         print(f"  Status: {self.state.get('status', '?')}")
         # v2 subsystems
-        print(f"\n  \033[96m── Smart Infrastructure ──\033[0m")
+        print("\n  \033[96m── Smart Infrastructure ──\033[0m")
         print(f"  Workers:   {self.lifecycle.summary()}")
         print(f"  Failures:  {self.failure_tracker.summary()}")
         print(f"  Recovery:  {self.recovery.stats()}")
@@ -612,7 +628,7 @@ class Orchestrator:
             if not recent:
                 print("\n  ਕੋਈ ਇਤਿਹਾਸ ਨਹੀਂ / No history yet.\n")
                 return
-            print(f"\n  \033[93m📊 Task History (ਟਾਸਕ ਇਤਿਹਾਸ)\033[0m")
+            print("\n  \033[93m📊 Task History (ਟਾਸਕ ਇਤਿਹਾਸ)\033[0m")
             print(f"  Total: {stats['total']} | ✅ Success: {stats['success']} | ❌ Failed: {stats['failed']} | Rate: {stats['rate']*100:.0f}%\n")
             for e in recent:
                 icon = "✅" if e.get("success") else "❌"

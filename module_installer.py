@@ -21,7 +21,9 @@ class ModuleInstaller:
         try:
             r = subprocess.run(["pip","install",package,"-q"],capture_output=True,text=True,timeout=120)
             success = r.returncode == 0
-            if success: self._installed.append(package); logger.info(f"Installed: {package}")
+            if success:
+                self._installed.append(package)
+            logger.info(f"Installed: {package}")
             return {"status":"installed" if success else "failed",
                     "package":package,"output":r.stdout+r.stderr}
         except subprocess.TimeoutExpired:
@@ -40,7 +42,11 @@ class ModuleInstaller:
         return {"results":results,"installed":len([r for r in results if r["status"]=="installed"])}
 
     def is_installed(self, package: str) -> bool:
-        try: __import__(package); return True
-        except ImportError: return False
+        try:
+            __import__(package)
+            return True
+        except ImportError:
+            return False
 
-    def history(self) -> list: return list(self._installed)
+    def history(self) -> list:
+        return list(self._installed)

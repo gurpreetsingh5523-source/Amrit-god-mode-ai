@@ -170,7 +170,7 @@ class LearningLayer:
     def get_lessons(self, tag: str = None, n: int = 20) -> list:
         """ਤਾਜ਼ਾ ਸਬਕ ਦਿਓ, tag ਨਾਲ ਫਿਲਟਰ ਕਰ ਸਕਦੇ ਹੋ।"""
         if tag:
-            filtered = [l for l in self._lessons if tag in l.get("tags", [])]
+            filtered = [ln for ln in self._lessons if tag in ln.get("tags", [])]
             return filtered[-n:]
         return self._lessons[-n:]
 

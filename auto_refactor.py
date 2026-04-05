@@ -4,15 +4,20 @@ from logger import setup_logger
 logger = setup_logger("AutoRefactor")
 
 class AutoRefactor:
-    def __init__(self, orchestrator=None): self.orc = orchestrator; self._log = []
+    def __init__(self, orchestrator=None):
+        self.orc = orchestrator
+        self._log = []
 
     async def refactor_file(self, filepath: str) -> dict:
         p = Path(filepath)
-        if not p.exists(): return {"status":"error","error":"File not found"}
+        if not p.exists():
+            return {"status":"error","error":"File not found"}
         code = p.read_text(errors="ignore")
-        if not self.orc: return {"status":"skipped","reason":"No orchestrator"}
+        if not self.orc:
+            return {"status":"skipped","reason":"No orchestrator"}
         coder = self.orc.get_agent("coder")
-        if not coder: return {"status":"skipped","reason":"No coder agent"}
+        if not coder:
+            return {"status":"skipped","reason":"No coder agent"}
         result = await coder.execute({"name":f"Refactor {p.name}",
             "data":{"action":"refactor","code":code,"goal":"add type hints, docstrings, error handling"}})
         if result.get("code"):

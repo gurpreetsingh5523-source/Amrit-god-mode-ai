@@ -5,16 +5,20 @@ from pathlib import Path
 
 class EpisodicMemory:
     def __init__(self, path="workspace/episodes.json"):
-        self._episodes = []; self._path = Path(path)
+        self._episodes = []
+        self._path = Path(path)
         if self._path.exists():
-            try: self._episodes = json.loads(self._path.read_text())
-            except: pass
+            try:
+                self._episodes = json.loads(self._path.read_text())
+            except Exception:
+                pass
 
     def record(self, title: str, content: str, tags=None, agents=None):
         episode = {"id": len(self._episodes)+1, "title":title, "content":content,
                    "tags":tags or [], "agents":agents or [],
                    "timestamp":datetime.now().isoformat()}
-        self._episodes.append(episode); self.save()
+        self._episodes.append(episode)
+        self.save()
         return episode
 
     def search(self, query: str) -> list:

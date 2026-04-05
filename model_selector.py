@@ -22,8 +22,12 @@ class ModelSelector:
 
     def classify_task(self, task_name: str) -> str:
         n = task_name.lower()
-        if any(w in n for w in ["code","write","build","program","script"]): return "code"
-        if any(w in n for w in ["research","search","find","investigate"]):  return "research"
-        if any(w in n for w in ["analyze","analyse","examine","evaluate"]):  return "analysis"
-        if any(w in n for w in ["quick","check","status","list"]):           return "quick"
+        if any(w in n for w in ["code","write","build","program","script"]):
+            return "code"
+        if any(w in n for w in ["research","search","find","investigate"]):
+            return "research"
+        if any(w in n for w in ["analyze","analyse","examine","evaluate"]):
+            return "analysis"
+        if any(w in n for w in ["quick","check","status","list"]):
+            return "quick"
         return "default"

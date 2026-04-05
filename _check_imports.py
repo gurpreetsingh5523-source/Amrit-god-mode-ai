@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 sys.path.insert(0, '.')
 mods = sorted([f[:-3] for f in os.listdir('.') if f.endswith('.py') and f not in ('main.py', '_check_imports.py')])
 fails = []

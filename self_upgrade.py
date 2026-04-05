@@ -11,7 +11,7 @@ class SelfUpgrade:
 
     async def analyze_and_upgrade(self, orchestrator) -> dict:
         coder   = orchestrator.get_agent("coder")
-        tester  = orchestrator.get_agent("tester")
+        orchestrator.get_agent("tester")
         results = []
         py_files = list(Path(".").rglob("*.py"))[:20]
         
@@ -19,7 +19,7 @@ class SelfUpgrade:
             try:
                 code = fp.read_text(errors="ignore")
                 
-                if any("TODO" in l for l in code.splitlines()):
+                if any("TODO" in ln for ln in code.splitlines()):
                     if coder:
                         result = await coder.execute({
                             "name": f"Improve {fp.name}",

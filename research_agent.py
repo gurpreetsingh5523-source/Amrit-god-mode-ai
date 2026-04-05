@@ -1,5 +1,7 @@
 """Research Agent — Web search, URL fetch, document analysis."""
-import re, urllib.request, urllib.parse
+import re
+import urllib.request
+import urllib.parse
 from base_agent import BaseAgent
 
 class ResearchAgent(BaseAgent):
@@ -10,9 +12,12 @@ class ResearchAgent(BaseAgent):
         action = d.get("action", "search")
         query  = d.get("query") or task.get("name", "")
         await self.report(f"Research [{action}]: {query[:60]}")
-        if action == "fetch_url": return await self._fetch(d.get("url",""))
-        if action == "summarize": return await self._summarize(d.get("text",""), query)
-        if action == "analyze":   return await self._analyze(query, d)
+        if action == "fetch_url":
+            return await self._fetch(d.get("url",""))
+        if action == "summarize":
+            return await self._summarize(d.get("text",""), query)
+        if action == "analyze":
+            return await self._analyze(query, d)
         return await self._search(query)
 
     async def _search(self, query: str) -> dict:
@@ -39,7 +44,7 @@ class ResearchAgent(BaseAgent):
         try:
             with open("workspace/viral_content.md", "a", encoding="utf-8") as f:
                 f.write(f"\n\n# Research Summary\n\n{summary}\n")
-        except Exception as e:
+        except Exception:
             pass
         return self.ok(query=query, results=results, summary=summary)
 

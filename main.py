@@ -46,7 +46,7 @@ async def main():
         import logging
         logging.getLogger().setLevel(logging.DEBUG)
 
-    cfg = ConfigLoader(args.config)
+    ConfigLoader(args.config)
     logger.info(f"AMRIT GODMODE starting in [{args.mode.upper()}] mode")
 
     event_bus    = EventBus()

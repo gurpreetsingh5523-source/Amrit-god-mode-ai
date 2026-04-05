@@ -60,8 +60,10 @@ Analyze this AI system ({len(py_files)} Python files, {len(todos)}) and fix all 
         mods = ["core.orchestrator", "core.task_graph", "agents.base_agent"]
         for mod in mods:
             t0 = time.perf_counter()
-            try: __import__(mod)
-            except ImportError as e: pass
+            try:
+                __import__(mod)
+            except ImportError:
+                pass
             times[mod] = round(time.perf_counter() - t0, 4)
         return self.ok(import_times=times)
 

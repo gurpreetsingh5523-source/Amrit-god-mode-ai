@@ -1,5 +1,6 @@
 """State Manager — Namespaced, persistent, watchable global state."""
-import json, asyncio
+import json
+import asyncio
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Optional

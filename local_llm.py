@@ -1,5 +1,6 @@
 """Local LLM — Ollama inference backend."""
-import json, urllib.request
+import json
+import urllib.request
 from logger import setup_logger
 logger = setup_logger("LocalLLM")
 
@@ -18,13 +19,15 @@ class LocalLLM:
             with urllib.request.urlopen(req, timeout=120) as r:
                 return json.loads(r.read()).get("choices", [{}])[0].get("message", {}).get("content", "")
         except Exception as e:
-            logger.error(f"LocalLLM error: {e}"); raise
+            logger.error(f"LocalLLM error: {e}")
+            raise
 
     async def list_models(self) -> list:
         try:
             with urllib.request.urlopen(f"{self.url}/models", timeout=5) as r:
                 return [m["id"] for m in json.loads(r.read()).get("data",[])]
-        except: return []
+        except Exception:
+            return []
 
     async def is_available(self) -> bool:
         return len(await self.list_models()) > 0

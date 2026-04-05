@@ -57,8 +57,10 @@ class EventBus:
 
     def unsubscribe(self, event: str, cb: Callable):
         if event in self._subs:
-            try: self._subs[event].remove(cb)
-            except ValueError: pass
+            try:
+                self._subs[event].remove(cb)
+            except ValueError:
+                pass
 
     # ── Publish ────────────────────────────────────────────────────
 

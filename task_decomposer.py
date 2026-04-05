@@ -1,5 +1,6 @@
 """Task Decomposer — Recursive LLM task breakdown."""
-import re, json
+import re
+import json
 from logger import setup_logger
 logger = setup_logger("TaskDecomposer")
 
@@ -7,7 +8,8 @@ class TaskDecomposer:
     def __init__(self, max_depth=3): self.max_depth = max_depth
 
     async def decompose(self, task: dict, depth=0) -> list:
-        if depth >= self.max_depth or self._atomic(task): return [task]
+        if depth >= self.max_depth or self._atomic(task):
+            return [task]
         try:
             from llm_router import LLMRouter
             r = await LLMRouter().complete(
@@ -16,7 +18,8 @@ class TaskDecomposer:
                 max_tokens=600)
             subtasks = self._parse(r)
             return subtasks if subtasks else [task]
-        except Exception: return [task]
+        except Exception:
+            return [task]
 
     def _atomic(self, t): return len(t.get("name","").split()) <= 4
 

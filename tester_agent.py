@@ -14,9 +14,12 @@ class TesterAgent(BaseAgent):
         d = task.get("data", {})
         action = d.get("action", "run")
         await self.report(f"Tester [{action}]")
-        if action == "generate": return await self._gen_tests(d)
-        if action == "run_code": return await self._run_snippet(d.get("code",""))
-        if action == "validate": return await self._validate(d)
+        if action == "generate":
+            return await self._gen_tests(d)
+        if action == "run_code":
+            return await self._run_snippet(d.get("code",""))
+        if action == "validate":
+            return await self._validate(d)
         return await self._run_tests(d.get("target","tests/"))
 
     async def _run_tests(self, target: str) -> dict:
@@ -46,7 +49,8 @@ class TesterAgent(BaseAgent):
 
     async def _run_snippet(self, code: str) -> dict:
         with tempfile.NamedTemporaryFile(suffix=".py",delete=False,mode="w") as f:
-            f.write(code); tmp = f.name
+            f.write(code)
+            tmp = f.name
         try:
             r = subprocess.run([sys.executable,tmp],capture_output=True,text=True,timeout=15)
             return self.ok(stdout=r.stdout,stderr=r.stderr,returncode=r.returncode)

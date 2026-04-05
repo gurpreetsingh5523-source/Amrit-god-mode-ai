@@ -1,5 +1,8 @@
 """Tool Agent — File I/O, terminal, git, JSON operations with EthicalGuard enforcement."""
-import os, shutil, subprocess, json
+import os
+import shutil
+import subprocess
+import json
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -96,15 +99,19 @@ class ToolAgent(BaseAgent):
             return self.ok(content=p.read_text(errors="ignore"), path=str(p))
         if a == "write":
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(content); return self.ok(path=str(p), size=len(content))
+            p.write_text(content)
+            return self.ok(path=str(p), size=len(content))
         if a == "append":
-            with open(p,"a") as f: f.write(content)
+            with open(p,"a") as f:
+                f.write(content)
             return self.ok(path=str(p))
         if a == "delete":
-            if p.exists(): p.unlink()
+            if p.exists():
+                p.unlink()
             return self.ok(deleted=str(p))
         if a == "list":
-            if not p.exists(): return self.err("Dir not found")
+            if not p.exists():
+                return self.err("Dir not found")
             return self.ok(files=[str(x) for x in p.iterdir()])
         if a == "exists":
             return self.ok(exists=p.exists(), path=str(p))
@@ -115,14 +122,15 @@ class ToolAgent(BaseAgent):
                 dest = self._resolve_workspace_path(dest_raw)
             except PermissionError:
                 return self.err("Action FAILED: Cannot access files outside the workspace directory")
-            shutil.copy2(p, dest); return self.ok(done=True)
+            shutil.copy2(p, dest)
+            return self.ok(done=True)
         return self.err(f"Unknown action: {a}")
 
     async def _terminal(self, d):
         cmd = d.get("command","")
         # Wheelhouse blocked patterns first
         if any(b in cmd for b in BLOCKED):
-            return self.err(f"Action FAILED: Blocked by EthicalGuard because blocked pattern detected. Find a safer alternative.")
+            return self.err("Action FAILED: Blocked by EthicalGuard because blocked pattern detected. Find a safer alternative.")
 
         # EthicalGuard check on the full command
         safe, reason = self.guard.check(cmd)
@@ -164,7 +172,8 @@ class ToolAgent(BaseAgent):
             p.parent.mkdir(parents=True, exist_ok=True)
             existing = json.loads(p.read_text()) if a=="merge" and p.exists() else {}
             existing.update(d.get("data",{}))
-            p.write_text(json.dumps(existing,indent=2)); return self.ok(path=str(p))
+            p.write_text(json.dumps(existing,indent=2))
+            return self.ok(path=str(p))
         return self.err(f"Unknown: {a}")
 
     async def _dir(self, d):
@@ -174,8 +183,12 @@ class ToolAgent(BaseAgent):
         except PermissionError:
             return self.err("Action FAILED: Cannot access files outside the workspace directory")
 
-        if a == "create": p.mkdir(parents=True,exist_ok=True); return self.ok(path=str(p))
-        if a == "delete": shutil.rmtree(p,ignore_errors=True); return self.ok(deleted=str(p))
+        if a == "create":
+            p.mkdir(parents=True, exist_ok=True)
+            return self.ok(path=str(p))
+        if a == "delete":
+            shutil.rmtree(p, ignore_errors=True)
+            return self.ok(deleted=str(p))
         if a == "list":
             return self.ok(items=[{"name":x.name,"type":"dir"if x.is_dir() else "file"}
                                    for x in p.iterdir()]) if p.exists() else self.err("Not found")
@@ -200,7 +213,7 @@ class ToolAgent(BaseAgent):
             ["grep", "-rn", "--include", f"*{ext}", query, "workspace"],
             capture_output=True, text=True, timeout=10
         )
-        lines = [l for l in r.stdout.splitlines() if l.strip()][:50]
+        lines = [ln for ln in r.stdout.splitlines() if ln.strip()][:50]
         return self.ok(query=query, matches=lines, count=len(lines))
 
     async def _run_python(self, d):

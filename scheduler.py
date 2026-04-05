@@ -21,7 +21,8 @@ class Scheduler:
         delay = (run_at - datetime.now()).total_seconds()
         jid = self._id()
         async def _run():
-            if delay > 0: await asyncio.sleep(delay)
+            if delay > 0:
+                await asyncio.sleep(delay)
             self.graph.add(task)
             logger.info(f"[{jid}] Triggered at {run_at}")
         self._handles.append(asyncio.create_task(_run()))

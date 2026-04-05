@@ -7,14 +7,19 @@ UPGRADED:
   - Call statistics (track usage, latency, cache hits)
   - Smart fallback chain
 """
-import os, re, json, hashlib, time
+import os
+import re
+import json
+import hashlib
+import time
 from pathlib import Path
 from logger import setup_logger
 from config_loader import ConfigLoader
 logger = setup_logger("LLMRouter")
 
 # ── BitNet b1.58 Config ──────────────────────────────────────────
-import subprocess, shutil
+import subprocess
+import shutil
 BITNET_DIR = Path.home() / "BitNet"
 BITNET_MODEL = BITNET_DIR / "models" / "Falcon3-10B-Instruct-1.58bit" / "ggml-model-i2_s.gguf"
 BITNET_SCRIPT = BITNET_DIR / "run_inference.py"
@@ -158,7 +163,8 @@ class LLMRouter:
         if self._available_cache is not None:
             return self._available_cache
         try:
-            import urllib.request, json
+            import urllib.request
+            import json
             with urllib.request.urlopen("http://127.0.0.1:11434/v1/models", timeout=3) as r:
                 models = [m["id"] for m in json.loads(r.read()).get("data", [])]
                 self._available_cache = models
@@ -208,7 +214,8 @@ class LLMRouter:
         """Category-aware model pick — used by agents. Does a quick sync Ollama list if cache not yet warm."""
         if self._available_cache is None:
             try:
-                import urllib.request as _ur, json as _j
+                import urllib.request as _ur
+                import json as _j
                 with _ur.urlopen("http://127.0.0.1:11434/v1/models", timeout=2) as _r:
                     self._available_cache = [m["id"] for m in _j.loads(_r.read()).get("data", [])]
             except Exception:
@@ -362,7 +369,9 @@ class LLMRouter:
         }
 
     async def _local(self, prompt, system, model, max_tokens):
-        import urllib.request, json, time
+        import urllib.request
+        import json
+        import time
         base_url = "http://127.0.0.1:11434/v1"
         mn = model or "llama3:latest"
         # Compose OpenAI-compatible messages list

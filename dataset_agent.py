@@ -22,32 +22,38 @@ class DatasetAgent(BaseAgent):
 
     async def _load(self, d):
         p = Path(d.get("dataset",""))
-        if not p.exists(): return self.err(f"Not found: {p}")
+        if not p.exists():
+            return self.err(f"Not found: {p}")
         try:
             import pandas as pd
             ext = p.suffix.lower()
             loaders = {".csv":pd.read_csv,".json":pd.read_json,".xlsx":pd.read_excel,
                        ".parquet":pd.read_parquet,".tsv":lambda f:pd.read_csv(f,sep="\t")}
             loader = loaders.get(ext)
-            if not loader: return self.err(f"Unsupported: {ext}")
+            if not loader:
+                return self.err(f"Unsupported: {ext}")
             df = loader(p)
             return self.ok(rows=len(df),columns=list(df.columns),
                            dtypes={c:str(t) for c,t in df.dtypes.items()},
                            head=df.head(5).to_dict())
-        except ImportError: return self.err("pip install pandas openpyxl")
-        except Exception as e: return self.err(str(e))
+        except ImportError:
+            return self.err("pip install pandas openpyxl")
+        except Exception as e:
+            return self.err(str(e))
 
     async def _clean(self, d):
         p = Path(d.get("dataset",""))
         try:
             import pandas as pd
-            df = pd.read_csv(p); before = len(df)
+            df = pd.read_csv(p)
+            before = len(df)
             df.drop_duplicates(inplace=True)
             df.dropna(how="all",inplace=True)
             out = d.get("output", str(p).replace(".","_clean."))
             df.to_csv(out, index=False)
             return self.ok(before=before,after=len(df),removed=before-len(df),output=out)
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def _analyze(self, d):
         p = Path(d.get("dataset",""))
@@ -59,35 +65,43 @@ class DatasetAgent(BaseAgent):
                 f"Dataset: {len(df)} rows, columns: {list(df.columns)}, nulls: {nulls}. "
                 "What analysis would be most valuable?")
             return self.ok(shape=list(df.shape),nulls=nulls,insight=insight)
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def _export(self, d):
-        p = Path(d.get("dataset","")); fmt = d.get("format","csv")
+        p = Path(d.get("dataset",""))
+        fmt = d.get("format","csv")
         out = Path(d.get("output",f"workspace/export.{fmt}"))
         try:
-            import pandas as pd; out.parent.mkdir(exist_ok=True)
+            import pandas as pd
+            out.parent.mkdir(exist_ok=True)
             df = pd.read_csv(p)
             {"json":lambda:df.to_json(out,orient="records",indent=2),
              "xlsx":lambda:df.to_excel(out,index=False),
              "parquet":lambda:df.to_parquet(out)}.get(fmt, lambda:df.to_csv(out,index=False))()
             return self.ok(output=str(out),format=fmt,rows=len(df))
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     async def _build(self, d):
-        topic = d.get("topic","general"); n = int(d.get("n",50))
+        topic = d.get("topic","general")
+        n = int(d.get("n",50))
         prompt = f"Generate {n} diverse training examples for: {topic}\nReturn JSON array of objects with 'input' and 'output' keys."
         data = await self.ask_llm(prompt, max_tokens=3000)
         out = Path(f"datasets/{topic.replace(' ','_')}.json")
-        out.parent.mkdir(exist_ok=True); out.write_text(data)
+        out.parent.mkdir(exist_ok=True)
+        out.write_text(data)
         return self.ok(topic=topic, generated=n, file=str(out))
 
     async def _sample(self, d):
-        p = Path(d.get("dataset","")); n = int(d.get("n",10))
+        p = Path(d.get("dataset",""))
+        n = int(d.get("n",10))
         try:
             import pandas as pd
             df = pd.read_csv(p).sample(min(n,len(pd.read_csv(p))))
             return self.ok(n=len(df),sample=df.to_dict())
-        except Exception as e: return self.err(str(e))
+        except Exception as e:
+            return self.err(str(e))
 
     # ══════════════════════════════════════════════════════════════
     # NEW: Dataset Enrichment & Research

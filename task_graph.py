@@ -145,7 +145,8 @@ class TaskGraph:
             rec_stack.add(node)
             for nb in self._adj.get(node, []):
                 if nb not in visited:
-                    if dfs(nb): return True
+                    if dfs(nb):
+                        return True
                 elif nb in rec_stack:
                     return True
             rec_stack.discard(node)

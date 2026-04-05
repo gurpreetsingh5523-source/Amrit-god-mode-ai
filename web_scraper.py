@@ -1,5 +1,7 @@
 """Web Scraper — HTML parsing and structured data extraction."""
-import re, urllib.request, urllib.parse
+import re
+import urllib.request
+import urllib.parse
 from logger import setup_logger
 logger = setup_logger("WebScraper")
 
@@ -12,7 +14,9 @@ class WebScraper:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 return r.read().decode("utf-8", errors="ignore")
-        except Exception as e: logger.warning(f"Fetch failed: {e}"); return ""
+        except Exception as e:
+            logger.warning(f"Fetch failed: {e}")
+            return ""
 
     def text(self, url: str) -> str:
         html = self.fetch(url)
@@ -32,13 +36,18 @@ class WebScraper:
 
     def get_json(self, url: str, params=None) -> dict:
         import json
-        if params: url += "?" + urllib.parse.urlencode(params)
+        if params:
+            url += "?" + urllib.parse.urlencode(params)
         try:
             req = urllib.request.Request(url, headers=self.HEADERS)
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 return json.loads(r.read())
-        except Exception as e: return {"error": str(e)}
+        except Exception as e:
+            return {"error": str(e)}
 
     def download(self, url: str, path: str) -> bool:
-        try: urllib.request.urlretrieve(url, path); return True
-        except: return False
+        try:
+            urllib.request.urlretrieve(url, path)
+            return True
+        except Exception:
+            return False
