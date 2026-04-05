@@ -23,6 +23,8 @@ from task_packet import TaskPacket, PacketStore
 from recovery_recipes import RecoveryEngine
 from policy_engine import PolicyEngine
 from worker_lifecycle import WorkerLifecycleManager
+from swarm import Queen
+from plugin_manager import PluginManager
 
 logger = setup_logger("Orchestrator")
 
@@ -38,6 +40,8 @@ class Orchestrator:
         self.autonomy    = AutonomyLoop(self)
         self.workflow    = WorkflowEngine(self)
         self.agents: Dict[str, object] = {}
+        self.queen: Optional[Queen] = None
+        self.plugin_mgr  = PluginManager()
         self._ready      = False
 
         # ── Smart Infrastructure (v2) ─────────────────────────
@@ -93,12 +97,21 @@ class Orchestrator:
             "dataset":    DatasetAgent(self.event_bus, self.state),
             "simulation": SimulationAgent(self.event_bus, self.state),
         }
-        logger.info(f"Agents: {list(self.agents.keys())}")
+        # Load plugins from amrit_plugins/
+        plugin_agents = self.plugin_mgr.load_all(self.event_bus, self.state)
+        if plugin_agents:
+            self.agents.update(plugin_agents)
+            logger.info(f"Plugins: {list(plugin_agents.keys())}")
+
+        logger.info(f"Agents: {list(self.agents.keys())} ({len(self.agents)} total)")
         # Register all agents in lifecycle manager
         for name in self.agents:
             self.lifecycle.register(name)
             self.lifecycle.mark_initializing(name)
             self.lifecycle.mark_ready(name)
+
+        # Initialize Queen for swarm coordination
+        self.queen = Queen(self.event_bus, self.agents, self.state)
 
     def _register_handlers(self):
         self.event_bus.subscribe("task.new",       self._on_new_task)
@@ -211,6 +224,15 @@ class Orchestrator:
                 await self.run_internet_mode()
             elif cmd in ("voice", "ਅਵਾਜ਼"):
                 await self.run_voice_mode()
+            elif cmd.startswith("swarm ") or cmd.startswith("ਝੁੰਡ "):
+                objective = inp.split(" ", 1)[1] if " " in inp else ""
+                await self._run_swarm(objective)
+            elif cmd in ("swarm-status", "ਝੁੰਡ-ਸਥਿਤੀ"):
+                self._print_swarm_status()
+            elif cmd in ("plugins", "ਪਲੱਗਇਨ"):
+                self._print_plugins()
+            elif cmd in ("mcp", "ਐੱਮਸੀਪੀ"):
+                await self._run_mcp()
             elif cmd in ("clear", "ਸਾਫ਼"):
                 import os; os.system("clear")
             else:
@@ -543,6 +565,12 @@ class Orchestrator:
     selftest         — Analyze & test yourself / ਆਪਣੇ ਆਪ ਨੂੰ ਟੈਸਟ ਕਰੋ
     selffix          — Find & fix bugs / ਕਮੀਆਂ ਆਪੇ ਠੀਕ ਕਰੋ
 
+  \033[93m🐝 Swarm / ਝੁੰਡ:\033[0m
+    swarm <objective> — Launch multi-agent swarm / ਝੁੰਡ ਲਾਂਚ ਕਰੋ
+    swarm-status     — Swarm status / ਝੁੰਡ ਸਥਿਤੀ
+    plugins          — List loaded plugins / ਪਲੱਗਇਨ ਵੇਖੋ
+    mcp              — Start MCP server / MCP ਸਰਵਰ ਚਾਲੂ ਕਰੋ
+
   \033[94mOther / ਹੋਰ:\033[0m
     internet         — Internet mode / ਇੰਟਰਨੈੱਟ ਮੋਡ
     voice            — Voice mode / ਅਵਾਜ਼ ਮੋਡ
@@ -592,6 +620,72 @@ class Orchestrator:
             print()
         except Exception as e:
             print(f"\n  Could not load history: {e}\n")
+
+    # ── Swarm Commands ────────────────────────────────────────────
+
+    async def _run_swarm(self, objective: str):
+        """Launch a queen-coordinated swarm for an objective."""
+        if not objective:
+            print("\n  ❌ Usage: swarm <objective>\n")
+            return
+        print(f"\n  🐝 Spawning swarm: {objective}")
+        # Use planner to decompose into tasks
+        planner = self.get_agent("planner")
+        if planner:
+            plan = await planner.execute({"name": objective, "action": objective})
+            tasks = plan.get("tasks", [{"name": objective, "agent": "coder"}])
+        else:
+            tasks = [{"name": objective, "agent": "coder", "priority": 1}]
+
+        result = await self.queen.spawn_swarm(objective, tasks)
+        print(f"\n  ✅ Swarm result: {result.get('completed', 0)}/{result.get('total', 0)} tasks done")
+        if result.get("worker_stats"):
+            for w, s in result["worker_stats"].items():
+                print(f"     • {w}: {s['completed']} done, {s['failed']} failed, score={s['score']}")
+        print()
+
+    def _print_swarm_status(self):
+        """Show current swarm status."""
+        if not self.queen:
+            print("\n  ❌ No queen initialized\n")
+            return
+        status = self.queen.get_status()
+        print(f"\n  🐝 Swarm Status: {'ACTIVE' if status['running'] else 'IDLE'}")
+        print(f"  Topology: {status['topology']}")
+        q = status['queue']
+        print(f"  Queue: {q['pending']} pending, {q['running']} running, {q['done']} done, {q['failed']} failed")
+        for w, s in status['workers'].items():
+            if s['completed'] + s['failed'] > 0:
+                print(f"     • {w}: {s['state']} (score={s['score']}, done={s['completed']}, err={s['failed']})")
+        print()
+
+    def _print_plugins(self):
+        """List loaded plugins."""
+        plugins = self.plugin_mgr.list_plugins()
+        if not plugins:
+            print("\n  📦 No plugins loaded (add .py files to amrit_plugins/)\n")
+            return
+        print(f"\n  📦 Loaded Plugins ({len(plugins)}):")
+        for p in plugins:
+            print(f"     • {p['name']} v{p['version']} — {p['description']}")
+        if self.plugin_mgr.errors:
+            print(f"  ⚠️  Errors: {len(self.plugin_mgr.errors)}")
+            for e in self.plugin_mgr.errors[:3]:
+                print(f"     ❌ {e}")
+        print()
+
+    async def _run_mcp(self):
+        """Start MCP server in background for Claude Code integration."""
+        from mcp_server import MCPServer
+        print("\n  🔌 Starting MCP server (SSE mode on port 3900)...")
+        print("  Add to Claude Code: claude mcp add amrit -- curl http://127.0.0.1:3900")
+        print("  Press Ctrl+C to stop\n")
+        server = MCPServer()
+        await server.initialize(self)
+        try:
+            await server.run_sse(port=3900)
+        except KeyboardInterrupt:
+            print("\n  MCP server stopped.\n")
 
     async def shutdown(self):
         self.state.save()

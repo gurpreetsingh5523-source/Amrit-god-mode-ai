@@ -34,7 +34,7 @@ async def main():
     parser.add_argument("--mode",    type=str,  default="interactive",
                         choices=["interactive", "autonomous", "voice", "vision",
                                  "internet", "godmode", "evolve", "selftest", "selffix",
-                                 "research"],
+                                 "research", "mcp", "swarm"],
                         help="Execution mode")
     parser.add_argument("--config",  type=str,  default="config.yaml")
     parser.add_argument("--verbose", action="store_true")
@@ -79,6 +79,30 @@ async def main():
             await orchestrator._run_selftest()
         elif args.mode == "selffix":
             await orchestrator._run_selffix()
+        elif args.mode == "mcp":
+            from mcp_server import MCPServer
+            transport = "sse" if not args.goal else args.goal  # --goal sse|stdio
+            server = MCPServer()
+            await server.initialize(orchestrator)
+            logger.info(f"Starting MCP server ({transport})")
+            if transport == "stdio":
+                await server.run_stdio()
+            else:
+                await server.run_sse()
+        elif args.mode == "swarm":
+            if args.goal:
+                # Use planner to decompose, then swarm
+                planner = orchestrator.get_agent("planner")
+                if planner:
+                    plan = await planner.execute({"name": args.goal, "action": args.goal})
+                    tasks = plan.get("tasks", [{"name": args.goal, "agent": "coder"}])
+                else:
+                    tasks = [{"name": args.goal, "agent": "coder", "priority": 1}]
+                result = await orchestrator.queen.spawn_swarm(args.goal, tasks)
+                logger.info(f"Swarm result: {result.get('completed')}/{result.get('total')} done")
+            else:
+                print("\n  \u274c --goal required for swarm mode")
+                print("  Example: python3 main.py --mode swarm --goal 'build REST API'\n")
         elif args.mode == "research":
             if args.goal:
                 await orchestrator._run_research(args.goal)
