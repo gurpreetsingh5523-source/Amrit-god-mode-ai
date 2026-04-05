@@ -21,22 +21,21 @@ class CoderAgent(BaseAgent):
 
     async def _gen(self, d: dict) -> dict:
         lang = d.get("language", "python")
-        spec = d.get("spec") or d.get("name", "")
+        spec = d.get("spec") or d.get("goal") or d.get("name", "")
         fn   = d.get("filename", "")
         code = await self.ask_llm(
             f"Write production-quality {lang} code for: {spec}\n"
             "Include docstrings, type hints, error handling. Return only code.")
         code = self._strip(code, lang)
-        # Append to viral_content.md
-        try:
-            with open("workspace/viral_content.md", "a", encoding="utf-8") as f:
-                f.write(f"\n\n# Generated Code ({lang})\n\n{code}\n")
-        except Exception as e:
-            pass
+        # Determine output file — use explicit filename or derive from spec
+        if not fn and spec:
+            safe = re.sub(r'[^a-zA-Z0-9_]', '_', spec.lower())[:40].strip('_')
+            fn = f"{safe}.py" if lang == "python" else f"{safe}.{lang}"
         if fn:
             p = Path("workspace") / fn
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(code)
+            await self.report(f"Saved: workspace/{fn} ({len(code.splitlines())} lines)")
         return self.ok(code=code, language=lang, filename=fn, lines=len(code.splitlines()))
 
     async def _fix(self, d: dict) -> dict:

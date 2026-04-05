@@ -200,12 +200,18 @@ class Queen:
             return {"task_id": task.id, "status": "error", "error": f"Agent {worker.agent_name} not found"}
 
         try:
-            result = await asyncio.wait_for(
-                agent.execute({
-                    "name": task.name,
-                    "action": task.data.get("action", task.name),
+            # Pass task data nested under "data" key — agents expect task["data"]
+            task_payload = {
+                "name": task.name,
+                "data": {
+                    "action": task.data.get("action", "generate"),
+                    "spec": task.data.get("spec", task.name),
+                    "goal": task.data.get("goal", task.name),
                     **task.data,
-                }),
+                },
+            }
+            result = await asyncio.wait_for(
+                agent.execute(task_payload),
                 timeout=120,
             )
             task.status = "done"

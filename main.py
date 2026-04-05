@@ -91,13 +91,23 @@ async def main():
                 await server.run_sse()
         elif args.mode == "swarm":
             if args.goal:
-                # Use planner to decompose, then swarm
+                # Use planner to decompose goal into multi-step tasks
                 planner = orchestrator.get_agent("planner")
                 if planner:
-                    plan = await planner.execute({"name": args.goal, "action": args.goal})
-                    tasks = plan.get("tasks", [{"name": args.goal, "agent": "coder"}])
+                    plan_result = await planner.execute({"name": args.goal, "data": {"goal": args.goal}})
+                    tasks = plan_result.get("plan", [])
+                    # If planner returned direct output (simple task), wrap it
+                    if not tasks or plan_result.get("direct"):
+                        tasks = [{"name": args.goal, "agent": "coder", "priority": 1,
+                                  "data": {"spec": args.goal, "action": "generate"}}]
+                    # Inject original goal as spec into each task's data
+                    for t in tasks:
+                        t.setdefault("data", {})
+                        t["data"].setdefault("spec", t.get("name", args.goal))
+                        t["data"].setdefault("goal", args.goal)
                 else:
-                    tasks = [{"name": args.goal, "agent": "coder", "priority": 1}]
+                    tasks = [{"name": args.goal, "agent": "coder", "priority": 1,
+                              "data": {"spec": args.goal, "action": "generate"}}]
                 result = await orchestrator.queen.spawn_swarm(args.goal, tasks)
                 logger.info(f"Swarm result: {result.get('completed')}/{result.get('total')} done")
             else:

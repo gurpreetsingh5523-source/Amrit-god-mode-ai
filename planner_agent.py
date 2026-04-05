@@ -19,10 +19,21 @@ class PlannerAgent(BaseAgent):
             result = await self.ask_llm(f"ਪੰਜਾਬੀ ਗੁਰਮੁਖੀ ਵਿੱਚ ਲਿਖੋ: {goal}")
             return self.ok(output=result, direct=True)
 
-        prompt = f"""Decompose this goal into 2-4 ordered tasks for an autonomous AI system.
+        prompt = f"""Decompose this goal into 2-5 ordered tasks for an autonomous AI system.
 GOAL: {goal}
-Available agents: planner, coder, researcher, tester, debugger, tool, memory, internet, dataset, monitor
-Return ONLY JSON array: [{{"name":"...","agent":"...","priority":1,"data":{{}},"depends_on":[]}}]"""
+Available agents and their roles:
+- researcher: search internet, gather info, read docs
+- coder: write code, create files, build features
+- tester: test code, run checks, validate
+- debugger: find and fix bugs
+- tool: run shell commands, install packages
+- internet: fetch web pages, APIs
+Rules:
+- Each task must have a clear one-line name describing WHAT to do
+- Include relevant data in "data" dict (spec, language, filename, query)
+- Set dependencies if a task needs another task's output
+- Priority 1 = highest (do first)
+Return ONLY JSON array: [{{"name":"short task description","agent":"agent_name","priority":1,"data":{{"spec":"detailed description","action":"generate"}},"depends_on":[]}}]"""
         try:
             resp   = await self.ask_llm(prompt)
             tasks  = self._parse(resp)
