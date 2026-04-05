@@ -84,20 +84,20 @@ class InternetAgent(BaseAgent):
             if u in visited or d < 0: return
             visited.add(u)
             try:
-                logger.info(f"Crawling {u} with depth {d}")
+                self.logger.info(f"Crawling {u} with depth {d}")
                 req = urllib.request.Request(u, headers={"User-Agent":"Mozilla/5.0"})
                 with urllib.request.urlopen(req, timeout=8) as r:
                     html = r.read().decode("utf-8", errors="ignore")
-                logger.debug(f"Extracting text from {u}")
+                self.logger.debug(f"Extracting text from {u}")
                 text  = re.sub(r'\s+',' ', re.sub(r'<[^>]+>',' ', html)).strip()[:2000]
-                logger.debug(f"Finding links on {u}")
+                self.logger.debug(f"Finding links on {u}")
                 links = list(set(re.findall(r'href="(https?://[^"]+)"', html)))[:5]
                 pages.append({"url": u, "text": text[:500], "links": links})
                 if d > 0:
                     for link in links[:3]:
                         await crawl_page(link, d-1)
             except Exception as e:
-                logger.error(f"Error crawling {u}: {str(e)}")
+                self.logger.error(f"Error crawling {u}: {str(e)}")
                 pages.append({"url": u, "error": str(e)})
         await crawl_page(url, depth)
         return self.ok(url=url, pages_crawled=len(pages), pages=pages)
