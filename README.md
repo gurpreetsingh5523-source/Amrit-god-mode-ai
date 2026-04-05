@@ -1,3 +1,8 @@
+![CI](https://github.com/gurpreetsingh5523-source/Amrit-god-mode-ai/workflows/CI/badge.svg)
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Release](https://img.shields.io/github/v/release/gurpreetsingh5523-source/Amrit-god-mode-ai)
+
 <div align="center">
 
 # ☬ AMRIT GODMODE v3.0
