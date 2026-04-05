@@ -7,7 +7,7 @@ Enables: dashboards, auto-recovery, policy decisions.
 """
 from enum import Enum, auto
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Union
 import traceback, time
 from logger import setup_logger
 
@@ -143,8 +143,8 @@ _RULES: list[tuple[list[str], FailureClass, Severity, bool]] = [
 ]
 
 
-def classify(error: str | Exception, source: str = "",
-             context: dict | None = None) -> ClassifiedFailure:
+def classify(error: Union[str, Exception], source: str = "",
+             context: Optional[dict] = None) -> ClassifiedFailure:
     """Classify an error string or exception into a structured failure."""
     exc = error if isinstance(error, Exception) else None
     err_str = str(error).lower()
@@ -187,7 +187,7 @@ class FailureTracker:
         if len(self._history) > self._max:
             self._history = self._history[-self._max:]
 
-    def record_exception(self, exc: Exception, source: str = "", ctx: dict | None = None):
+    def record_exception(self, exc: Exception, source: str = "", ctx: Optional[dict] = None):
         self.record(classify(exc, source, ctx))
 
     @property
