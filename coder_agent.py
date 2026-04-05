@@ -22,12 +22,43 @@ class CoderAgent(BaseAgent):
     async def _gen(self, d: dict) -> dict:
         lang = d.get("language", "python")
         spec = d.get("spec") or d.get("goal") or d.get("name", "")
+        goal = d.get("goal", spec)
         fn   = d.get("filename", "")
-        code = await self.ask_llm(
-            f"Write production-quality {lang} code for: {spec}\n"
-            "Include docstrings, type hints, error handling. Return only code.")
+        # Try to extract target filename from spec/goal (e.g. "sandman_face.py")
+        if not fn:
+            m = re.search(r'(\w+\.py)\b', spec)
+            if m:
+                fn = m.group(1)
+        # If target file already exists, read it and extend/improve
+        existing_code = ""
+        if fn:
+            existing_path = Path("workspace") / fn
+            if existing_path.exists():
+                existing_code = existing_path.read_text()
+        if existing_code:
+            prompt = (
+                f"You are building: {goal}\n"
+                f"Current task: {spec}\n\n"
+                f"Here is the EXISTING code in {fn}:\n```{lang}\n{existing_code}\n```\n\n"
+                f"Extend and improve this code to fulfill the task. "
+                f"Return the COMPLETE updated file with ALL existing functionality preserved plus the new features. "
+                f"Return ONLY code, no explanations."
+            )
+        else:
+            prompt = (
+                f"You are building: {goal}\n"
+                f"Current task: {spec}\n\n"
+                f"Write a COMPLETE, working {lang} file that implements this.\n"
+                f"Requirements:\n"
+                f"- The code must be runnable as-is with `python3 {fn or 'app.py'}`\n"
+                f"- Include all imports at the top\n"
+                f"- Include a main() function and if __name__ == '__main__': main()\n"
+                f"- Handle errors gracefully\n"
+                f"- Return ONLY code, no explanations."
+            )
+        code = await self.ask_llm(prompt)
         code = self._strip(code, lang)
-        # Determine output file — use explicit filename or derive from spec
+        # Determine output file
         if not fn and spec:
             safe = re.sub(r'[^a-zA-Z0-9_]', '_', spec.lower())[:40].strip('_')
             fn = f"{safe}.py" if lang == "python" else f"{safe}.{lang}"

@@ -212,7 +212,7 @@ class Queen:
             }
             result = await asyncio.wait_for(
                 agent.execute(task_payload),
-                timeout=120,
+                timeout=300,
             )
             task.status = "done"
             task.result = result

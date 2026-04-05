@@ -101,10 +101,16 @@ async def main():
                         tasks = [{"name": args.goal, "agent": "coder", "priority": 1,
                                   "data": {"spec": args.goal, "action": "generate"}}]
                     # Inject original goal as spec into each task's data
+                    # Extract target filename from goal so all coder tasks write to the same file
+                    import re as _re
+                    _fn_match = _re.search(r'(\w+\.py)\b', args.goal)
+                    _target_fn = _fn_match.group(1) if _fn_match else ""
                     for t in tasks:
                         t.setdefault("data", {})
                         t["data"].setdefault("spec", t.get("name", args.goal))
                         t["data"].setdefault("goal", args.goal)
+                        if _target_fn:
+                            t["data"].setdefault("filename", _target_fn)
                 else:
                     tasks = [{"name": args.goal, "agent": "coder", "priority": 1,
                               "data": {"spec": args.goal, "action": "generate"}}]
