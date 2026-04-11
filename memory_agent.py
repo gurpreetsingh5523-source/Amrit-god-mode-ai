@@ -1,20 +1,4 @@
-"""
-Memory Agent — Unified Multi-Layer Memory / ਏਕੀਕ੍ਰਿਤ ਯਾਦਦਾਸ਼ਤ
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-UPGRADE: All 5 memory systems now TALK to each other.
-  - Cross-queries ALL memory on every recall
-  - Failure patterns NEVER forgotten
-  - Semantic deduplication
-  - Causal inference from relations
-  - Auto-persist important learnings
 
-ਹੁਣ 5 ਯਾਦਦਾਸ਼ਤ ਸਿਸਟਮ ਇੱਕ-ਦੂਜੇ ਨਾਲ ਗੱਲ ਕਰਦੇ ਹਨ।
-ਗਲਤੀਆਂ ਕਦੇ ਨਹੀਂ ਭੁੱਲੀਆਂ ਜਾਂਦੀਆਂ।
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-"""
-import json
-from pathlib import Path
-from datetime import datetime
 from base_agent import BaseAgent
 from context_buffer import ContextBuffer
 from long_term_memory import LongTermMemory
@@ -23,6 +7,47 @@ from experience_log import ExperienceLog
 from episodic_memory import EpisodicMemory
 from semantic_memory import SemanticMemory
 from planning_memory import PlanningMemory
+import json
+from pathlib import Path
+from datetime import datetime
+
+class MemoryAgent(BaseAgent):
+    """Unified Memory Agent — cross-queries all memory systems."""
+
+    def __init__(self, eb, state):
+        super().__init__("MemoryAgent", eb, state)
+        self.ctx      = ContextBuffer()
+        self.lt       = LongTermMemory()
+        self.know     = KnowledgeStore()
+        self.xp       = ExperienceLog()
+        self.epis     = EpisodicMemory()
+        self.sem      = SemanticMemory()
+        self.plan     = PlanningMemory()
+        self.failures = FailurePatternDB()
+
+    def store(self, key: str, value: dict):
+        try:
+            # Use state manager to persist data
+            print(f"[MemoryAgent.store] Called on instance id {id(self)} for key: {key}")
+            self.state.set(key, value)
+            print(f"💾 [Memory] Saved: {key}")
+        except Exception as e:
+            print(f"[Memory] ❌ Store failed: {e}")
+
+"""
+Memory Agent — Unified Multi-Layer Memory / ਏਕੀਕ੍ਰਿਤ ਯਾਦਦਾਸ਼ਤ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+UPGRADE: All 5 memory systems now TALK to each other.
+    - Cross-queries ALL memory on every recall
+    - Failure patterns NEVER forgotten
+    - Semantic deduplication
+    - Causal inference from relations
+    - Auto-persist important learnings
+
+ਹੁਣ 5 ਯਾਦਦਾਸ਼ਤ ਸਿਸਟਮ ਇੱਕ-ਦੂਜੇ ਨਾਲ ਗੱਲ ਕਰਦੇ ਹਨ।
+ਗਲਤੀਆਂ ਕਦੇ ਨਹੀਂ ਭੁੱਲੀਆਂ ਜਾਂਦੀਆਂ।
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
 
 # ── Failure Pattern DB — ਗਲਤੀਆਂ ਕਦੇ ਨਾ ਭੁੱਲੋ ───────────────
 _FAILURE_DB_PATH = Path("workspace/failure_patterns.json")
@@ -50,7 +75,10 @@ class FailurePatternDB:
                 p["count"] = p.get("count", 1) + 1
                 p["last_seen"] = datetime.now().isoformat()
                 if fix and worked:
-                    p["fixes"].append({"fix": fix[:300], "worked": True})
+                    fix_text = fix[:300]
+                    existing = {f.get("fix") for f in p.get("fixes", [])}
+                    if fix_text not in existing and len(p["fixes"]) < 5:
+                        p["fixes"].append({"fix": fix_text, "worked": True})
                 self._save()
                 return
 

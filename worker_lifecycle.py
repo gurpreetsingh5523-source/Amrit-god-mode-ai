@@ -209,7 +209,7 @@ class WorkerLifecycleManager:
     def failed_workers(self) -> list[WorkerState]:
         return [w for w in self._workers.values() if w.status == WorkerStatus.FAILED]
 
-    def journal(self, agent_name: str | None = None,
+    def journal(self, agent_name: Optional[str] = None,
                 limit: int = 50) -> list[dict]:
         events = self._journal
         if agent_name:

@@ -1,4 +1,5 @@
 """Monitor Agent — System health, resource usage, performance tracking."""
+import asyncio
 import os
 import time
 import psutil
@@ -25,7 +26,43 @@ class MonitorAgent(BaseAgent):
             return await self._check_alerts()
         if action == "history":
             return self.ok(metrics=self._metrics[-50:])
+        if action == "agents":
+            return await self.check_agents()
         return await self._system_check()
+
+    async def check_agents(self) -> dict:
+        """
+        Check health/status of all registered agents. Emits alerts if any agent is unresponsive or unhealthy.
+        """
+        unhealthy = []
+        healthy = []
+        # Try to get orchestrator from state or event bus if possible
+        orc = getattr(self, 'orchestrator', None)
+        if not orc and hasattr(self, 'state'):
+            orc = getattr(self.state, 'orchestrator', None)
+        if not orc:
+            # Can't check agents without orchestrator
+            await self.report("No orchestrator found for agent health check.", level="warning")
+            return self.ok(note="No orchestrator found for agent health check.")
+        agents = getattr(orc, 'agents', {})
+        for name, agent in agents.items():
+            try:
+                # Prefer agent._system_check if available, else just ping execute
+                if hasattr(agent, '_system_check'):
+                    result = await agent._system_check()
+                else:
+                    # Send a minimal health check task
+                    result = await agent.execute({"data": {"action": "check"}})
+                if result.get('ok', True):
+                    healthy.append(name)
+                else:
+                    unhealthy.append(name)
+            except Exception as e:
+                unhealthy.append(name)
+                await self.report(f"Agent {name} health check failed: {e}", level="warning")
+        if unhealthy:
+            await self.emit("monitor.agent_alert", {"unhealthy": unhealthy})
+        return self.ok(healthy=healthy, unhealthy=unhealthy, total=len(agents))
 
     async def _system_check(self) -> dict:
         try:

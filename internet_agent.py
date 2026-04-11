@@ -1,3 +1,4 @@
+import asyncio
 """Internet Agent — Deep web crawling, scientific research, multi-source data extraction."""
 import re
 import json

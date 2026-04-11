@@ -105,7 +105,7 @@ class TaskPacket:
         self.attempt += 1
         logger.info(f"[{self.packet_id}] Started (attempt {self.attempt}): {self.objective[:60]}")
 
-    def complete(self, result: dict | None = None):
+    def complete(self, result: Optional[dict] = None):
         self.status = PacketStatus.COMPLETED
         self.completed_at = time.time()
         self.result = result or {}

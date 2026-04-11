@@ -1,0 +1,487 @@
+open dashboard.html<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ੴ Amrit God Mode Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --deep:#0a0e1a;--mid:#101424;--surface:#151a2e;--card:#1c2238;
+    --gold:#f0b429;--gold2:#ffd166;--cyan:#4ecdc4;--violet:#a78bfa;
+    --red:#ff6b6b;--green:#51cf66;--orange:#fd7e14;
+    --text:#e8eaf0;--muted:#7a80a0;--border:rgba(255,255,255,0.08);
+  }
+  html,body{height:100%;background:var(--deep);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
+
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+  @keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.7}}
+
+  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+
+  /* Header */
+  .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:0.5px solid var(--border);background:rgba(10,14,26,0.8);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+  .hdr-left{display:flex;align-items:center;gap:12px}
+  .avatar-ring{position:relative;width:44px;height:44px}
+  .avatar-ring svg{width:100%;height:100%}
+  @keyframes spin-ring{to{transform:rotate(360deg)}}
+  .ring-anim{animation:spin-ring 8s linear infinite;transform-origin:22px 22px}
+  .avatar-face{position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#b4d4ff,#6baed4 60%,#3a7cbf);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
+  .brand{display:flex;flex-direction:column}
+  .brand-name{font-size:18px;font-weight:700;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.3px}
+  .brand-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .status-pill{display:flex;align-items:center;gap:6px;background:rgba(81,207,102,0.1);border:0.5px solid rgba(81,207,102,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--green)}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-green 1.5s ease-in-out infinite}
+  @keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(81,207,102,0.5)}50%{box-shadow:0 0 0 6px rgba(81,207,102,0)}}
+  .hdr-right{display:flex;align-items:center;gap:10px}
+  .btn-sm{background:var(--card);border:0.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;padding:6px 14px;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+  .btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-gold{background:linear-gradient(135deg,#c89b20,#f0b429);border:none;color:#0a0e1a;font-weight:600}
+  .btn-gold:hover{filter:brightness(1.1);color:#0a0e1a}
+
+  /* Main grid */
+  .main{display:grid;grid-template-columns:260px 1fr 280px;flex:1;min-height:0}
+
+  /* Sidebar */
+  .sidebar{border-right:0.5px solid var(--border);padding:20px 16px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;background:var(--mid)}
+  .nav-section{font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;padding:8px 8px 4px;margin-top:8px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .2s;border:0.5px solid transparent}
+  .nav-item:hover{background:var(--card);color:var(--text)}
+  .nav-item.active{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.25);color:var(--violet)}
+  .nav-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .nav-badge{margin-left:auto;background:var(--red);border-radius:10px;padding:1px 7px;font-size:10px;color:white;font-weight:600}
+
+  /* Center */
+  .center{padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;background:var(--deep)}
+
+  /* Stats */
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stat-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .2s}
+  .stat-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px}
+  .stat-val{font-size:22px;font-weight:700;line-height:1}
+  .stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+  .val-green{color:var(--green)}.val-gold{color:var(--gold)}.val-violet{color:var(--violet)}.val-cyan{color:var(--cyan)}
+
+  /* Section */
+  .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .sec-title{font-size:13px;font-weight:600;color:var(--text)}
+  .sec-action{font-size:11px;color:var(--muted);cursor:pointer;padding:4px 10px;border-radius:6px;border:0.5px solid var(--border);transition:all .2s}
+  .sec-action:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* Agents */
+  .agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .agent-card{background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+  .agent-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--muted));opacity:0.6}
+  .agent-card:hover{transform:translateY(-1px);border-color:rgba(255,255,255,0.15)}
+  .agent-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .agent-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(255,255,255,0.05)}
+  .agent-name{font-size:13px;font-weight:600}
+  .agent-status{font-size:10px;margin-top:1px}
+  .s-running{color:var(--green)}.s-idle{color:var(--muted)}.s-error{color:var(--red)}.s-queue{color:var(--orange)}
+  .agent-bar-bg{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:6px}
+  .agent-bar{height:100%;border-radius:2px;background:var(--ac,var(--muted));transition:width 1.5s ease}
+  .agent-meta{font-size:10px;color:var(--muted)}
+
+  /* Tasks */
+  .task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--card);border:0.5px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+  .task-item:hover{border-color:rgba(255,255,255,0.15)}
+  .task-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--muted);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+  .task-check.done{background:var(--green);border-color:var(--green);color:white}
+  .task-check.run{background:var(--violet);border-color:var(--violet);color:white;animation:pulse-v 1s ease-in-out infinite}
+  @keyframes pulse-v{0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,0.4)}50%{box-shadow:0 0 0 4px rgba(167,139,250,0)}}
+  .task-body{flex:1;min-width:0}
+  .task-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .task-agent{font-size:10px;color:var(--muted);margin-top:2px}
+  .task-priority{font-size:10px;padding:1px 6px;border-radius:4px;flex-shrink:0;align-self:flex-start;margin-top:1px}
+  .p-high{background:rgba(255,107,107,0.15);color:var(--red)}
+  .p-med{background:rgba(253,126,20,0.15);color:var(--orange)}
+  .p-low{background:rgba(122,128,160,0.15);color:var(--muted)}
+
+  /* Terminal */
+  .terminal{background:#060810;border:0.5px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:11px;height:160px;overflow-y:auto;line-height:1.6}
+  .log-line{margin-bottom:2px}
+  .log-ts{color:var(--muted)}.log-ok{color:var(--green)}.log-warn{color:var(--gold)}.log-err{color:var(--red)}.log-info{color:var(--cyan)}
+  .cursor{display:inline-block;width:7px;height:12px;background:var(--green);animation:blink .8s step-end infinite;vertical-align:text-bottom}
+  @keyframes blink{50%{opacity:0}}
+
+  /* Right panel */
+  .rpanel{border-left:0.5px solid var(--border);padding:20px 16px;overflow-y:auto;background:var(--mid);display:flex;flex-direction:column;gap:16px}
+
+  /* Orb */
+  .orb-wrap{display:flex;justify-content:center;padding:8px 0 4px}
+  .orb-container{position:relative;width:110px;height:110px}
+  .orb-svg{width:100%;height:100%}
+  @keyframes rotate-rays{to{transform:rotate(360deg)}}
+  .orb-rays{animation:rotate-rays 20s linear infinite;transform-origin:55px 55px}
+  .orb-inner{position:absolute;inset:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c4e0ff,#7ab4e8 50%,#4a8fd4);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(255,255,255,0.9);text-align:center;line-height:1.3}
+  .orb-label{text-align:center;font-size:12px;font-weight:600;color:var(--gold);margin-top:6px;letter-spacing:0.3px}
+  .orb-sub{text-align:center;font-size:10px;color:var(--muted);margin-top:2px}
+
+  /* Resources */
+  .resource-row{display:flex;flex-direction:column;gap:8px}
+  .res-item{display:flex;flex-direction:column;gap:4px}
+  .res-hdr{display:flex;justify-content:space-between;font-size:11px}
+  .res-name{color:var(--muted)}.res-val{color:var(--text);font-weight:500}
+  .res-bar-bg{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+  .res-bar{height:100%;border-radius:2px;transition:width 1s ease}
+
+  /* Modules */
+  .mod-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--card);border:0.5px solid var(--border);margin-bottom:5px;cursor:pointer;transition:all .2s}
+  .mod-item:hover{border-color:rgba(255,255,255,0.15)}
+  .mod-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .mod-name{font-size:12px;flex:1}
+  .mod-state{font-size:10px;color:var(--muted)}
+
+  /* Run button */
+  .run-btn{width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a78bfa);border:none;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:0.3px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+  .run-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+  .run-btn:active{transform:scale(0.98)}
+
+  /* Command bar */
+  .cmd-row{display:flex;gap:6px;padding:12px 20px;border-top:0.5px solid var(--border);background:rgba(10,14,26,0.9)}
+  .cmd-input{flex:1;background:var(--card);border:0.5px solid var(--border);border-radius:8px;padding:9px 14px;color:var(--text);font-size:13px;font-family:'Outfit',sans-serif;outline:none;transition:border-color .2s}
+  .cmd-input:focus{border-color:rgba(167,139,250,0.4)}
+  .cmd-input::placeholder{color:var(--muted)}
+  .cmd-btn{background:linear-gradient(135deg,#7c3aed,#a78bfa);border:none;border-radius:8px;padding:9px 18px;color:white;font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+  .cmd-btn:hover{filter:brightness(1.15)}
+
+  /* Notification */
+  #notif{position:fixed;bottom:80px;right:24px;background:var(--card);border:0.5px solid var(--violet);border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text);z-index:200;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+  #notif.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div id="notif"></div>
+
+<div class="shell">
+
+<!-- Header -->
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="avatar-ring">
+      <svg viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="20" fill="none" stroke="rgba(240,180,41,0.3)" stroke-width="1.5"/>
+        <g class="ring-anim">
+          <circle cx="22" cy="2" r="2.5" fill="#f0b429"/>
+          <circle cx="42" cy="22" r="1.8" fill="#ffd166" opacity=".6"/>
+          <circle cx="22" cy="42" r="1.5" fill="#f0b429" opacity=".4"/>
+          <circle cx="2" cy="22" r="2" fill="#ffd166" opacity=".5"/>
+        </g>
+      </svg>
+      <div class="avatar-face">AG</div>
+    </div>
+    <div class="brand">
+      <div class="brand-name">ੴ Amrit God Mode</div>
+      <div class="brand-sub">Autonomous AI Platform</div>
+    </div>
+  </div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    God Mode Active
+  </div>
+  <div class="hdr-right">
+    <button class="btn-sm" onclick="notify('⏸ All agents paused')">⏸ Pause All</button>
+    <button class="btn-sm btn-gold" onclick="notify('▶ New task dispatched to Orchestrator')">▶ Run Task</button>
+  </div>
+</header>
+
+<!-- 3-column layout -->
+<div class="main" style="flex:1;overflow:hidden">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="nav-section">Dashboard</div>
+    <div class="nav-item active"><span class="nav-icon">⊞</span> Overview</div>
+    <div class="nav-item"><span class="nav-icon">🤖</span> Agents <span class="nav-badge">7</span></div>
+    <div class="nav-item"><span class="nav-icon">📋</span> Task Queue <span class="nav-badge" style="background:var(--orange)">12</span></div>
+    <div class="nav-section">Modules</div>
+    <div class="nav-item"><span class="nav-icon">🎤</span> Voice Engine</div>
+    <div class="nav-item"><span class="nav-icon">👁</span> Vision Module</div>
+    <div class="nav-item"><span class="nav-icon">🌐</span> Web Crawler</div>
+    <div class="nav-item"><span class="nav-icon">🧠</span> Self-Learning</div>
+    <div class="nav-item"><span class="nav-icon">🔒</span> Security</div>
+    <div class="nav-item"><span class="nav-icon">⬆</span> Self-Upgrade</div>
+    <div class="nav-section">Memory</div>
+    <div class="nav-item"><span class="nav-icon">💾</span> ChromaDB</div>
+    <div class="nav-item"><span class="nav-icon">🔍</span> FAISS Index</div>
+    <div class="nav-item"><span class="nav-icon">📊</span> Episodic DB</div>
+    <div class="nav-section">Settings</div>
+    <div class="nav-item"><span class="nav-icon">⚙</span> LLM Config</div>
+    <div class="nav-item"><span class="nav-icon">📝</span> Logs</div>
+  </nav>
+
+  <!-- Center -->
+  <div class="center">
+
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Tasks Done</div>
+        <div class="stat-val val-green" id="tasks-val">247</div>
+        <div class="stat-sub">+18 today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Agents</div>
+        <div class="stat-val val-violet">5/7</div>
+        <div class="stat-sub">2 idle</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Learn Score</div>
+        <div class="stat-val val-gold" id="score-val">82</div>
+        <div class="stat-sub">Reflexion loop ↑</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Uptime</div>
+        <div class="stat-val val-cyan" id="uptime-val">4h 12m</div>
+        <div class="stat-sub">All systems OK</div>
+      </div>
+    </div>
+
+    <!-- Agents -->
+    <div>
+      <div class="sec-hdr">
+        <div class="sec-title">Active Agents</div>
+        <div class="sec-action">View all →</div>
+      </div>
+      <div class="agent-grid">
+        <div class="agent-card" style="--ac:#51cf66">
+          <div class="agent-top"><div class="agent-icon">🎯</div><div><div class="agent-name">Orchestrator</div><div class="agent-status s-running">● Running</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:78%"></div></div>
+          <div class="agent-meta">78% • 14 tasks queued</div>
+        </div>
+        <div class="agent-card" style="--ac:#a78bfa">
+          <div class="agent-top"><div class="agent-icon">🎤</div><div><div class="agent-name">Voice Agent</div><div class="agent-status s-running">● Listening</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:45%"></div></div>
+          <div class="agent-meta">45% • Punjabi STT active</div>
+        </div>
+        <div class="agent-card" style="--ac:#4ecdc4">
+          <div class="agent-top"><div class="agent-icon">🌐</div><div><div class="agent-name">Web Crawler</div><div class="agent-status s-running">● Crawling</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:62%"></div></div>
+          <div class="agent-meta">62% • 3 URLs pending</div>
+        </div>
+        <div class="agent-card" style="--ac:#f0b429">
+          <div class="agent-top"><div class="agent-icon">⬆</div><div><div class="agent-name">Self-Upgrade</div><div class="agent-status s-queue">◐ Queued</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:20%"></div></div>
+          <div class="agent-meta">20% • Waiting on LLM</div>
+        </div>
+        <div class="agent-card" style="--ac:#ff6b6b">
+          <div class="agent-top"><div class="agent-icon">👁</div><div><div class="agent-name">Vision Agent</div><div class="agent-status s-running">● Processing</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:91%"></div></div>
+          <div class="agent-meta">91% • Frame analysis</div>
+        </div>
+        <div class="agent-card" style="--ac:#7a80a0">
+          <div class="agent-top"><div class="agent-icon">🔒</div><div><div class="agent-name">Security</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:5%"></div></div>
+          <div class="agent-meta">5% • Monitoring</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasks -->
+    <div>
+      <div class="sec-hdr">
+        <div class="sec-title">Task Queue</div>
+        <div class="sec-action" onclick="addTask()">+ Add Task</div>
+      </div>
+      <div id="task-list">
+        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Fix stable_pong.py import regression</div><div class="task-agent">Orchestrator → Self-Upgrade</div></div><div class="task-priority p-high">HIGH</div></div>
+        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Amrit Analyzer raag detection improve</div><div class="task-agent">Self-Learning Agent</div></div><div class="task-priority p-high">HIGH</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">ChromaDB semantic memory index rebuild</div><div class="task-agent">Memory Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check done">✓</div><div class="task-body"><div class="task-name">Qwen 2.5 Think mode disable workaround</div><div class="task-agent">LLM Config</div></div><div class="task-priority p-low">LOW</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Web crawler Punjabi news scrape</div><div class="task-agent">Web Crawler Agent</div></div><div class="task-priority p-med">MED</div></div>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div>
+      <div class="sec-hdr">
+        <div class="sec-title">Live Log</div>
+        <div class="sec-action" onclick="clearLog()">Clear</div>
+      </div>
+      <div class="terminal" id="log-terminal">
+        <div class="log-line"><span class="log-ts">[09:41:02]</span> <span class="log-ok">✓ Orchestrator</span> initialized — 7 agents ready</div>
+        <div class="log-line"><span class="log-ts">[09:41:05]</span> <span class="log-info">ℹ Voice Agent</span> Punjabi STT model loaded (pyin active)</div>
+        <div class="log-line"><span class="log-ts">[09:41:08]</span> <span class="log-warn">⚠ Self-Upgrade</span> stable_pong.py regression detected</div>
+        <div class="log-line"><span class="log-ts">[09:41:11]</span> <span class="log-ok">✓ ChromaDB</span> semantic store connected — 1,847 vectors</div>
+        <div class="log-line"><span class="log-ts">[09:41:15]</span> <span class="log-info">ℹ Qwen 2.5</span> Ollama inference — 14.2 tokens/sec</div>
+        <div class="log-line"><span class="log-ts">[09:41:22]</span> <span class="log-ok">✓ Reflexion</span> loop score 82/100 — threshold 78 passed</div>
+        <div class="log-line"><span class="log-ts">[09:41:30]</span> <span class="log-info">ℹ Web Crawler</span> fetching 3 URLs (Punjabi sources)</div>
+        <div class="log-line" id="log-cursor"><span class="log-ts">[09:41:44]</span> <span class="log-ok">ℹ God Mode</span> running... <span class="cursor"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right panel -->
+  <div class="rpanel">
+    <div class="orb-wrap">
+      <div>
+        <div class="orb-container">
+          <svg class="orb-svg" viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="52" fill="none" stroke="rgba(240,180,41,0.15)" stroke-width="1"/>
+            <g class="orb-rays">
+              <line x1="55" y1="4" x2="55" y2="14" stroke="rgba(240,180,41,0.5)" stroke-width="1"/>
+              <line x1="88" y1="14" x2="82" y2="22" stroke="rgba(240,180,41,0.4)" stroke-width="0.8"/>
+              <line x1="106" y1="55" x2="96" y2="55" stroke="rgba(240,180,41,0.5)" stroke-width="1"/>
+              <line x1="88" y1="96" x2="82" y2="88" stroke="rgba(240,180,41,0.4)" stroke-width="0.8"/>
+              <line x1="55" y1="106" x2="55" y2="96" stroke="rgba(240,180,41,0.5)" stroke-width="1"/>
+              <line x1="22" y1="96" x2="28" y2="88" stroke="rgba(240,180,41,0.4)" stroke-width="0.8"/>
+              <line x1="4" y1="55" x2="14" y2="55" stroke="rgba(240,180,41,0.5)" stroke-width="1"/>
+              <line x1="22" y1="14" x2="28" y2="22" stroke="rgba(240,180,41,0.4)" stroke-width="0.8"/>
+            </g>
+          </svg>
+          <div class="orb-inner">ੴ<br>AMRIT</div>
+        </div>
+        <div class="orb-label">God Mode Active</div>
+        <div class="orb-sub">Qwen 2.5 Coder 7B via Ollama</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title" style="margin-bottom:10px">System Resources</div>
+      <div class="resource-row">
+        <div class="res-item">
+          <div class="res-hdr"><span class="res-name">CPU</span><span class="res-val" id="cpu-val">64%</span></div>
+          <div class="res-bar-bg"><div class="res-bar" id="cpu-bar" style="width:64%;background:var(--violet)"></div></div>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span class="res-name">RAM</span><span class="res-val" id="ram-val">11.2 GB</span></div>
+          <div class="res-bar-bg"><div class="res-bar" id="ram-bar" style="width:70%;background:var(--cyan)"></div></div>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span class="res-name">GPU VRAM</span><span class="res-val" id="vram-val">6.8 GB</span></div>
+          <div class="res-bar-bg"><div class="res-bar" id="vram-bar" style="width:85%;background:var(--gold)"></div></div>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span class="res-name">ChromaDB</span><span class="res-val">1,847 vecs</span></div>
+          <div class="res-bar-bg"><div class="res-bar" style="width:37%;background:var(--green)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title" style="margin-bottom:10px">Module Status</div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">amrit_analyzer</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">audio_engine_v2</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">lyrics_ai</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--red)"></div><span class="mod-name">stable_pong</span><span class="mod-state" style="color:var(--red)">ERR</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--gold)"></div><span class="mod-name">amrit_loop_engine</span><span class="mod-state" style="color:var(--gold)">WARN</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">clone_panel_v2</span><span class="mod-state">OK</span></div>
+    </div>
+
+    <button class="run-btn" onclick="notify('⚡ God Mode cycle initiated — all agents activating')">
+      ⚡ Run God Mode Cycle
+    </button>
+  </div>
+
+</div>
+
+<!-- Command bar -->
+<div class="cmd-row">
+  <input class="cmd-input" id="cmd-in" placeholder="ਕੋਈ ਵੀ task ਦੱਸੋ... e.g. fix amrit_analyzer import, crawl news" onkeydown="if(event.key==='Enter')sendCmd()"/>
+  <button class="cmd-btn" onclick="sendCmd()">Send ↗</button>
+</div>
+
+</div>
+
+<script>
+// Stars
+const starsEl=document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const d=document.createElement('div');
+  d.className='star';
+  d.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*4}s;opacity:${0.1+Math.random()*0.5}`;
+  starsEl.appendChild(d);
+}
+
+// Uptime counter
+let sec=15120;
+setInterval(()=>{
+  sec++;
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
+  document.getElementById('uptime-val').textContent=`${h}h ${String(m).padStart(2,'0')}m`;
+},1000);
+
+// Resource flicker
+setInterval(()=>{
+  const cpu=55+Math.floor(Math.random()*25);
+  document.getElementById('cpu-val').textContent=cpu+'%';
+  document.getElementById('cpu-bar').style.width=cpu+'%';
+  const ram=(10.8+Math.random()*1.2).toFixed(1);
+  document.getElementById('ram-val').textContent=ram+' GB';
+  document.getElementById('ram-bar').style.width=Math.round(parseFloat(ram)/16*100)+'%';
+},3000);
+
+// Log messages
+const logs=[
+  ['log-ok','✓ Reflexion','loop iteration complete — score 84'],
+  ['log-info','ℹ Crawler','new URL discovered: punjabinewsexpress.com'],
+  ['log-warn','⚠ Qwen','slow inference 8.3 tok/s — memory pressure'],
+  ['log-ok','✓ Voice','Punjabi phrase recognized: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ'],
+  ['log-ok','✓ ChromaDB','12 new vectors indexed'],
+  ['log-info','ℹ Orchestrator','routing task to Self-Upgrade agent'],
+  ['log-err','✗ stable_pong','ImportError: amrit_core not found'],
+  ['log-ok','✓ Security','no threats detected'],
+  ['log-info','ℹ Amrit Studio','raag Yaman detected — confidence 91%'],
+];
+let li=0;
+const term=document.getElementById('log-terminal');
+setInterval(()=>{
+  const msg=logs[li%logs.length];li++;
+  const now=new Date();
+  const ts=`[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
+  const cur=document.getElementById('log-cursor');
+  const div=document.createElement('div');
+  div.className='log-line';
+  div.innerHTML=`<span class="log-ts">${ts}</span> <span class="${msg[0]}">${msg[1]}</span> ${msg[2]}`;
+  term.insertBefore(div,cur);
+  if(term.children.length>20)term.removeChild(term.children[0]);
+  term.scrollTop=term.scrollHeight;
+},4000);
+
+// Task counter
+setInterval(()=>{
+  if(Math.random()>0.7){
+    const v=parseInt(document.getElementById('tasks-val').textContent)+1;
+    document.getElementById('tasks-val').textContent=v;
+  }
+},8000);
+
+function clearLog(){
+  const cur=document.getElementById('log-cursor');
+  while(term.firstChild&&term.firstChild!==cur)term.removeChild(term.firstChild);
+}
+
+function addTask(){
+  const name=prompt('ਨਵਾਂ task ਦੱਸੋ:');
+  if(!name)return;
+  const list=document.getElementById('task-list');
+  const div=document.createElement('div');
+  div.className='task-item';
+  div.innerHTML=`<div class="task-check"></div><div class="task-body"><div class="task-name">${name.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div><div class="task-agent">Orchestrator</div></div><div class="task-priority p-med">NEW</div>`;
+  list.insertBefore(div,list.firstChild);
+  notify('✓ Task added to queue');
+}
+
+function notify(msg){
+  const n=document.getElementById('notif');
+  n.textContent=msg;n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),2500);
+}
+
+function sendCmd(){
+  const inp=document.getElementById('cmd-in');
+  const v=inp.value.trim();
+  if(!v)return;
+  notify('📤 Task sent: '+v.substring(0,40)+(v.length>40?'...':''));
+  inp.value='';
+}
+</script>
+</body>
+</html>

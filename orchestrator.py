@@ -1,7 +1,19 @@
 """
 Orchestrator — GODMODE Central Command.
-Manages 14 agents, task graph, event bus, workflow engine,
-interactive CLI, and all execution modes.
+Manages 15+ agents, task graph, event bus, workflow engine,
+interactive CLI, distributed AutonomousAgents, and all execution modes.
+
+Example usage for distributed agent:
+
+    from autonomous_agent import AutonomousAgent
+    agent = AutonomousAgent(core=orchestrator)
+    result = await agent.run_goal("Learn Python and build a project")
+    print(result)
+
+Or, via orchestrator:
+
+    result = await orchestrator.run_goal_with_agent("Learn Python and build a project")
+    print(result)
 """
 import asyncio
 from typing import Dict, Optional
@@ -24,10 +36,15 @@ from recovery_recipes import RecoveryEngine
 from policy_engine import PolicyEngine
 from worker_lifecycle import WorkerLifecycleManager
 from swarm import Queen
+
 from plugin_manager import PluginManager
+from autonomous_agent import AutonomousAgent
 
 logger = setup_logger("Orchestrator")
 
+
+
+from goal_engine import GoalEngine
 
 class Orchestrator:
     def __init__(self, event_bus: EventBus, config_path: str = "config.yaml"):
@@ -43,6 +60,36 @@ class Orchestrator:
         self.queen: Optional[Queen] = None
         self.plugin_mgr  = PluginManager()
         self._ready      = False
+        # GoalEngine will be initialized after agents are loaded
+        self.goal_engine = None
+
+        # ── Distributed Autonomous Agents ──
+        self.autonomous_agents: Dict[str, AutonomousAgent] = {}
+
+        # ── Smart Infrastructure (v2) ─────────────────────────
+        self.perm_manager  = PermissionManager()
+        self.enforcer      = PermissionEnforcer(self.perm_manager)
+        self.failure_tracker = FailureTracker()
+        self.packet_store  = PacketStore()
+        self.recovery      = RecoveryEngine()
+        self.policy        = PolicyEngine()
+        self.lifecycle     = WorkerLifecycleManager()
+
+    def create_autonomous_agent(self, agent_id=None):
+        agent = AutonomousAgent(core=self, agent_id=agent_id)
+        self.autonomous_agents[agent.agent_id] = agent
+        logger.info(f"Created AutonomousAgent: {agent.agent_id}")
+        return agent
+
+    async def run_goal_with_agent(self, goal: str, agent_id=None):
+        """
+        Run a goal using a distributed AutonomousAgent. If agent_id is None, create a new agent.
+        """
+        if agent_id is None or agent_id not in self.autonomous_agents:
+            agent = self.create_autonomous_agent(agent_id)
+        else:
+            agent = self.autonomous_agents[agent_id]
+        return await agent.run_goal(goal)
 
         # ── Smart Infrastructure (v2) ─────────────────────────
         self.perm_manager  = PermissionManager()
@@ -113,6 +160,26 @@ class Orchestrator:
 
         # Initialize Queen for swarm coordination
         self.queen = Queen(self.event_bus, self.agents, self.state)
+        # Initialize GoalEngine with planner and memory agent
+        self.goal_engine = GoalEngine(
+            planner=self.agents["planner"],
+            memory=self.agents.get("memory"),
+            agents=self.agents
+        )
+    async def run_cycle(self):
+        # existing system work (example: monitor agents)
+        monitor = self.agents.get("monitor")
+        if monitor and hasattr(monitor, "check_agents"):
+            monitor.check_agents()
+        # Optionally, call _check_alerts if available
+        elif monitor and hasattr(monitor, "_check_alerts"):
+            monitor._check_alerts()
+
+        # 🔥 NEW: Goal Processing
+        if self.goal_engine:
+            completed = await self.goal_engine.process_goals()
+            if completed:
+                print(f"[Orchestrator] 🎯 Completed {len(completed)} goal(s)")
 
     def _register_handlers(self):
         self.event_bus.subscribe("task.new",       self._on_new_task)

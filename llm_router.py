@@ -1,4 +1,5 @@
 """
+import asyncio
 LLM Router — Smart model selection + response caching + complexity-aware routing.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 UPGRADED:
@@ -7,6 +8,8 @@ UPGRADED:
   - Call statistics (track usage, latency, cache hits)
   - Smart fallback chain
 """
+import asyncio
+import sys
 import os
 import re
 import json
@@ -107,9 +110,9 @@ MODEL_REGISTRY = {
     "punjabi":   ["amrit-coder-v2:latest", "mistral:7b-instruct-q4_K_M", "gemma3:4b"],
     "general":   ["amrit-coder-v2:latest", "mistral:7b-instruct-q4_K_M", "gemma3:4b"],
     # Heavy refactoring — uses larger model if available
-    "refactor":  ["amrit-coder-v2:latest", "qwen2.5-coder:7b", "gemma3:4b"],
-    # Deep thinking — Qwen3-32B via AirLLM (~22s/tok, use for high-value queries)
-    "deep":      ["qwen3-32b-airllm"],
+    "refactor":  ["amrit-coder-v2:latest", "gemma3:4b"],
+    # Deep thinking — use amrit-coder-v2:latest as primary
+    "deep":      ["amrit-coder-v2:latest", "gemma3:4b"],
 }
 
 # Keywords that trigger smart model selection
@@ -120,7 +123,7 @@ _REASON_WORDS = {"analyze", "explain", "why", "how", "plan", "decompose",
 _CREATIVE_WORDS = {"poem", "story", "essay", "song", "lyrics", "letter",
                    "ਕਵਿਤਾ", "ਗੀਤ", "ਕਹਾਣੀ", "ਲੇਖ", "ਚਿੱਠੀ",
                    "shayari", "ਸ਼ਾਇਰੀ", "joke", "ਚੁਟਕਲਾ"}
-_DEEP_WORDS = {"deep", "qwen3", "airllm", "32b", "ਡੂੰਘਾ", "ਡੂੰਘੀ"}
+_DEEP_WORDS = {"deep", "32b", "ਡੂੰਘਾ", "ਡੂੰਘੀ"}
 
 class LLMRouter:
     _airllm_model = None  # Singleton — keep loaded across calls
@@ -158,8 +161,8 @@ class LLMRouter:
         raw = f"{model}||{system}||{prompt}"
         return hashlib.sha256(raw.encode()).hexdigest()[:20]
 
-    async def _get_available_models(self) -> list:
-        """Check which models Ollama actually has loaded."""
+    async def complete(self, prompt: str, system: str = None,
+                       model: str = None, max_tokens: int = 2000, agent: str = None) -> str:
         if self._available_cache is not None:
             return self._available_cache
         try:
@@ -183,9 +186,10 @@ class LLMRouter:
         # Check creative BEFORE code (poem/song/story should never go to coder)
         if words & _CREATIVE_WORDS:
             return self._first_available("creative")
-        # Explicit "deep" request → Qwen3-32B via AirLLM
-        if words & _DEEP_WORDS:
-            return "qwen3-32b-airllm"
+        # Explicit "deep" request → use amrit-coder-v2:latest as deep model
+        # Skip deep mode for planner/decompose tasks
+        if words & _DEEP_WORDS and not (words & {"plan", "decompose", "planner", "tasks"}):
+            return "amrit-coder-v2:latest"
         if words & _CODE_WORDS:
             return self._first_available("coding")
         if words & _REASON_WORDS:
@@ -202,7 +206,6 @@ class LLMRouter:
         return self._first_available("general")
 
     def _first_available(self, category: str) -> str:
-        """Return first available model from category, fallback to default."""
         candidates = MODEL_REGISTRY.get(category, MODEL_REGISTRY["general"])
         available = self._available_cache or []
         for m in candidates:
@@ -222,29 +225,64 @@ class LLMRouter:
                 self._available_cache = []
         return self._first_available(category)
 
+
+
     async def complete(self, prompt: str, system: str = None,
-                       model: str = None, max_tokens: int = 2000) -> str:
+                       model: str = None, max_tokens: int = 2000, agent: str = None) -> str:
         self._call_stats["total"] += 1
+        # --- Tiered Model Routing ---
+        heavy_agents = {"planner", "coder", "upgrade", "debugger"}
+        light_agents = {"tester", "researcher", "internet", "dataset", "translator"}
+        chosen = None
+        is_heavy = False
+        if agent:
+            agent_l = agent.lower()
+            if agent_l in heavy_agents:
+                chosen = "amrit-coder-v2:latest"
+                is_heavy = True
+            elif agent_l in light_agents:
+                # Only use gemma3:4b as fallback for light agents
+                if self._available_cache is None:
+                    await self._get_available_models()
+                if self._available_cache and "gemma3:4b" in self._available_cache:
+                    chosen = "gemma3:4b"
+                else:
+                    chosen = "gemma3:4b"  # fallback
 
-        # ── BitNet PRIMARY path ──
-        if BITNET_PRIMARY and not model:
-            result = await self._try_bitnet(prompt, system, max_tokens)
-            if result:
-                return result
-
-        # ── Pick model ──
-        if self._available_cache is None:
-            await self._get_available_models()
-        chosen = self._pick_model(prompt, model)
-
-        # ── AirLLM deep path (Qwen3-32B) ──
-        if chosen == "qwen3-32b-airllm":
-            result = await self._try_airllm(prompt, system, max_tokens)
-            if result:
-                return result
-
-        # ── Ollama path ──
-        return await self._try_ollama(prompt, system, chosen, max_tokens)
+        delays = [5, 10, 20]
+        last_exception = None
+        try:
+            for attempt, delay in enumerate([0] + delays):
+                try:
+                    # Global timeout for the entire model call chain
+                    return await asyncio.wait_for(self._try_ollama(prompt, system, chosen, max_tokens), timeout=40)
+                except Exception as e:
+                    last_exception = e
+                    is_timeout = isinstance(e, asyncio.TimeoutError) or "timed out" in str(e).lower()
+                    logger.error(f"LLMRouter.complete attempt {attempt+1} failed: {e}")
+                    if is_timeout:
+                        if attempt < len(delays):
+                            logger.warning(f"Timeout with model {chosen}. Retrying in {delay}s (attempt {attempt+1})...")
+                            await asyncio.sleep(delay)
+                            continue
+                        else:
+                            logger.error(f"LLM timed out after {attempt+1} attempts: {e}")
+                            # --- Hard Fallback for heavy agents ---
+                            if is_heavy:
+                                logger.warning(f"[Hard Fallback] Switching heavy agent '{agent}' to fast model after all retries failed.")
+                                fast_model = "gemma3:4b"
+                                try:
+                                    return await asyncio.wait_for(self._try_ollama(prompt, system, fast_model, max_tokens), timeout=40)
+                                except Exception as e2:
+                                    logger.error(f"[Hard Fallback] Fast model also failed: {e2}")
+                                    return f"[ERROR] LLM unavailable after hard fallback: {e2}"
+                            return f"[ERROR] LLM timed out after {attempt+1} attempts: {e}"
+                    else:
+                        logger.error(f"LLMRouter.complete failed: {e}")
+                        return f"[ERROR] LLM unavailable: {e}"
+        except Exception as final_e:
+            logger.error(f"LLMRouter.complete global failure: {final_e}")
+            return f"[ERROR] LLMRouter global failure: {final_e}"
 
     async def _try_bitnet(self, prompt: str, system: str, max_tokens: int) -> str:
         """Try BitNet (server or subprocess). Returns result or empty string."""
@@ -262,7 +300,6 @@ class LLMRouter:
         backend = "server" if use_server else "subprocess"
         logger.info(f"Model: BitNet Falcon3-10B b1.58 [{backend}]")
         try:
-            import asyncio
             n_tok = min(max_tokens, 400)
             fn = (lambda: _bitnet_server_complete(prompt, system, n_tok)) if use_server \
                  else (lambda: _bitnet_complete(prompt, system, n_tok))
@@ -286,8 +323,7 @@ class LLMRouter:
 
         logger.info("Model: Qwen3-32B via AirLLM (deep mode, ~22s/tok)")
         try:
-            import asyncio
-            n_tok = min(max_tokens, 150)
+            n_tok = min(max_tokens, 50)  # 50 tokens max (~12min) to avoid Metal GPU timeout
             full_prompt = f"{system}\n\n{prompt}" if system else prompt
             start = time.time()
             result = await asyncio.get_event_loop().run_in_executor(
@@ -333,7 +369,6 @@ class LLMRouter:
             if _bitnet_available():
                 logger.warning("Ollama unavailable — falling back to BitNet b1.58 (local)")
                 try:
-                    import asyncio
                     return await asyncio.get_event_loop().run_in_executor(
                         None, lambda: _bitnet_complete(prompt, system, max_tokens)
                     )
@@ -385,37 +420,27 @@ class LLMRouter:
             "max_tokens": max_tokens,
             "stream": False
         }
-        # Debug logging disabled for speed
-        # print("[LLM DEBUG] Payload sent to LLM:", json.dumps(payload, ensure_ascii=False, indent=2))
+
         data = json.dumps(payload).encode()
         req = urllib.request.Request(f"{base_url}/chat/completions", data=data,
                                      method="POST", headers={"Content-Type": "application/json"})
+        # Enforce strict 30s timeout regardless of config
         try:
-            timeout_secs = int(self.cfg.get("llm", "request_timeout", default=120))
+            timeout_secs = int(self.cfg.get("llm", "request_timeout", default=30))
+            if timeout_secs > 30:
+                print(f"[LLM WARNING] Overriding config timeout {timeout_secs}s to 30s max for Ollama API calls.")
+                timeout_secs = 30
         except Exception:
-            timeout_secs = 120
+            timeout_secs = 30
         start = time.time()
         try:
             with urllib.request.urlopen(req, timeout=timeout_secs) as r:
                 resp = r.read()
                 elapsed = time.time() - start
-                if elapsed > 30:
+                if elapsed > 15:
                     print(f"[LLM WARNING] LLM response took {elapsed:.1f} seconds.")
                 return json.loads(resp).get("choices", [{}])[0].get("message", {}).get("content", "")
         except Exception as e:
             print(f"[LLM ERROR] LLM request failed: {e}")
             return f"[ERROR] LLM request failed or timed out: {e}"
 
-    def _airllm_complete(self, prompt: str, max_new_tokens: int = 100) -> str:
-        """Run Qwen3-32B via AirLLM layer-by-layer inference (~22s/tok, MLX backend)."""
-        try:
-            from airllm import AutoModel
-        except ImportError:
-            return "[ERROR] airllm not installed — pip install airllm"
-        if LLMRouter._airllm_model is None:
-            logger.info("Loading Qwen3-32B via AirLLM (first call — model init)...")
-            LLMRouter._airllm_model = AutoModel.from_pretrained("Qwen/Qwen3-32B")
-        model = LLMRouter._airllm_model
-        input_ids = model.tokenizer(prompt, return_tensors="pt").input_ids
-        result = model.generate(input_ids, max_new_tokens=max_new_tokens)
-        return result.strip() if result else ""

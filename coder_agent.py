@@ -1,3 +1,6 @@
+from toolbox import ToolBox
+from toolbox_persistence import ToolBoxPersistence
+import asyncio
 """Coder Agent — Multi-language code generation, fixing, refactoring, testing."""
 import ast
 import re
@@ -22,16 +25,37 @@ _LANG_STARTS = {
 _DEFAULT_STARTS = ("def ", "class ", "import ", "from ", "#", "//", "/*", "fn ", "func ")
 
 
+
 class CoderAgent(BaseAgent):
-    def __init__(self, eb, state):
+    """
+    CoderAgent handles multi-language code generation, fixing, refactoring, testing, and code review.
+    Integrates with ToolBox for dynamic tool management and uses LLMs for code tasks.
+    """
+    def __init__(self, eb: object, state: dict) -> None:
+        """
+        Initialize the CoderAgent with event bus and state.
+        Creates workspace directory and loads dynamic tools.
+        """
         super().__init__("CoderAgent", eb, state)
         Path("workspace").mkdir(exist_ok=True)
+        self.toolbox = ToolBox()
+        self.toolbox_persistence = ToolBoxPersistence()
+        for name, desc in self.toolbox_persistence.load_tools().items():
+            self.toolbox.create_tool(name, desc)
+
+    def save_dynamic_tools(self) -> None:
+        """Persist dynamic tools to storage."""
+        self.toolbox_persistence.save_tools(self.toolbox.tools)
 
     # ------------------------------------------------------------------ #
     #  Router                                                              #
     # ------------------------------------------------------------------ #
 
     async def execute(self, task: dict) -> dict:
+        """
+        Main entry point for agent actions. Dispatches to the correct handler based on action.
+        Validates input and logs the action.
+        """
         d = task.get("data", {})
         action = d.get("action", "generate")
         await self.report(f"Coder [{action}]")
@@ -44,6 +68,9 @@ class CoderAgent(BaseAgent):
             "test":     self._test,
         }
         handler = dispatch.get(action, self._gen)
+        if not callable(handler):
+            await self.report(f"Unknown action: {action}, defaulting to generate.")
+            handler = self._gen
         return await handler(d)
 
     # ------------------------------------------------------------------ #
@@ -51,10 +78,14 @@ class CoderAgent(BaseAgent):
     # ------------------------------------------------------------------ #
 
     async def _gen(self, d: dict) -> dict:
-        lang = d.get("language", "python")
-        spec = d.get("spec") or d.get("goal") or d.get("name", "")
-        goal = d.get("goal", spec)
-        fn   = d.get("filename", "")
+        """
+        Generate code for a given specification or goal. If a filename is provided and exists,
+        extend/improve the code; otherwise, create new code. Validates Python syntax before saving.
+        """
+        lang: str = d.get("language", "python")
+        spec: str = d.get("spec") or d.get("goal") or d.get("name", "")
+        goal: str = d.get("goal", spec)
+        fn: str = d.get("filename", "")
 
         # Try to extract target filename from spec/goal (e.g. "sandman_face.py")
         _known_ext = r'(?:py|js|ts|rs|go|java|sh|html|css|c|cpp|h|rb|php|swift|kt)'
@@ -64,7 +95,7 @@ class CoderAgent(BaseAgent):
                 fn = m.group(1)
 
         # If target file already exists, read it and extend/improve
-        existing_code = ""
+        existing_code: str = ""
         if fn:
             existing_path = Path("workspace") / fn
             if existing_path.exists():
@@ -92,7 +123,7 @@ class CoderAgent(BaseAgent):
                 f"- Return ONLY code inside a single ```{lang} code block, no explanations."
             )
 
-        code = await self.ask_llm(prompt)
+        code: str = await self.ask_llm(prompt)
         code = self._strip(code, lang)
 
         # Validate Python syntax before saving
@@ -117,6 +148,9 @@ class CoderAgent(BaseAgent):
         return self.ok(code=code, language=lang, filename=fn, lines=len(code.splitlines()))
 
     async def _fix(self, d: dict) -> dict:
+        """
+        Fix code using LLM based on an error message. Validates Python syntax after fix.
+        """
         code  = d.get("code", "")
         err   = d.get("error", "")
         lang  = d.get("language", "python")
@@ -146,6 +180,9 @@ class CoderAgent(BaseAgent):
         return self.ok(code=fixed, fixed=True, fixed_error=err)
 
     async def _refactor(self, d: dict) -> dict:
+        """
+        Refactor code for readability or other goals. Uses LLM and validates Python syntax.
+        """
         goal         = d.get("goal", "improve readability")
         instructions = d.get("error", "")       # self_evolution passes instructions via 'error'
         category     = d.get("category", "refactor")
@@ -195,6 +232,9 @@ class CoderAgent(BaseAgent):
         return self.ok(code=code, refactored=True)
 
     async def _explain(self, d: dict) -> dict:
+        """
+        Explain code step by step using LLM.
+        """
         lang = d.get("language", "python")
         exp  = await self.ask_llm(
             f"Explain this {lang} code clearly and simply, step by step:\n{d.get('code', '')}"
@@ -202,6 +242,9 @@ class CoderAgent(BaseAgent):
         return self.ok(explanation=exp)
 
     async def _review(self, d: dict) -> dict:
+        """
+        Review code for bugs, security issues, and improvements using LLM.
+        """
         lang   = d.get("language", "python")
         review = await self.ask_llm(
             f"Code review this {lang} — list bugs, security issues, and improvements:\n{d.get('code', '')}"
@@ -209,7 +252,9 @@ class CoderAgent(BaseAgent):
         return self.ok(review=review)
 
     async def _test(self, d: dict) -> dict:
-        """Generate pytest tests for Python code, then optionally run them."""
+        """
+        Generate pytest tests for Python code, then optionally run them. Only supports Python.
+        """
         code    = d.get("code", "")
         fn      = d.get("filename", "")
         lang    = d.get("language", "python")
@@ -279,7 +324,9 @@ class CoderAgent(BaseAgent):
     # ------------------------------------------------------------------ #
 
     async def _llm_fix_code(self, code: str, error: str, lang: str = "python") -> str:
-        """Ask the LLM to fix code given an error message."""
+        """
+        Ask the LLM to fix code given an error message.
+        """
         prompt = (
             f"Fix this {lang} code.\n"
             f"Error: {error}\n\n"
@@ -291,7 +338,9 @@ class CoderAgent(BaseAgent):
 
     @staticmethod
     def _py_syntax_check(code: str) -> tuple[bool, str]:
-        """Check Python syntax. Returns (is_valid, error_message)."""
+        """
+        Check Python syntax. Returns (is_valid, error_message).
+        """
         if not code or not code.strip():
             return False, "Empty code"
         try:
@@ -302,6 +351,9 @@ class CoderAgent(BaseAgent):
 
     @staticmethod
     def _default_ext(lang: str) -> str:
+        """
+        Return the default file extension for a given language.
+        """
         return {
             "python":     ".py",
             "javascript": ".js",
@@ -318,7 +370,9 @@ class CoderAgent(BaseAgent):
         }.get(lang, ".py")
 
     def _strip(self, text: str, lang: str = "") -> str:
-        """Extract clean code from LLM output, removing prose and markdown fences."""
+        """
+        Extract clean code from LLM output, removing prose and markdown fences.
+        """
         if not isinstance(text, str):
             return ""
 

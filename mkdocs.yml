@@ -1,0 +1,13 @@
+site_name: Amrit God Mode AI Docs
+nav:
+  - Home: index.md
+  - API Reference: reference.md
+theme:
+  name: material
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          setup_commands:
+            - pip install pdoc

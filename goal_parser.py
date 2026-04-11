@@ -1,3 +1,5 @@
+import asyncio
+import sys
 """Goal Parser — NL goal to structured task list via LLM + rules."""
 import re
 import json
@@ -66,11 +68,19 @@ class GoalParser:
         tasks = self._rule_parse(goal)
         if tasks:
             logger.info(f"Rule-matched → {len(tasks)} task(s) (no LLM needed)")
+            # Ensure all depends_on are string IDs
+            for t in tasks:
+                if "depends_on" in t:
+                    t["depends_on"] = [str(d["id"]) if isinstance(d, dict) and "id" in d else str(d) for d in t["depends_on"]]
             return tasks
         # Only use LLM for goals that don't match any rule
         if self._use_llm:
             try:
                 tasks = await self._llm_parse(goal)
+                # Ensure all depends_on are string IDs
+                for t in tasks:
+                    if "depends_on" in t:
+                        t["depends_on"] = [str(d["id"]) if isinstance(d, dict) and "id" in d else str(d) for d in t["depends_on"]]
                 return tasks if tasks else [self._default(goal)]
             except Exception as e:
                 logger.warning(f"LLM failed: {e}")

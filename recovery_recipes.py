@@ -273,39 +273,39 @@ class RecoveryEngine:
         template_vars = _extract_vars(failure)
         success = True
 
+        async def execute_bash_step(step, cmd):
+            if terminal_exec:
+                try:
+                    out = await terminal_exec(cmd)
+                    return {"output": str(out)[:200], "success": True}
+                except Exception as e:
+                    return {"error": str(e)[:200], "success": step.fail_ok}
+            else:
+                import subprocess
+                try:
+                    r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+                    return {"output": r.stdout[:200], "success": r.returncode == 0 or step.fail_ok, "stderr": r.stderr[:200] if r.returncode != 0 else None}
+                except Exception as e:
+                    return {"error": str(e)[:200], "success": step.fail_ok}
+
+        async def execute_python_step(step, ctx):
+            try:
+                result = step.callable(ctx)
+                if asyncio.iscoroutine(result):
+                    result = await result
+                return {"output": str(result)[:200], "success": True}
+            except Exception as e:
+                return {"error": str(e)[:200], "success": step.fail_ok}
+
         for step in recipe.steps:
             step_result = {"step": step.description, "type": step.step_type.value}
 
             if step.step_type == StepType.BASH:
                 cmd = step.command.format_map(template_vars)
-                if terminal_exec:
-                    try:
-                        out = await terminal_exec(cmd)
-                        step_result["output"] = str(out)[:200]
-                        step_result["success"] = True
-                    except Exception as e:
-                        step_result["error"] = str(e)[:200]
-                        step_result["success"] = step.fail_ok
-                        if not step.fail_ok:
-                            success = False
-                            break
-                else:
-                    import subprocess
-                    try:
-                        r = subprocess.run(cmd, shell=True, capture_output=True,
-                                           text=True, timeout=60)
-                        step_result["output"] = r.stdout[:200]
-                        step_result["success"] = r.returncode == 0 or step.fail_ok
-                        if r.returncode != 0 and not step.fail_ok:
-                            step_result["stderr"] = r.stderr[:200]
-                            success = False
-                            break
-                    except Exception as e:
-                        step_result["error"] = str(e)[:200]
-                        step_result["success"] = step.fail_ok
-                        if not step.fail_ok:
-                            success = False
-                            break
+                step_result.update(await execute_bash_step(step, cmd))
+                if not step.fail_ok and not step_result["success"]:
+                    success = False
+                    break
 
             elif step.step_type == StepType.WAIT:
                 await asyncio.sleep(step.wait_seconds)
@@ -326,19 +326,11 @@ class RecoveryEngine:
                 success = False
                 break
 
-            elif step.step_type == StepType.PYTHON and step.callable:
-                try:
-                    result = step.callable(ctx)
-                    if asyncio.iscoroutine(result):
-                        result = await result
-                    step_result["success"] = True
-                    step_result["output"] = str(result)[:200]
-                except Exception as e:
-                    step_result["error"] = str(e)[:200]
-                    step_result["success"] = step.fail_ok
-                    if not step.fail_ok:
-                        success = False
-                        break
+            elif step.step_type == StepType.PYTHON:
+                step_result.update(await execute_python_step(step, ctx))
+                if not step.fail_ok and not step_result["success"]:
+                    success = False
+                    break
 
             ctx.step_results.append(step_result)
 
