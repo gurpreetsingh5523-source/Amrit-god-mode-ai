@@ -1,4 +1,4 @@
-open dashboard.html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pa">
 <head>
 <meta charset="UTF-8"/>
@@ -181,9 +181,9 @@ open dashboard.html<!DOCTYPE html>
       <div class="brand-sub">Autonomous AI Platform</div>
     </div>
   </div>
-  <div class="status-pill">
+  <div class="status-pill" id="api-status-pill">
     <div class="status-dot"></div>
-    God Mode Active
+    <span id="api-status-text">God Mode Active</span>
   </div>
   <div class="hdr-right">
     <button class="btn-sm" onclick="notify('⏸ All agents paused')">⏸ Pause All</button>
@@ -290,11 +290,18 @@ open dashboard.html<!DOCTYPE html>
         <div class="sec-action" onclick="addTask()">+ Add Task</div>
       </div>
       <div id="task-list">
-        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Fix stable_pong.py import regression</div><div class="task-agent">Orchestrator → Self-Upgrade</div></div><div class="task-priority p-high">HIGH</div></div>
-        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Amrit Analyzer raag detection improve</div><div class="task-agent">Self-Learning Agent</div></div><div class="task-priority p-high">HIGH</div></div>
-        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">ChromaDB semantic memory index rebuild</div><div class="task-agent">Memory Agent</div></div><div class="task-priority p-med">MED</div></div>
-        <div class="task-item"><div class="task-check done">✓</div><div class="task-body"><div class="task-name">Qwen 2.5 Think mode disable workaround</div><div class="task-agent">LLM Config</div></div><div class="task-priority p-low">LOW</div></div>
-        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Web crawler Punjabi news scrape</div><div class="task-agent">Web Crawler Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Vision Agent - Image classification</div><div class="task-agent">Vision Agent</div></div><div class="task-priority p-high">HIGH</div></div>
+        <div class="task-item"><div class="task-check run">▶</div><div class="task-body"><div class="task-name">Internet Agent - Web research</div><div class="task-agent">Internet Agent</div></div><div class="task-priority p-high">HIGH</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Coder Agent - Code refactoring</div><div class="task-agent">Coder Agent</div></div><div class="task-priority p-high">HIGH</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Tester Agent - Unit tests</div><div class="task-agent">Tester Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Debugger Agent - Error analysis</div><div class="task-agent">Debugger Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Researcher Agent - Literature</div><div class="task-agent">Researcher Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check done">✓</div><div class="task-body"><div class="task-name">Planner Agent - Goal decomposition</div><div class="task-agent">Planner Agent</div></div><div class="task-priority p-low">LOW</div></div>
+        <div class="task-item"><div class="task-check done">✓</div><div class="task-body"><div class="task-name">Memory Agent - Vector indexing</div><div class="task-agent">Memory Agent</div></div><div class="task-priority p-low">LOW</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Voice Agent - STT processing</div><div class="task-agent">Voice Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Tool Agent - External tools</div><div class="task-agent">Tool Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Dataset Agent - Data prep</div><div class="task-agent">Dataset Agent</div></div><div class="task-priority p-med">MED</div></div>
+        <div class="task-item"><div class="task-check"></div><div class="task-body"><div class="task-name">Simulation Agent - Test runs</div><div class="task-agent">Simulation Agent</div></div><div class="task-priority p-med">MED</div></div>
       </div>
     </div>
 
@@ -305,13 +312,12 @@ open dashboard.html<!DOCTYPE html>
         <div class="sec-action" onclick="clearLog()">Clear</div>
       </div>
       <div class="terminal" id="log-terminal">
-        <div class="log-line"><span class="log-ts">[09:41:02]</span> <span class="log-ok">✓ Orchestrator</span> initialized — 7 agents ready</div>
+        <div class="log-line"><span class="log-ts">[09:41:02]</span> <span class="log-ok">✓ Orchestrator</span> initialized — 15 agents ready</div>
         <div class="log-line"><span class="log-ts">[09:41:05]</span> <span class="log-info">ℹ Voice Agent</span> Punjabi STT model loaded (pyin active)</div>
-        <div class="log-line"><span class="log-ts">[09:41:08]</span> <span class="log-warn">⚠ Self-Upgrade</span> stable_pong.py regression detected</div>
         <div class="log-line"><span class="log-ts">[09:41:11]</span> <span class="log-ok">✓ ChromaDB</span> semantic store connected — 1,847 vectors</div>
-        <div class="log-line"><span class="log-ts">[09:41:15]</span> <span class="log-info">ℹ Qwen 2.5</span> Ollama inference — 14.2 tokens/sec</div>
-        <div class="log-line"><span class="log-ts">[09:41:22]</span> <span class="log-ok">✓ Reflexion</span> loop score 82/100 — threshold 78 passed</div>
-        <div class="log-line"><span class="log-ts">[09:41:30]</span> <span class="log-info">ℹ Web Crawler</span> fetching 3 URLs (Punjabi sources)</div>
+        <div class="log-line"><span class="log-ts">[09:41:15]</span> <span class="log-info">ℹ DeepSeek</span> LLM router active — inference ready</div>
+        <div class="log-line"><span class="log-ts">[09:41:22]</span> <span class="log-ok">✓ Self-Learning</span> loop score 84/100 — threshold 78 passed</div>
+        <div class="log-line"><span class="log-ts">[09:41:30]</span> <span class="log-info">ℹ Researcher Agent</span> fetching arxiv papers</div>
         <div class="log-line" id="log-cursor"><span class="log-ts">[09:41:44]</span> <span class="log-ok">ℹ God Mode</span> running... <span class="cursor"></span></div>
       </div>
     </div>
@@ -339,7 +345,7 @@ open dashboard.html<!DOCTYPE html>
           <div class="orb-inner">ੴ<br>AMRIT</div>
         </div>
         <div class="orb-label">God Mode Active</div>
-        <div class="orb-sub">Qwen 2.5 Coder 7B via Ollama</div>
+        <div class="orb-sub">DeepSeek Chat via Local LLM</div>
       </div>
     </div>
 
@@ -366,13 +372,22 @@ open dashboard.html<!DOCTYPE html>
     </div>
 
     <div>
-      <div class="sec-title" style="margin-bottom:10px">Module Status</div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">amrit_analyzer</span><span class="mod-state">OK</span></div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">audio_engine_v2</span><span class="mod-state">OK</span></div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">lyrics_ai</span><span class="mod-state">OK</span></div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--red)"></div><span class="mod-name">stable_pong</span><span class="mod-state" style="color:var(--red)">ERR</span></div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--gold)"></div><span class="mod-name">amrit_loop_engine</span><span class="mod-state" style="color:var(--gold)">WARN</span></div>
-      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">clone_panel_v2</span><span class="mod-state">OK</span></div>
+      <div class="sec-title" style="margin-bottom:10px">Agent Status (15/15)</div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">planner</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">coder</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">researcher</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">tester</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">debugger</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">tool</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">memory</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">upgrade</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">monitor</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">voice</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">vision</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">internet</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">dataset</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">simulation</span><span class="mod-state">OK</span></div>
+      <div class="mod-item"><div class="mod-dot" style="background:var(--green)"></div><span class="mod-name">translator (plugin)</span><span class="mod-state">OK</span></div>
     </div>
 
     <button class="run-btn" onclick="notify('⚡ God Mode cycle initiated — all agents activating')">
@@ -408,27 +423,70 @@ setInterval(()=>{
   document.getElementById('uptime-val').textContent=`${h}h ${String(m).padStart(2,'0')}m`;
 },1000);
 
-// Resource flicker
+// Fetch real system state from API
+function setApiStatus(connected){
+  const pill=document.getElementById('api-status-pill');
+  const txt=document.getElementById('api-status-text');
+  if(!pill||!txt)return;
+  if(connected){
+    pill.style.background='rgba(81,207,102,0.1)';
+    pill.style.borderColor='rgba(81,207,102,0.3)';
+    pill.style.color='var(--green)';
+    txt.textContent='API Connected';
+  }else{
+    pill.style.background='rgba(255,107,107,0.1)';
+    pill.style.borderColor='rgba(255,107,107,0.35)';
+    pill.style.color='var(--red)';
+    txt.textContent='API Disconnected';
+  }
+}
+
+async function fetchSystemState(){
+  try{
+    const res=await fetch('/api/state');
+    if(!res.ok){
+      setApiStatus(false);
+      return;
+    }
+    const state=await res.json();
+    setApiStatus(true);
+    const health=state['MonitorAgent:last_health'];
+    if(health){
+      document.getElementById('cpu-val').textContent=Math.round(health.cpu_percent)+'%';
+      document.getElementById('cpu-bar').style.width=Math.round(health.cpu_percent)+'%';
+      const gb=health.memory_gb_used||11.2;
+      document.getElementById('ram-val').textContent=gb.toFixed(1)+' GB';
+      document.getElementById('ram-bar').style.width=Math.round((health.memory_percent||70))+'%';
+    }
+  }catch(e){
+    setApiStatus(false);
+  }
+}
+setInterval(fetchSystemState,6000);
+fetchSystemState();
+
+// Resource flicker (fallback if API unavailable)
 setInterval(()=>{
-  const cpu=55+Math.floor(Math.random()*25);
-  document.getElementById('cpu-val').textContent=cpu+'%';
-  document.getElementById('cpu-bar').style.width=cpu+'%';
-  const ram=(10.8+Math.random()*1.2).toFixed(1);
-  document.getElementById('ram-val').textContent=ram+' GB';
-  document.getElementById('ram-bar').style.width=Math.round(parseFloat(ram)/16*100)+'%';
-},3000);
+  if(!document.getElementById('cpu-val').textContent.includes('%')){
+    const cpu=55+Math.floor(Math.random()*25);
+    document.getElementById('cpu-val').textContent=cpu+'%';
+    document.getElementById('cpu-bar').style.width=cpu+'%';
+    const ram=(10.8+Math.random()*1.2).toFixed(1);
+    document.getElementById('ram-val').textContent=ram+' GB';
+    document.getElementById('ram-bar').style.width=Math.round(parseFloat(ram)/16*100)+'%';
+  }
+},9000);
 
 // Log messages
 const logs=[
-  ['log-ok','✓ Reflexion','loop iteration complete — score 84'],
-  ['log-info','ℹ Crawler','new URL discovered: punjabinewsexpress.com'],
-  ['log-warn','⚠ Qwen','slow inference 8.3 tok/s — memory pressure'],
+  ['log-ok','✓ DeepSeek','inference complete — 22.4 tokens/sec'],
+  ['log-info','ℹ Researcher','new papers indexed to ChromaDB'],
+  ['log-ok','✓ Tester','unit tests passed: 102/102'],
   ['log-ok','✓ Voice','Punjabi phrase recognized: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ'],
-  ['log-ok','✓ ChromaDB','12 new vectors indexed'],
-  ['log-info','ℹ Orchestrator','routing task to Self-Upgrade agent'],
-  ['log-err','✗ stable_pong','ImportError: amrit_core not found'],
+  ['log-ok','✓ Vision','image analyzed — 5 objects detected'],
+  ['log-info','ℹ Orchestrator','task routing optimized'],
   ['log-ok','✓ Security','no threats detected'],
-  ['log-info','ℹ Amrit Studio','raag Yaman detected — confidence 91%'],
+  ['log-info','ℹ Memory','semantic vectors indexed: 1,847'],
 ];
 let li=0;
 const term=document.getElementById('log-terminal');
@@ -452,6 +510,28 @@ setInterval(()=>{
     document.getElementById('tasks-val').textContent=v;
   }
 },8000);
+
+// Fetch real logs from API
+async function fetchRealLogs(){
+  try{
+    const res=await fetch('/api/logs');
+    if(!res.ok)return;
+    const data=await res.json();
+    const lines=data.lines||[];
+    if(lines.length>0){
+      const lastLine=lines[lines.length-1];
+      const term=document.getElementById('log-terminal');
+      const cur=document.getElementById('log-cursor');
+      const div=document.createElement('div');
+      div.className='log-line';
+      div.innerHTML=`<span class="log-ts">[API]</span> <span class="log-info">ℹ</span> ${lastLine.substring(0,100)}`;
+      if(cur)term.insertBefore(div,cur);
+      else term.appendChild(div);
+      if(term.children.length>25)term.removeChild(term.firstChild);
+    }
+  }catch(e){}
+}
+setInterval(fetchRealLogs,5000);
 
 function clearLog(){
   const cur=document.getElementById('log-cursor');
