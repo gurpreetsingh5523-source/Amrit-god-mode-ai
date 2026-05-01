@@ -12,6 +12,7 @@ import asyncio
 import os
 import json
 import hashlib
+import re
 import urllib.request
 from pathlib import Path
 from logger import setup_logger
@@ -108,11 +109,17 @@ class LLMRouter:
         if cache_path.exists():
             try:
                 data = json.loads(cache_path.read_text())
-                self._response_cache = dict(list(data.items())[-300:])
+                # Load last 1000 entries (was 300 — 3× more memory-efficient hits)
+                self._response_cache = dict(list(data.items())[-1000:])
             except Exception:
                 self._response_cache = {}
+        self._cache_write_counter = 0
 
-    def _save_response_cache(self):
+    def _save_response_cache(self, force: bool = False):
+        """ਹਰ 10 ਕਾਲ ਤੇ ਸੇਵ ਕਰੋ (I/O waste ਘੱਟ ਕਰੋ)"""
+        self._cache_write_counter = getattr(self, "_cache_write_counter", 0) + 1
+        if not force and self._cache_write_counter % 10 != 0:
+            return
         cache_path = Path("workspace/llm_cache.json")
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         try:
@@ -120,11 +127,30 @@ class LLMRouter:
         except Exception as e:
             logger.error(f"Cache save failed: {e}")
 
+    # ── Cache normalization patterns ─────────────────────────
+    _RE_UUID      = re.compile(r'[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}', re.I)
+    _RE_TIMESTAMP = re.compile(r'\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?')
+    _RE_ABSPATH   = re.compile(r'/(?:Users|home|tmp|var|etc)/[^\s"\']+')
+    _RE_HEX40     = re.compile(r'\b[0-9a-f]{20,64}\b', re.I)  # git sha, task ids
+    _RE_DIGITS    = re.compile(r'\b\d{5,}\b')                 # long numbers
+
+    def _normalize_for_cache(self, text: str) -> str:
+        """Dynamic parts ਹਟਾਓ ਤਾਂ ਕਿ cache hits ਵਧਣ।"""
+        t = self._RE_UUID.sub('<UUID>', text)
+        t = self._RE_TIMESTAMP.sub('<TS>', t)
+        t = self._RE_ABSPATH.sub('<PATH>', t)
+        t = self._RE_HEX40.sub('<HEX>', t)
+        t = self._RE_DIGITS.sub('<N>', t)
+        # code block ਨੂੰ fingerprint ਨਾਲ replace ਕਰੋ (content changes, structure same)
+        t = re.sub(r'```[\s\S]{200,}?```', '<CODE_BLOCK>', t)
+        return t.strip()
+
     def _cache_key(self, prompt: str, system: str, model: str) -> str:
-        """Cache lookup key ਬਣਾਓ"""
-        import hashlib
-        raw = f"{model}|{system}|{prompt}"
-        return hashlib.sha256(raw.encode()).hexdigest()
+        """Normalized cache key — dynamic content ਹਟਾ ਕੇ hash ਕਰੋ"""
+        norm_prompt = self._normalize_for_cache(prompt)
+        norm_system = self._normalize_for_cache(system or "")
+        raw = f"{model}|{norm_system}|{norm_prompt}"
+        return hashlib.sha256(raw.encode()).hexdigest()[:24]
 
     def get_stats(self) -> dict:
         """AutonomyLoop / MetaCognition ਨੂੰ ਲੋੜੀਂਦੇ ਅੰਕੜੇ"""
@@ -172,16 +198,33 @@ class LLMRouter:
         if model and model in MODEL_REGISTRY.values():
             chosen = model
         elif model and "claude" in model.lower():
-            # Explicit cloud request → try local first, fallback to cloud
             chosen = self._smart_route(prompt, agent)
         else:
             chosen = self._smart_route(prompt, agent)
 
-        # ── Cache Check ──
-        ckey = hashlib.sha256(f"{chosen}{system}{prompt}".encode()).hexdigest()[:20]
+        # ── Prompt trimming — context window ਤੋਂ ਵੱਧ ਨਾ ਜਾਵੇ ──
+        MAX_PROMPT_CHARS = 6000  # ~1500 tokens — Ollama context safe limit
+        if len(prompt) > MAX_PROMPT_CHARS:
+            trimmed_chars = len(prompt) - MAX_PROMPT_CHARS
+            prompt = prompt[:MAX_PROMPT_CHARS] + f"\n... [{trimmed_chars} chars trimmed]"
+            logger.debug(f"Prompt trimmed by {trimmed_chars} chars")
+
+        # ── Adaptive max_tokens ──
+        if max_tokens == 2000:  # caller used default
+            if len(prompt) < 300:
+                max_tokens = 400   # short query → short reply
+            elif agent in ("monitor", "memory", "tool"):
+                max_tokens = 600   # infra agents need less
+            elif agent in ("coder", "tester", "debugger"):
+                max_tokens = 1200  # code needs more
+            else:
+                max_tokens = 800   # default brain response
+
+        # ── Cache Check (normalized key — dynamic content stripped) ──
+        ckey = self._cache_key(prompt, system or "", chosen)
         if ckey in self._response_cache:
             self._call_stats["cache_hits"] += 1
-            logger.info(f"Cache HIT: {ckey}")
+            logger.info(f"Cache HIT [{ckey[:10]}...] ਕੁੱਲ hits={self._call_stats['cache_hits']}")
             return self._response_cache[ckey]
 
         # ── Local First → Cloud Fallback ──
