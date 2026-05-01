@@ -18,6 +18,7 @@ import json
 import os
 import sys
 import subprocess
+from amrit_core.adaptive_layer import AdaptiveLayer
 import ast
 import shutil
 from pathlib import Path
@@ -67,7 +68,11 @@ class SelfEvolution:
         self._consec_fail: dict = {}           # file → consecutive failure count
         self._refactor_history: dict = {}      # file → list of cycle numbers when refactored
         self._quality_trend: list = []         # avg quality per cycle (tracks improvement)
+        self.adaptive = AdaptiveLayer()
         BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+    def minimal_fix(self, code):
+        # Example: only fix lint, not rewrite
+        return code.replace("  ", " ")
 
     def _load_lessons(self) -> list:
         """Load learned lessons from disk."""
@@ -415,40 +420,65 @@ class SelfEvolution:
             mtime_before = fp.stat().st_mtime
             self._backup(fp)
 
-            try:
-                result = await coder.execute({
-                    "name": f"Self-fix {fname}",
-                    "data": {
-                        "action": "fix",
-                        "code": code[:3000],
-                        "error": f"Issues found: {issue_desc}. Fix all issues. "
-                                 "Keep all existing functionality. Return ONLY the fixed code."
-                    }
-                })
-                new_code = result.get("code", "")
-                if new_code and len(new_code) > 20:
-                    try:
-                        ast.parse(new_code)
-                        fp.write_text(new_code)
-                        # ── WRITE VERIFICATION ────────────────────────────────
-                        if fp.stat().st_mtime == mtime_before:
-                            logger.error(f"  ❌ WRITE FAILED: {fname} not modified on disk")
-                            self._record(PHASE_FIX, f"write_failed {fname}",
-                                         "file mtime unchanged after write", success=False)
-                        else:
-                            fixed_count += 1
-                            self._fix_history.setdefault(fname, []).append(self.cycle)
-                            self._consec_fail[fname] = 0
-                            self._record(PHASE_FIX, f"fixed {fname}", issue_desc)
-                    except SyntaxError:
-                        self._record(PHASE_FIX, f"fix {fname}",
-                                     "LLM produced invalid syntax", success=False)
+            # Adaptive strategy selection
+            task_name = fname
+            strategy = self.adaptive.get_strategy(task_name)
+            if strategy == "safe_mode":
+                print("⚠️ Switching to SAFE MODE FIX")
+                new_code = self.minimal_fix(code)
+            else:
+                try:
+                    result = await coder.execute({
+                        "name": f"Self-fix {fname}",
+                        "data": {
+                            "action": "fix",
+                            "code": code[:3000],
+                            "error": f"Issues found: {issue_desc}. Fix all issues. "
+                                     "Keep all existing functionality. Return ONLY the fixed code."
+                        }
+                    })
+                    new_code = result.get("code", "")
+                except Exception as e:
+                    self._record(PHASE_FIX, f"fix {fname}", str(e), success=False)
+                    self._restore(fp)
+                    self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
+                    self.adaptive.record_failure(task_name)
+                    continue
+
+            if new_code and len(new_code) > 20:
+                try:
+                    ast.parse(new_code)
+                    # ── STRUCTURAL INTEGRITY: reject if LLM deleted functions/classes ──
+                    old_tree = ast.parse(code)
+                    new_tree = ast.parse(new_code)
+                    old_funcs = {n.name for n in ast.walk(old_tree) if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+                    new_funcs = {n.name for n in ast.walk(new_tree) if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+                    lost = old_funcs - new_funcs
+                    if lost:
+                        logger.warning(f"  ⚠️  LLM deleted {len(lost)} functions ({', '.join(list(lost)[:3])}) — rejecting fix")
                         self._restore(fp)
                         self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
-            except Exception as e:
-                self._record(PHASE_FIX, f"fix {fname}", str(e), success=False)
-                self._restore(fp)
-                self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
+                        self.adaptive.record_failure(task_name)
+                        continue
+                    fp.write_text(new_code)
+                    # ── WRITE VERIFICATION ────────────────────────────────
+                    if fp.stat().st_mtime == mtime_before:
+                        logger.error(f"  ❌ WRITE FAILED: {fname} not modified on disk")
+                        self._record(PHASE_FIX, f"write_failed {fname}",
+                                     "file mtime unchanged after write", success=False)
+                    else:
+                        fixed_count += 1
+                        self._fix_history.setdefault(fname, []).append(self.cycle)
+                        self._consec_fail[fname] = 0
+                        self._record(PHASE_FIX, f"fixed {fname}", issue_desc)
+                except SyntaxError:
+                    self._record(PHASE_FIX, f"fix {fname}",
+                                 "LLM produced invalid syntax", success=False)
+                    self._restore(fp)
+                    self._consec_fail[fname] = self._consec_fail.get(fname, 0) + 1
+                    self.adaptive.record_failure(task_name)
+            else:
+                self.adaptive.record_failure(task_name)
 
         # ── Fix import errors (max 4 per cycle) ──────────────────────────────
         for ie in import_errors[:4]:
@@ -635,7 +665,7 @@ class SelfEvolution:
         self._backup(fp)
         key = f"{fp.name}::{func_name}"
 
-        MAX_RETRIES = 3  # 2× 7B, final attempt → 32B escalation
+        MAX_RETRIES = 3  # 3 attempts (legacy: used to escalate to larger models)
         base_instructions = (
             f"This function is {func_lines} lines \u2014 too long. "
             "Split it into smaller private helper functions (max 40 lines each). "
@@ -657,10 +687,8 @@ class SelfEvolution:
                         + base_instructions
                     )
 
-                # Escalate to 32B on final attempt (7B ਫੇਲ੍ਹ → 32B ਕੋਲ ਭੇਜੋ)
+                # Final attempt (legacy: used to escalate to larger models)
                 category = "deep" if attempt == MAX_RETRIES else "refactor"
-                if attempt == MAX_RETRIES:
-                    logger.info(f"  \U0001f9e0 7B ਫੇਲ੍ਹ — Qwen3-32B ਨਾਲ ਕੋਸ਼ਿਸ਼ ({func_lines} ਲਾਈਨਾਂ)...")
 
                 result = await coder.execute({
                     "name": f"Refactor {func_name} in {fp.name}",
@@ -672,6 +700,17 @@ class SelfEvolution:
                     }
                 })
                 new_funcs = result.get("code", "").strip()
+
+                # If coder reported refactor failed, treat as error
+                if result.get("refactored") is False:
+                    last_error = result.get("error", "coder refactor failed")
+                    if attempt < MAX_RETRIES:
+                        logger.info(f"  ⚠️  Attempt {attempt}: {last_error} — retrying")
+                        continue
+                    logger.warning(f"  ⚠️  Coder refused refactor after {MAX_RETRIES} attempts — skipping")
+                    self._restore(fp)
+                    self._refactor_history.setdefault(key, []).append(self.cycle)
+                    return
 
                 # Validate: must be parseable and contain the original function name.
                 if not new_funcs or len(new_funcs) < len(func_src) * 0.4 or func_name not in new_funcs:
@@ -1004,8 +1043,8 @@ class SelfEvolution:
 
                         # Escalate to 32B on final attempt
                         category = "deep" if attempt == 3 else "refactor"
-                        if attempt == 3:
-                            logger.info("  \U0001f9e0 7B ਫੇਲ੍ਹ — Qwen3-32B ਨਾਲ ਕੋਸ਼ਿਸ਼...")
+                        # if attempt == 3:
+                        #     logger.info("  7B escalation (legacy, now skipped)...")
 
                         result = await coder.execute({
                             "name": f"Improve {func_name} in {fname}",

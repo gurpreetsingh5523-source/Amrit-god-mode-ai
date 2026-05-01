@@ -2,7 +2,7 @@
 
 ☬ ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ Thank you for contributing!
 
-## Development Setup
+## Development Setup & Automation
 
 ```bash
 # Clone
@@ -11,15 +11,29 @@ cd Amrit-god-mode-ai
 
 # Virtual environment
 python3 -m venv .venv
-source .venv/bin/activate    # macOS/Linux
+source .venv/bin/activate
 
-# Install dependencies
-pip install -r requirements.txt
+# Install all dependencies (prod + dev)
+make install-dev
 
-# Install Ollama + model
+# (Optional) Install Ollama + model
 # https://ollama.com
 ollama pull gemma3:4b
 ```
+
+### Automation
+- **Run all tests:** `make test`
+- **Lint code:** `make lint`
+- **Format code:** `make format`
+- **Check coverage:** `make coverage`
+- **Run all pre-commit hooks:** `make precommit`
+
+### Pre-commit Hooks
+- Install hooks: `pre-commit install`
+- Hooks will auto-run on `git commit` to block bad code.
+
+### GitHub Actions
+- All pushes and PRs are tested automatically via CI.
 
 ## Running
 
@@ -36,27 +50,32 @@ python main.py --goal "your task"       # Goal execution
 - All modules are flat (no package subdirectories) — import directly: `from event_bus import EventBus`
 - Use async/await for agent methods
 
-## Testing
+
+## Testing & Coverage
 
 ```bash
-# Run all tests (must be 23/23 passing)
-python -m pytest test_godmode.py -v
+# Run all tests
+make test
 
 # Run selffix (automated test + fix cycle)
 python main.py --mode selffix
+
+# Check test coverage
+make coverage
 ```
 
 Before submitting a PR:
-1. All 23 tests must pass
+1. All tests must pass (`make test`)
 2. `python main.py --mode selffix` must complete without errors
 3. No hardcoded API keys or personal paths
+4. Try to keep coverage high. Uncovered files/functions will be shown in the report.
 
 ## Pull Request Process
 
 1. Fork the repo and branch from `main`
 2. Make changes — keep them focused and minimal
-3. Add tests for new features in `test_godmode.py`
-4. Run `python -m pytest test_godmode.py -v` — all must pass
+3. Add tests for new features in `test_godmode.py` or other test files
+4. Run `make test lint` — all must pass
 5. Submit PR with clear description
 
 ## What to Contribute

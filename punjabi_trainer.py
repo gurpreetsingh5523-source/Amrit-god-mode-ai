@@ -1,6 +1,6 @@
 """Punjabi LoRA Trainer — MLX-based fine-tuning pipeline for Apple Silicon.
 
-Converts all local Punjabi datasets → ChatML JSONL → LoRA fine-tunes qwen2.5-coder:7b
+Converts all local Punjabi datasets → ChatML JSONL → LoRA fine-tunes gemma3:4b
 → merges adapters → exports to Ollama as amrit-coder-v2.
 
 Usage (standalone):
@@ -64,7 +64,7 @@ DATASETS = {
     },
 }
 
-# ChatML template (matches qwen2.5-coder format)
+# ChatML template (Gemma3 format)
 CHATML_TEMPLATE = (
     "<|im_start|>system\n{system}<|im_end|>\n"
     "<|im_start|>user\n{user}<|im_end|>\n"
@@ -78,12 +78,33 @@ SYSTEM_PROMPT = (
 )
 
 
-class PunjabiTrainer:
-    """MLX LoRA fine-tuning pipeline for Punjabi language model."""
 
-    def __init__(self, base_model="mlx-community/Qwen2.5-Coder-7B-Instruct-4bit",
-                 lora_rank=8, epochs=1, batch_size=1, learning_rate=1e-5,
-                 max_samples=50000):
+class PunjabiTrainer:
+    """
+    MLX LoRA fine-tuning pipeline for Punjabi language model.
+
+    Provides dataset preparation, LoRA fine-tuning, evaluation, and deployment to Ollama.
+    Usage:
+        trainer = PunjabiTrainer()
+        trainer.prepare_datasets()
+        trainer.train()
+        trainer.evaluate()
+        trainer.deploy_to_ollama()
+    """
+
+    def __init__(self, base_model: str = "mlx-community/gemma3-4b-instruct",
+                 lora_rank: int = 8, epochs: int = 1, batch_size: int = 1, learning_rate: float = 1e-5,
+                 max_samples: int = 50000):
+        """
+        Initialize the PunjabiTrainer.
+        Args:
+            base_model: Model name or path.
+            lora_rank: LoRA rank.
+            epochs: Number of epochs.
+            batch_size: Training batch size.
+            learning_rate: Learning rate.
+            max_samples: Maximum samples to use.
+        """
         try:
             self.base_model = base_model
             self.lora_rank = lora_rank
@@ -93,72 +114,82 @@ class PunjabiTrainer:
             self.max_samples = max_samples
             self._metrics = self._load_metrics()
         except Exception as e:
-            logger.error(f"Error initializing class: {e}")
+            logger.error(f"Error initializing PunjabiTrainer: {e}")
             raise
 
     # ─── DATASET PREPARATION ─────────────────────────────────────
 
     def prepare_datasets(self) -> dict:
-        """Convert all Punjabi datasets to ChatML JSONL format."""
+        """
+        Convert all Punjabi datasets to ChatML JSONL format for training.
+        Returns:
+            dict: Preparation status and stats.
+        """
         DATA_DIR.mkdir(parents=True, exist_ok=True)
-        all_examples = []
-
-        try:
-            for name, cfg in DATASETS.items():
-                base = cfg["path"]
-                if not base.exists():
-                    logger.warning(f"  ⏭ {name}: not found at {base}")
-                    continue
-
-                examples = self._load_dataset(name, cfg)
-                logger.info(f"  ✅ {name}: {len(examples)} examples loaded")
-                all_examples.extend(examples)
-
-            if not all_examples:
-                return {"status": "error", "error": "No data loaded from any dataset"}
-
-            # Deduplicate by user+assistant text
-            seen = set()
-            unique = []
-            for ex in all_examples:
-                key = ex.get("user", "") + ex.get("assistant", "")
-                if key not in seen and len(key) > 20:
-                    seen.add(key)
-                    unique.append(ex)
-
-            random.shuffle(unique)
-
-            # Cap at max_samples
-            if len(unique) > self.max_samples:
-                unique = unique[:self.max_samples]
-
-            # Split: 90% train, 5% valid, 5% test
-            n = len(unique)
-            train_end = int(n * 0.90)
-            valid_end = int(n * 0.95)
-
-            train_data = unique[:train_end]
-            valid_data = unique[train_end:valid_end]
-            test_data = unique[valid_end:]
-
-            # Write ChatML JSONL
-            for data, path in [(train_data, TRAIN_FILE), (valid_data, VALID_FILE), (test_data, TEST_FILE)]:
-                self._write_chatml_jsonl(data, path)
-
-        except Exception as e:
-            logger.error(f"Error during dataset preparation: {e}")
-            raise
-
-        stats = {"train": len(train_data), "valid": len(valid_data), "test": len(test_data),
-                 "total_unique": len(unique), "datasets_used": len([d for d in DATASETS if DATASETS[d]["path"].exists()])}
+        all_examples = self._gather_all_examples()
+        if not all_examples:
+            return {"status": "error", "error": "No data loaded from any dataset"}
+        unique = self._deduplicate_examples(all_examples)
+        random.shuffle(unique)
+        unique = unique[:self.max_samples] if len(unique) > self.max_samples else unique
+        train_data, valid_data, test_data = self._split_data(unique)
+        for data, path in [(train_data, TRAIN_FILE), (valid_data, VALID_FILE), (test_data, TEST_FILE)]:
+            self._write_chatml_jsonl(data, path)
+        stats = {
+            "train": len(train_data),
+            "valid": len(valid_data),
+            "test": len(test_data),
+            "total_unique": len(unique),
+            "datasets_used": len([d for d in DATASETS if DATASETS[d]["path"].exists()])
+        }
         logger.info(f"  📊 Prepared: {stats}")
         return {"status": "ok", **stats}
 
+    def _gather_all_examples(self) -> list:
+        """Load all available datasets and return combined examples list."""
+        all_examples = []
+        for name, cfg in DATASETS.items():
+            base = cfg["path"]
+            if not base.exists():
+                logger.warning(f"  ⏭ {name}: not found at {base}")
+                continue
+            examples = self._load_dataset(name, cfg)
+            logger.info(f"  ✅ {name}: {len(examples)} examples loaded")
+            all_examples.extend(examples)
+        return all_examples
+
+    def _deduplicate_examples(self, examples: list) -> list:
+        """Deduplicate examples by user+assistant text."""
+        seen = set()
+        unique = []
+        for ex in examples:
+            key = ex.get("user", "") + ex.get("assistant", "")
+            if key not in seen and len(key) > 20:
+                seen.add(key)
+                unique.append(ex)
+        return unique
+
+    def _split_data(self, unique: list) -> tuple:
+        """Split data into train, valid, test sets (90/5/5)."""
+        n = len(unique)
+        train_end = int(n * 0.90)
+        valid_end = int(n * 0.95)
+        train_data = unique[:train_end]
+        valid_data = unique[train_end:valid_end]
+        test_data = unique[valid_end:]
+        return train_data, valid_data, test_data
+
     def _load_dataset(self, name: str, cfg: dict) -> list:
-        """Load a single dataset into list of {user, assistant} dicts."""
+        """
+        Load a single dataset into list of {user, assistant} dicts.
+        Args:
+            name: Dataset name.
+            cfg: Dataset config dict.
+        Returns:
+            list: List of dicts with user and assistant keys.
+        """
         fmt = cfg["format"]
         base = cfg["path"]
-
         if fmt == "parquet":
             return self._load_parquet(base, cfg["cols"])
         elif fmt == "csv":
@@ -248,15 +279,32 @@ class PunjabiTrainer:
 
     # ─── TRAINING ────────────────────────────────────────────────
 
+
     def train(self) -> dict:
-        """Run MLX LoRA fine-tuning via mlx_lm.lora CLI."""
+        """
+        Run MLX LoRA fine-tuning via mlx_lm.lora CLI.
+        Returns:
+            dict: Training status and metrics.
+        """
         if not TRAIN_FILE.exists():
             logger.error("Training data not found — run prepare_datasets() first")
             return {"status": "error", "error": "No training data"}
-
         ADAPTER_DIR.mkdir(parents=True, exist_ok=True)
+        config_path = self._write_lora_config()
+        cmd = self._build_train_cmd(config_path)
+        logger.info(f"  🚀 Starting LoRA training: {' '.join(cmd[-10:])}")
+        t0 = time.time()
+        log_path = Path("workspace/mlx_train_output.log")
+        try:
+            train_status = self._run_training_subprocess(cmd, log_path, t0)
+            return train_status
+        except subprocess.TimeoutExpired:
+            return {"status": "error", "error": "Training timed out (>2h)"}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
 
-        # Write LoRA config YAML (lora_rank etc. not available as CLI flags)
+    def _write_lora_config(self) -> Path:
+        """Write LoRA config YAML and return its path."""
         lora_config = {
             "lora_parameters": {
                 "rank": self.lora_rank,
@@ -267,8 +315,11 @@ class PunjabiTrainer:
         config_path = DATA_DIR / "lora_config.yaml"
         import yaml
         config_path.write_text(yaml.dump(lora_config, default_flow_style=False))
+        return config_path
 
-        cmd = [
+    def _build_train_cmd(self, config_path: Path) -> list:
+        """Build the training command list."""
+        return [
             "python3", "-m", "mlx_lm.lora",
             "--model", self.base_model,
             "--train",
@@ -285,50 +336,39 @@ class PunjabiTrainer:
             "--grad-checkpoint",
         ]
 
-        logger.info(f"  🚀 Starting LoRA training: {' '.join(cmd[-10:])}")
-        t0 = time.time()
-        log_path = Path("workspace/mlx_train_output.log")
-
-        try:
-            with open(log_path, 'w') as log_f:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                        text=True, bufsize=1)
-                full_output = []
+    def _run_training_subprocess(self, cmd: list, log_path: Path, t0: float) -> dict:
+        """Run the training subprocess and handle output/logging."""
+        with open(log_path, 'w') as log_f:
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                    text=True, bufsize=1)
+            full_output = []
+            try:
                 for line in proc.stdout:
                     full_output.append(line)
                     log_f.write(line)
                     log_f.flush()
                     if "Iter" in line or "loss" in line.lower():
                         logger.info(f"  📈 {line.strip()}")
-
                 proc.wait(timeout=7200)
-                elapsed = time.time() - t0
-                stdout_text = "".join(full_output)
-
-            if proc.returncode != 0:
-                logger.error(f"  ❌ Training failed: {stdout_text[-500:]}")
-                return {"status": "error", "error": stdout_text[-300:], "elapsed": elapsed}
-
-            # Parse final loss from output
-            train_loss = self._parse_loss(stdout_text)
-            logger.info(f"  ✅ Training done in {elapsed:.0f}s | Loss: {train_loss}")
-
-            self._metrics["last_train"] = {
-                "timestamp": time.strftime("%Y-%m-%d %H:%M"),
-                "loss": train_loss,
-                "elapsed_sec": elapsed,
-                "epochs": self.epochs,
-                "samples": self._count_lines(TRAIN_FILE),
-            }
-            self._save_metrics()
-
-            return {"status": "trained", "loss": train_loss, "elapsed": elapsed}
-
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            return {"status": "error", "error": "Training timed out (>2h)"}
-        except Exception as e:
-            return {"status": "error", "error": str(e)}
+            except Exception as e:
+                proc.kill()
+                raise e
+            elapsed = time.time() - t0
+            stdout_text = "".join(full_output)
+        if proc.returncode != 0:
+            logger.error(f"  ❌ Training failed: {stdout_text[-500:]}")
+            return {"status": "error", "error": stdout_text[-300:], "elapsed": elapsed}
+        train_loss = self._parse_loss(stdout_text)
+        logger.info(f"  ✅ Training done in {elapsed:.0f}s | Loss: {train_loss}")
+        self._metrics["last_train"] = {
+            "timestamp": time.strftime("%Y-%m-%d %H:%M"),
+            "loss": train_loss,
+            "elapsed_sec": elapsed,
+            "epochs": self.epochs,
+            "samples": self._count_lines(TRAIN_FILE),
+        }
+        self._save_metrics()
+        return {"status": "trained", "loss": train_loss, "elapsed": elapsed}
 
     def evaluate(self) -> dict:
         """Evaluate the LoRA model on test set."""
@@ -407,7 +447,7 @@ class PunjabiTrainer:
             model_source = str(gguf_path)
         else:
             # Fallback: point Ollama at the merged MLX model
-            model_source = "qwen2.5-coder:7b"
+            model_source = "gemma3:4b"
 
         modelfile_content = f"""FROM {model_source}
 

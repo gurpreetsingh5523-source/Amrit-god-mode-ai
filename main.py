@@ -34,7 +34,7 @@ async def main():
     parser.add_argument("--mode",    type=str,  default="interactive",
                         choices=["interactive", "autonomous", "voice", "vision",
                                  "internet", "godmode", "evolve", "selftest", "selffix",
-                                 "research", "mcp", "swarm"],
+                                 "research", "mcp", "swarm", "distributed"],
                         help="Execution mode")
     parser.add_argument("--config",  type=str,  default="config.yaml")
     parser.add_argument("--verbose", action="store_true")
@@ -131,6 +131,16 @@ async def main():
             await orchestrator.run_vision_mode()
         elif args.mode == "internet":
             await orchestrator.run_internet_mode()
+        elif args.mode == "distributed":
+            if args.goal:
+                # Optionally allow agent_id via --agent-id
+                agent_id = getattr(args, "agent_id", None) if hasattr(args, "agent_id") else None
+                result = await orchestrator.run_goal_with_agent(args.goal, agent_id=agent_id)
+                print("\n[Distributed Agent Result]")
+                print(result)
+            else:
+                print("\n  ❌ --goal required for distributed mode")
+                print("  Example: python3 main.py --mode distributed --goal 'Learn Python and build a project'\n")
         elif args.goal:
             await orchestrator.run_goal(args.goal)
         else:

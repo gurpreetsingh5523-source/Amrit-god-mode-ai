@@ -1,10 +1,21 @@
+
+from base_agent import BaseAgent
 """Planner Agent — LLM-powered goal decomposition into task graphs."""
+import asyncio
 import json
 import re
-from base_agent import BaseAgent
 
 class PlannerAgent(BaseAgent):
-    def __init__(self, eb, state): super().__init__("PlannerAgent", eb, state)
+
+    async def create_plan(self, goal_description: str):
+        """
+        Wrapper for GoalEngine: creates a plan using agent's async logic.
+        """
+        task_payload = {"action": "plan", "goal": goal_description}
+        return await self.execute(task_payload)
+
+    def __init__(self, eb, state):
+        super().__init__("PlannerAgent", eb, state)
 
     # Simple goals that don't need decomposition — just do them directly
     _SIMPLE_KEYWORDS = {"poem", "story", "song", "essay", "letter", "joke",

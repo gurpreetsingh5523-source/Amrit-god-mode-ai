@@ -1,9 +1,21 @@
 """
 Orchestrator — GODMODE Central Command.
-Manages 14 agents, task graph, event bus, workflow engine,
-interactive CLI, and all execution modes.
+Manages 15+ agents, task graph, event bus, workflow engine,
+interactive CLI, distributed AutonomousAgents, and all execution modes.
+
+Example usage for distributed agent:
+
+    from autonomous_agent import AutonomousAgent
+    agent = AutonomousAgent(core=orchestrator)
+    result = await agent.run_goal("Learn Python and build a project")
+    print(result)
+
+Or, via orchestrator:
+
+    result = await orchestrator.run_goal_with_agent("Learn Python and build a project")
+    print(result)
 """
-import asyncio
+
 from typing import Dict, Optional
 from event_bus import EventBus
 from task_graph import TaskGraph
@@ -19,39 +31,63 @@ from config_loader import ConfigLoader
 from failure_taxonomy import classify, FailureTracker
 from permission_enforcer import PermissionEnforcer
 from permission_manager import PermissionManager
-from task_packet import TaskPacket, PacketStore
+from task_packet import PacketStore
 from recovery_recipes import RecoveryEngine
 from policy_engine import PolicyEngine
 from worker_lifecycle import WorkerLifecycleManager
 from swarm import Queen
+
 from plugin_manager import PluginManager
+from autonomous_agent import AutonomousAgent
+from goal_engine import GoalEngine
 
 logger = setup_logger("Orchestrator")
 
 
 class Orchestrator:
     def __init__(self, event_bus: EventBus, config_path: str = "config.yaml"):
-        self.event_bus   = event_bus
-        self.config      = ConfigLoader(config_path)
-        self.task_graph  = TaskGraph()
-        self.state       = StateManager()
-        self.scheduler   = Scheduler(self.task_graph)
+        self.event_bus = event_bus
+        self.config = ConfigLoader(config_path)
+        self.task_graph = TaskGraph()
+        self.state = StateManager()
+        self.scheduler = Scheduler(self.task_graph)
         self.goal_parser = GoalParser()
-        self.autonomy    = AutonomyLoop(self)
-        self.workflow    = WorkflowEngine(self)
+        self.autonomy = AutonomyLoop(self)
+        self.workflow = WorkflowEngine(self)
         self.agents: Dict[str, object] = {}
         self.queen: Optional[Queen] = None
-        self.plugin_mgr  = PluginManager()
-        self._ready      = False
+        self.plugin_mgr = PluginManager()
+        self._ready = False
+        # GoalEngine will be initialized after agents are loaded
+        self.goal_engine = None
+
+        # ── Distributed Autonomous Agents ──
+        self.autonomous_agents: Dict[str, AutonomousAgent] = {}
 
         # ── Smart Infrastructure (v2) ─────────────────────────
-        self.perm_manager  = PermissionManager()
-        self.enforcer      = PermissionEnforcer(self.perm_manager)
+        self.perm_manager = PermissionManager()
+        self.enforcer = PermissionEnforcer(self.perm_manager)
         self.failure_tracker = FailureTracker()
-        self.packet_store  = PacketStore()
-        self.recovery      = RecoveryEngine()
-        self.policy        = PolicyEngine()
-        self.lifecycle     = WorkerLifecycleManager()
+        self.packet_store = PacketStore()
+        self.recovery = RecoveryEngine()
+        self.policy = PolicyEngine()
+        self.lifecycle = WorkerLifecycleManager()
+
+    def create_autonomous_agent(self, agent_id=None):
+        agent = AutonomousAgent(core=self, agent_id=agent_id)
+        self.autonomous_agents[agent.agent_id] = agent
+        logger.info(f"Created AutonomousAgent: {agent.agent_id}")
+        return agent
+
+    async def run_goal_with_agent(self, goal: str, agent_id=None):
+        """
+        Run a goal using a distributed AutonomousAgent. If agent_id is None, create a new agent.
+        """
+        if agent_id is None or agent_id not in self.autonomous_agents:
+            agent = self.create_autonomous_agent(agent_id)
+        else:
+            agent = self.autonomous_agents[agent_id]
+        return await agent.run_goal(goal)
 
     # ── Init ──────────────────────────────────────────────────────
 
@@ -67,35 +103,35 @@ class Orchestrator:
         logger.info(f"GODMODE ready ✅  ({len(self.agents)} agents loaded)")
 
     def _load_agents(self):
-        from planner_agent    import PlannerAgent
-        from coder_agent      import CoderAgent
-        from research_agent   import ResearchAgent
-        from tester_agent     import TesterAgent
-        from debugger_agent   import DebuggerAgent
-        from tool_agent       import ToolAgent
-        from memory_agent     import MemoryAgent
-        from upgrade_agent    import UpgradeAgent
-        from monitor_agent    import MonitorAgent
-        from voice_agent      import VoiceAgent
-        from vision_agent     import VisionAgent
-        from internet_agent   import InternetAgent
-        from dataset_agent    import DatasetAgent
+        from planner_agent import PlannerAgent
+        from coder_agent import CoderAgent
+        from research_agent import ResearchAgent
+        from tester_agent import TesterAgent
+        from debugger_agent import DebuggerAgent
+        from tool_agent import ToolAgent
+        from memory_agent import MemoryAgent
+        from upgrade_agent import UpgradeAgent
+        from monitor_agent import MonitorAgent
+        from voice_agent import VoiceAgent
+        from vision_agent import VisionAgent
+        from internet_agent import InternetAgent
+        from dataset_agent import DatasetAgent
         from simulation_agent import SimulationAgent
 
         self.agents = {
-            "planner":    PlannerAgent(self.event_bus, self.state),
-            "coder":      CoderAgent(self.event_bus, self.state),
+            "planner": PlannerAgent(self.event_bus, self.state),
+            "coder": CoderAgent(self.event_bus, self.state),
             "researcher": ResearchAgent(self.event_bus, self.state),
-            "tester":     TesterAgent(self.event_bus, self.state),
-            "debugger":   DebuggerAgent(self.event_bus, self.state),
-            "tool":       ToolAgent(self.event_bus, self.state),
-            "memory":     MemoryAgent(self.event_bus, self.state),
-            "upgrade":    UpgradeAgent(self.event_bus, self.state),
-            "monitor":    MonitorAgent(self.event_bus, self.state),
-            "voice":      VoiceAgent(self.event_bus, self.state),
-            "vision":     VisionAgent(self.event_bus, self.state),
-            "internet":   InternetAgent(self.event_bus, self.state),
-            "dataset":    DatasetAgent(self.event_bus, self.state),
+            "tester": TesterAgent(self.event_bus, self.state),
+            "debugger": DebuggerAgent(self.event_bus, self.state),
+            "tool": ToolAgent(self.event_bus, self.state),
+            "memory": MemoryAgent(self.event_bus, self.state),
+            "upgrade": UpgradeAgent(self.event_bus, self.state),
+            "monitor": MonitorAgent(self.event_bus, self.state),
+            "voice": VoiceAgent(self.event_bus, self.state),
+            "vision": VisionAgent(self.event_bus, self.state),
+            "internet": InternetAgent(self.event_bus, self.state),
+            "dataset": DatasetAgent(self.event_bus, self.state),
             "simulation": SimulationAgent(self.event_bus, self.state),
         }
         # Load plugins from amrit_plugins/
@@ -113,15 +149,36 @@ class Orchestrator:
 
         # Initialize Queen for swarm coordination
         self.queen = Queen(self.event_bus, self.agents, self.state)
+        # Initialize GoalEngine with planner and memory agent
+        self.goal_engine = GoalEngine(
+            planner=self.agents["planner"],
+            memory=self.agents.get("memory"),
+            agents=self.agents,
+        )
+
+    async def run_cycle(self):
+        # existing system work (example: monitor agents)
+        monitor = self.agents.get("monitor")
+        if monitor and hasattr(monitor, "check_agents"):
+            await monitor.check_agents()
+        # Optionally, call _check_alerts if available
+        elif monitor and hasattr(monitor, "_check_alerts"):
+            await monitor._check_alerts()
+
+        # 🔥 NEW: Goal Processing
+        if self.goal_engine:
+            completed = await self.goal_engine.process_goals()
+            if completed:
+                print(f"[Orchestrator] 🎯 Completed {len(completed)} goal(s)")
 
     def _register_handlers(self):
-        self.event_bus.subscribe("task.new",       self._on_new_task)
-        self.event_bus.subscribe("task.complete",  self._on_task_done)
-        self.event_bus.subscribe("agent.error",    self._on_error)
+        self.event_bus.subscribe("task.new", self._on_new_task)
+        self.event_bus.subscribe("task.complete", self._on_task_done)
+        self.event_bus.subscribe("agent.error", self._on_error)
         self.event_bus.subscribe("system.upgrade", self._on_upgrade)
         # v2 smart handlers
-        self.event_bus.subscribe("recovery.success",  self._on_recovery)
-        self.event_bus.subscribe("recovery.failed",   self._on_recovery)
+        self.event_bus.subscribe("recovery.success", self._on_recovery)
+        self.event_bus.subscribe("recovery.failed", self._on_recovery)
         self.event_bus.subscribe("recovery.escalated", self._on_recovery)
 
     # ── Event Handlers ────────────────────────────────────────────
@@ -157,14 +214,20 @@ class Orchestrator:
                 logger.critical(f"⚠️  ESCALATION: {action.description}")
             elif action.action_type.name == "RESTART_AGENT":
                 logger.info(f"Restarting agent: {source}")
-                self.lifecycle.transition(source, __import__('worker_lifecycle').WorkerStatus.INITIALIZING, "auto-restart")
+                self.lifecycle.transition(
+                    source,
+                    __import__("worker_lifecycle").WorkerStatus.INITIALIZING,
+                    "auto-restart",
+                )
                 self.lifecycle.mark_ready(source)
 
     async def _on_upgrade(self, event):
         logger.info(f"System upgrade triggered: {event.data}")
 
     async def _on_recovery(self, event):
-        logger.info(f"Recovery event: {event.data.get('recipe', '?')} — recovered={event.data.get('recovered')}")
+        logger.info(
+            f"Recovery event: {event.data.get('recipe', '?')} — recovered={event.data.get('recovered')}"
+        )
 
     # ── Execution Modes ───────────────────────────────────────────
 
@@ -178,7 +241,9 @@ class Orchestrator:
         self.task_graph.print_summary()
 
     async def run_interactive(self):
-        print("\n\033[92m⚡ GODMODE Interactive\033[0m  (type 'help' for commands / 'ਮਦਦ' ਲਈ ਟਾਈਪ ਕਰੋ)\n")
+        print(
+            "\n\033[92m⚡ GODMODE Interactive\033[0m  (type 'help' for commands / 'ਮਦਦ' ਲਈ ਟਾਈਪ ਕਰੋ)\n"
+        )
         while True:
             try:
                 inp = input("\033[95m[GODMODE]> \033[0m").strip()
@@ -244,6 +309,7 @@ class Orchestrator:
                 await self._run_mcp()
             elif cmd in ("clear", "ਸਾਫ਼"):
                 import os
+
                 os.system("clear")
             else:
                 await self.run_goal(inp)
@@ -251,6 +317,7 @@ class Orchestrator:
     async def run_godmode(self):
         """Ultimate autonomous mode — self-evolution: analyze, fix, optimize, learn, repeat."""
         from self_evolution import SelfEvolution
+
         logger.info("🔥 GODMODE ENGAGED — Full Self-Evolution / ਪੂਰਾ ਸਵੈ-ਵਿਕਾਸ")
         print("\n\033[91m  ⚡ GODMODE: Self-Evolution Engine Active ⚡\033[0m")
         print("  ਸਿਸਟਮ ਆਪਣੇ ਆਪ ਨੂੰ ਚੈੱਕ, ਠੀਕ, ਤੇਜ਼ ਬਣਾਏਗਾ")
@@ -292,6 +359,7 @@ class Orchestrator:
     async def _run_evolve_cycles(self):
         """Run 3 self-evolution cycles: analyze → test → fix → optimize → learn."""
         from self_evolution import SelfEvolution
+
         print("\n\033[93m  🔄 Running 3 Self-Evolution Cycles...\033[0m\n")
         evo = SelfEvolution(self)
         await evo.run(max_cycles=3)
@@ -300,11 +368,14 @@ class Orchestrator:
     async def _run_selftest(self):
         """Run a single self-analysis + test cycle and print report."""
         from self_evolution import SelfEvolution
+
         print("\n\033[93m  🧪 Running Self-Test...\033[0m\n")
         evo = SelfEvolution(self)
         report = await evo.run_single_analysis()
         print(f"  📊 Files: {report['total_files']} | Quality: {report['avg_quality']}")
-        print(f"  ✅ Tests Passed: {report['test_passed']} | ❌ Failed: {report['test_failed']}")
+        print(
+            f"  ✅ Tests Passed: {report['test_passed']} | ❌ Failed: {report['test_failed']}"
+        )
         print(f"  ⚠️  Import Errors: {report['import_errors']}")
         if report["weakest_files"]:
             print("  📉 Weakest files:")
@@ -319,12 +390,17 @@ class Orchestrator:
     async def _run_selffix(self):
         """Run one fix cycle: analyze → test → fix → test again."""
         from self_evolution import SelfEvolution
+
         print("\n\033[93m  🔧 Running Self-Fix Cycle...\033[0m\n")
         evo = SelfEvolution(self)
         report = await evo.run_fix_cycle()
         icon = "✅" if report.get("improved") else "➖"
-        print(f"  {icon} Before: {report['before']['passed']}✅ {report['before']['failed']}❌")
-        print(f"  {icon} After:  {report['after']['passed']}✅ {report['after']['failed']}❌")
+        print(
+            f"  {icon} Before: {report['before']['passed']}✅ {report['before']['failed']}❌"
+        )
+        print(
+            f"  {icon} After:  {report['after']['passed']}✅ {report['after']['failed']}❌"
+        )
         print()
 
     # ── Scientific Research Commands ──────────────────────────────
@@ -332,6 +408,7 @@ class Orchestrator:
     async def _run_research(self, topic: str):
         """Full scientific research pipeline."""
         from research_brain import ResearchBrain
+
         print(f"\n\033[96m  🔬 Full Research Pipeline: {topic}\033[0m\n")
         brain = ResearchBrain(self)
         report = await brain.full_research(topic)
@@ -360,15 +437,19 @@ class Orchestrator:
             print("  ❌ Internet agent not available")
             return
         print(f"\n\033[96m  📄 Searching arXiv: {query}\033[0m\n")
-        result = await internet.execute({
-            "name": f"arXiv: {query}",
-            "data": {"action": "arxiv", "query": query, "max_results": 5}
-        })
+        result = await internet.execute(
+            {
+                "name": f"arXiv: {query}",
+                "data": {"action": "arxiv", "query": query, "max_results": 5},
+            }
+        )
         papers = result.get("papers", [])
         if papers:
             for i, p in enumerate(papers, 1):
                 print(f"  {i}. {p.get('title', 'N/A')}")
-                print(f"     📅 {p.get('date', '')} | 👤 {', '.join(p.get('authors', []))}")
+                print(
+                    f"     📅 {p.get('date', '')} | 👤 {', '.join(p.get('authors', []))}"
+                )
                 print(f"     🔗 {p.get('url', '')}")
                 print()
         print(f"  📊 Summary: {result.get('summary', '')[:300]}\n")
@@ -380,10 +461,12 @@ class Orchestrator:
             print("  ❌ Internet agent not available")
             return
         print(f"\n\033[96m  🏥 Searching PubMed: {query}\033[0m\n")
-        result = await internet.execute({
-            "name": f"PubMed: {query}",
-            "data": {"action": "pubmed", "query": query, "max_results": 5}
-        })
+        result = await internet.execute(
+            {
+                "name": f"PubMed: {query}",
+                "data": {"action": "pubmed", "query": query, "max_results": 5},
+            }
+        )
         papers = result.get("papers", [])
         if papers:
             for i, p in enumerate(papers, 1):
@@ -396,6 +479,7 @@ class Orchestrator:
     async def _run_hypothesis(self, observation: str):
         """Generate hypotheses from an observation."""
         from research_brain import ResearchBrain
+
         print(f"\n\033[96m  💡 Generating Hypotheses: {observation[:60]}\033[0m\n")
         brain = ResearchBrain(self)
         hypotheses = await brain.generate_hypotheses(observation)
@@ -414,6 +498,7 @@ class Orchestrator:
     async def _run_think(self, question: str):
         """Deep multi-candidate reasoning — ਡੂੰਘੀ ਸੋਚ."""
         from reasoning_engine import ReasoningEngine
+
         print(f"\n\033[96m  🧠 Deep Thinking: {question[:60]}\033[0m\n")
         engine = ReasoningEngine(self)
         result = await engine.think(question)
@@ -439,10 +524,12 @@ class Orchestrator:
             print("  ❌ Debugger agent not available")
             return
         print(f"\n\033[96m  ⚡ Optimizing: {filepath}\033[0m\n")
-        result = await debugger.execute({
-            "name": f"Optimize {filepath}",
-            "data": {"action": "optimize", "file": filepath}
-        })
+        result = await debugger.execute(
+            {
+                "name": f"Optimize {filepath}",
+                "data": {"action": "optimize", "file": filepath},
+            }
+        )
         suggestions = result.get("suggestions", [])
         if suggestions:
             for i, s in enumerate(suggestions, 1):
@@ -461,22 +548,25 @@ class Orchestrator:
         if not memory:
             print("  ❌ Memory agent not available")
             return
-        result = await memory.execute({
-            "name": "Memory Stats",
-            "data": {"action": "stats"}
-        })
+        result = await memory.execute(
+            {"name": "Memory Stats", "data": {"action": "stats"}}
+        )
         print("\n  \033[93m🧠 Memory System Stats / ਯਾਦਦਾਸ਼ਤ ਅੰਕੜੇ\033[0m")
         print(f"  ├── Context Buffer: {result.get('context_size', '?')} items")
         print(f"  ├── Long-Term Keys: {result.get('long_term_keys', '?')}")
         print(f"  ├── Knowledge Topics: {result.get('knowledge_topics', '?')}")
         print(f"  ├── Episodes: {result.get('episodes', '?')}")
-        xp = result.get('experience_total', {})
-        print(f"  ├── Experience: {xp.get('total', 0)} total "
-              f"({xp.get('success', 0)}✅ {xp.get('failed', 0)}❌)")
-        fp = result.get('failure_patterns', {})
-        print(f"  ├── Failure Patterns: {fp.get('total_patterns', 0)} "
-              f"({fp.get('fixed', 0)} fixed, {fp.get('unfixed', 0)} unfixed)")
-        pl = result.get('plans', {})
+        xp = result.get("experience_total", {})
+        print(
+            f"  ├── Experience: {xp.get('total', 0)} total "
+            f"({xp.get('success', 0)}✅ {xp.get('failed', 0)}❌)"
+        )
+        fp = result.get("failure_patterns", {})
+        print(
+            f"  ├── Failure Patterns: {fp.get('total_patterns', 0)} "
+            f"({fp.get('fixed', 0)} fixed, {fp.get('unfixed', 0)} unfixed)"
+        )
+        pl = result.get("plans", {})
         print(f"  └── Plans: {pl.get('total_plans', 0)}")
         print()
 
@@ -484,11 +574,14 @@ class Orchestrator:
         """Show LLM call statistics."""
         try:
             from llm_router import LLMRouter
+
             stats = LLMRouter().get_stats()
             print("\n  \033[93m📊 LLM Statistics / LLM ਅੰਕੜੇ\033[0m")
             print(f"  ├── Total Calls: {stats.get('total', 0)}")
-            print(f"  ├── Cache Hits: {stats.get('cache_hits', 0)} "
-                  f"({stats.get('cache_hit_rate', 0)*100:.0f}%)")
+            print(
+                f"  ├── Cache Hits: {stats.get('cache_hits', 0)} "
+                f"({stats.get('cache_hit_rate', 0) * 100:.0f}%)"
+            )
             print(f"  ├── Errors: {stats.get('errors', 0)}")
             print(f"  ├── Avg Latency: {stats.get('avg_latency', 0)}s")
             print(f"  ├── Cache Size: {stats.get('cache_size', 0)} entries")
@@ -496,7 +589,7 @@ class Orchestrator:
             if by_model:
                 print("  └── By Model:")
                 for model, ms in by_model.items():
-                    avg = round(ms['latency'] / max(ms['calls'], 1), 2)
+                    avg = round(ms["latency"] / max(ms["calls"], 1), 2)
                     print(f"       {model}: {ms['calls']} calls, avg {avg}s")
             print()
         except Exception as e:
@@ -521,19 +614,28 @@ class Orchestrator:
                 return self.get_agent("planner")  # fallback
 
             # Generate agent code
-            spec = (f"Create a new GODMODE agent class called '{name.title()}Agent' "
-                    f"that extends BaseAgent. It should handle task: {task_data or name}. "
-                    f"Include execute() method. Import from base_agent import BaseAgent.")
-            result = await coder.execute({
-                "name": f"Create {name} agent",
-                "data": {"action": "generate", "spec": spec, "language": "python",
-                         "filename": f"{name}_agent.py"}
-            })
+            spec = (
+                f"Create a new GODMODE agent class called '{name.title()}Agent' "
+                f"that extends BaseAgent. It should handle task: {task_data or name}. "
+                f"Include execute() method. Import from base_agent import BaseAgent."
+            )
+            result = await coder.execute(
+                {
+                    "name": f"Create {name} agent",
+                    "data": {
+                        "action": "generate",
+                        "spec": spec,
+                        "language": "python",
+                        "filename": f"{name}_agent.py",
+                    },
+                }
+            )
 
             # Try to load the new agent
             code = result.get("code", "")
             if code and len(code) > 50:
                 from pathlib import Path
+
                 agent_file = Path("workspace") / f"{name}_agent.py"
                 agent_file.write_text(code)
                 logger.info(f"Auto-created agent file: {agent_file}")
@@ -543,7 +645,9 @@ class Orchestrator:
                 fallback = self.get_agent("planner")
                 if fallback:
                     self.agents[name] = fallback
-                    logger.info(f"Agent '{name}' mapped to planner (auto-created code saved)")
+                    logger.info(
+                        f"Agent '{name}' mapped to planner (auto-created code saved)"
+                    )
                 return self.agents.get(name)
             else:
                 logger.warning(f"Auto-creation returned empty code for '{name}'")
@@ -622,6 +726,7 @@ class Orchestrator:
         """Show recent task execution history."""
         try:
             from experience_log import ExperienceLog
+
             log = ExperienceLog()
             recent = log.recent(10)
             stats = log.stats()
@@ -629,10 +734,14 @@ class Orchestrator:
                 print("\n  ਕੋਈ ਇਤਿਹਾਸ ਨਹੀਂ / No history yet.\n")
                 return
             print("\n  \033[93m📊 Task History (ਟਾਸਕ ਇਤਿਹਾਸ)\033[0m")
-            print(f"  Total: {stats['total']} | ✅ Success: {stats['success']} | ❌ Failed: {stats['failed']} | Rate: {stats['rate']*100:.0f}%\n")
+            print(
+                f"  Total: {stats['total']} | ✅ Success: {stats['success']} | ❌ Failed: {stats['failed']} | Rate: {stats['rate'] * 100:.0f}%\n"
+            )
             for e in recent:
                 icon = "✅" if e.get("success") else "❌"
-                print(f"    {icon} [{e.get('agent','?'):12}] {e.get('action','')[:50]}  ({e.get('timestamp','')[:16]})")
+                print(
+                    f"    {icon} [{e.get('agent', '?'):12}] {e.get('action', '')[:50]}  ({e.get('timestamp', '')[:16]})"
+                )
             print()
         except Exception as e:
             print(f"\n  Could not load history: {e}\n")
@@ -654,10 +763,14 @@ class Orchestrator:
             tasks = [{"name": objective, "agent": "coder", "priority": 1}]
 
         result = await self.queen.spawn_swarm(objective, tasks)
-        print(f"\n  ✅ Swarm result: {result.get('completed', 0)}/{result.get('total', 0)} tasks done")
+        print(
+            f"\n  ✅ Swarm result: {result.get('completed', 0)}/{result.get('total', 0)} tasks done"
+        )
         if result.get("worker_stats"):
             for w, s in result["worker_stats"].items():
-                print(f"     • {w}: {s['completed']} done, {s['failed']} failed, score={s['score']}")
+                print(
+                    f"     • {w}: {s['completed']} done, {s['failed']} failed, score={s['score']}"
+                )
         print()
 
     def _print_swarm_status(self):
@@ -668,11 +781,15 @@ class Orchestrator:
         status = self.queen.get_status()
         print(f"\n  🐝 Swarm Status: {'ACTIVE' if status['running'] else 'IDLE'}")
         print(f"  Topology: {status['topology']}")
-        q = status['queue']
-        print(f"  Queue: {q['pending']} pending, {q['running']} running, {q['done']} done, {q['failed']} failed")
-        for w, s in status['workers'].items():
-            if s['completed'] + s['failed'] > 0:
-                print(f"     • {w}: {s['state']} (score={s['score']}, done={s['completed']}, err={s['failed']})")
+        q = status["queue"]
+        print(
+            f"  Queue: {q['pending']} pending, {q['running']} running, {q['done']} done, {q['failed']} failed"
+        )
+        for w, s in status["workers"].items():
+            if s["completed"] + s["failed"] > 0:
+                print(
+                    f"     • {w}: {s['state']} (score={s['score']}, done={s['completed']}, err={s['failed']})"
+                )
         print()
 
     def _print_plugins(self):
@@ -693,8 +810,11 @@ class Orchestrator:
     async def _run_mcp(self):
         """Start MCP server in background for Claude Code integration."""
         from mcp_server import MCPServer
+
         print("\n  🔌 Starting MCP server (SSE mode on port 3900)...")
-        print("  Add to Claude Code: claude mcp add amrit -- curl http://127.0.0.1:3900")
+        print(
+            "  Add to Claude Code: claude mcp add amrit -- curl http://127.0.0.1:3900"
+        )
         print("  Press Ctrl+C to stop\n")
         server = MCPServer()
         await server.initialize(self)

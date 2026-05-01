@@ -30,7 +30,8 @@ class Task:
         self.agent        = agent
         self.priority     = priority
         self.data         = data or {}
-        self.depends_on   = depends_on or []
+        # Ensure all depends_on are string IDs
+        self.depends_on   = [d["id"] if isinstance(d, dict) and "id" in d else str(d) for d in (depends_on or [])]
         self.tags         = tags or []
         self.timeout      = timeout
         self.max_retries  = max_retries
@@ -80,12 +81,20 @@ class TaskGraph:
 
     def add(self, task_or_dict) -> Task:
         if isinstance(task_or_dict, dict):
+            # Normalize depends_on to string IDs only
+            depends_on = task_or_dict.get("depends_on", [])
+            norm_depends_on = []
+            for d in depends_on:
+                if isinstance(d, dict) and "id" in d:
+                    norm_depends_on.append(str(d["id"]))
+                else:
+                    norm_depends_on.append(str(d))
             t = Task(
                 name       = task_or_dict.get("name", "unnamed"),
                 agent      = task_or_dict.get("agent", "planner"),
                 priority   = task_or_dict.get("priority", 5),
                 data       = task_or_dict.get("data", {}),
-                depends_on = task_or_dict.get("depends_on", []),
+                depends_on = norm_depends_on,
                 tags       = task_or_dict.get("tags", []),
                 timeout    = task_or_dict.get("timeout", 300),
             )
@@ -94,7 +103,8 @@ class TaskGraph:
 
         self._tasks[t.id] = t
         for dep_id in t.depends_on:
-            self._adj[dep_id].append(t.id)
+            dep_id_str = str(dep_id)
+            self._adj[dep_id_str].append(t.id)
 
         logger.debug(f"Task added to graph: {t}")
         return t

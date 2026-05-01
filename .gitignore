@@ -84,3 +84,4 @@ build/
 # Environment files (if ever created)
 .env
 .env.*
+.enva
