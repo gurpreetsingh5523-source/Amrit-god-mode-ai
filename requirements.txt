@@ -13,7 +13,7 @@ google-generativeai>=0.4.0
 
 # Embeddings / Vector
 sentence-transformers>=2.5.0
-faiss-cpu>=1.7.4
+faiss-cpu>=1.13.2
 chromadb>=0.4.0
 
 # Voice
