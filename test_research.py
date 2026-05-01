@@ -9,7 +9,7 @@ from pathlib import Path
 PASS = 0
 FAIL = 0
 
-def test(name, func):
+def _test_runner(name, func):
     global PASS, FAIL
     try:
         result = func()
@@ -34,7 +34,6 @@ def test_complexity_estimator():
     assert estimate_complexity("write a poem") == "low"
     assert estimate_complexity("implement a compiler from scratch with parser and tokenizer") == "high"
     assert estimate_complexity("build an API server with routes") == "medium"
-    return True
 
 def test_cache():
     from reasoning_engine import _cache_key, _CACHE
@@ -43,14 +42,12 @@ def test_cache():
     k3 = _cache_key("different prompt")
     assert k1 == k2, "Same prompt should give same key"
     assert k1 != k3, "Different prompts should give different keys"
-    return True
 
 def test_strategies():
     from reasoning_engine import STRATEGIES
     assert len(STRATEGIES) >= 4, f"Only {len(STRATEGIES)} strategies"
     assert "direct" in STRATEGIES
     assert "decompose" in STRATEGIES
-    return True
 
 def test_reasoning_engine_init():
     from reasoning_engine import ReasoningEngine
@@ -59,12 +56,11 @@ def test_reasoning_engine_init():
     assert "total" in stats
     assert "cache_hits" in stats
     assert "lessons_learned" in stats
-    return True
 
-test("Complexity estimator", test_complexity_estimator)
-test("Cache key generation", test_cache)
-test("Reasoning strategies", test_strategies)
-test("ReasoningEngine init", test_reasoning_engine_init)
+_test_runner("Complexity estimator", test_complexity_estimator)
+_test_runner("Cache key generation", test_cache)
+_test_runner("Reasoning strategies", test_strategies)
+_test_runner("ReasoningEngine init", test_reasoning_engine_init)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print("\n=== 2. Debugger Agent (AST Analysis) ===")
@@ -88,7 +84,6 @@ def test_error_patterns():
     assert "requests" in fix2
     fix3 = d._match_error_pattern("ZeroDivisionError: division by zero")
     assert "zero" in fix3.lower()
-    return True
 
 def test_ast_analysis():
     from debugger_agent import DebuggerAgent
@@ -120,7 +115,6 @@ class MyClass:
     assert "imports" in report
     assert len(report["imports"]) >= 2
     assert len(report["classes"]) >= 1
-    return True
 
 def test_syntax_validation():
     from debugger_agent import DebuggerAgent
@@ -135,11 +129,10 @@ def test_syntax_validation():
     d = DebuggerAgent(MockEB(), MockState())
     assert d._validate_syntax("x = 1")["valid"]
     assert not d._validate_syntax("def f(:")["valid"]
-    return True
 
-test("Error pattern matching", test_error_patterns)
-test("AST code analysis", test_ast_analysis)
-test("Syntax validation", test_syntax_validation)
+_test_runner("Error pattern matching", test_error_patterns)
+_test_runner("AST code analysis", test_ast_analysis)
+_test_runner("Syntax validation", test_syntax_validation)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print("\n=== 3. Memory Agent (Failure Patterns) ===")
@@ -158,9 +151,8 @@ def test_failure_db():
     assert "KNOWN" in fix, f"Expected KNOWN in fix: {fix}"
     stats = db.stats()
     assert stats["total_patterns"] > 0
-    return True
 
-test("Failure pattern DB", test_failure_db)
+_test_runner("Failure pattern DB", test_failure_db)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print("\n=== 4. LLM Router (Caching + Stats) ===")
@@ -173,7 +165,6 @@ def test_llm_router_cache():
     k3 = r._cache_key("different", "system", "model")
     assert k1 == k2
     assert k1 != k3
-    return True
 
 def test_llm_router_stats():
     from llm_router import LLMRouter
@@ -183,10 +174,9 @@ def test_llm_router_stats():
     assert "cache_hits" in stats
     assert "cache_hit_rate" in stats
     assert "cache_size" in stats
-    return True
 
-test("LLM Router cache keys", test_llm_router_cache)
-test("LLM Router stats", test_llm_router_stats)
+_test_runner("LLM Router cache keys", test_llm_router_cache)
+_test_runner("LLM Router stats", test_llm_router_stats)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print("\n=== 5. Self-Evolution (Lessons) ===")
@@ -195,9 +185,8 @@ def test_self_evolution_lessons():
     from self_evolution import LESSONS_FILE
     # Just verify the constant exists
     assert isinstance(LESSONS_FILE, Path)
-    return True
 
-test("Self-evolution lessons file", test_self_evolution_lessons)
+_test_runner("Self-evolution lessons file", test_self_evolution_lessons)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print("\n=== 6. Goal Parser (New Patterns) ===")
@@ -210,7 +199,6 @@ def test_think_pattern():
     tasks = asyncio.run(gp.parse("think about quantum computing"))
     assert len(tasks) >= 1
     assert tasks[0].get("agent") == "researcher"
-    return True
 
 def test_optimize_pattern():
     import asyncio
@@ -220,10 +208,9 @@ def test_optimize_pattern():
     tasks = asyncio.run(gp.parse("optimize main.py"))
     assert len(tasks) >= 1
     assert tasks[0].get("agent") == "debugger"
-    return True
 
-test("Think pattern", test_think_pattern)
-test("Optimize pattern", test_optimize_pattern)
+_test_runner("Think pattern", test_think_pattern)
+_test_runner("Optimize pattern", test_optimize_pattern)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print(f"\n{'='*50}")

@@ -1,3 +1,6 @@
+from toolbox import ToolBox
+from toolbox_persistence import ToolBoxPersistence
+import asyncio
 """Tool Agent — File I/O, terminal, git, JSON operations with EthicalGuard enforcement."""
 import os
 import shutil
@@ -37,6 +40,12 @@ class ToolAgent(BaseAgent):
         Path("workspace").mkdir(exist_ok=True)
         self.workspace = Path("workspace").resolve()
         self.guard = EthicalGuard()
+        # ToolBox integration
+        self.toolbox = ToolBox()
+        self.toolbox_persistence = ToolBoxPersistence()
+        # Load dynamic tools
+        for name, desc in self.toolbox_persistence.load_tools().items():
+            self.toolbox.create_tool(name, desc)
         # Wire proper FileOps and TerminalOps implementations
         try:
             from file_ops import FileOps
@@ -48,11 +57,18 @@ class ToolAgent(BaseAgent):
             self._terminal_ops = TerminalOps()
         except Exception:
             self._terminal_ops = None
+    def save_dynamic_tools(self):
+        self.toolbox_persistence.save_tools(self.toolbox.tools)
 
     async def execute(self, task: dict) -> dict:
         d = task.get("data", {})
         tool = d.get("tool","file")
         await self.report(f"Tool [{tool}:{d.get('action','')}]")
+        # Support dynamic tools
+        if tool in self.toolbox.tools:
+            result = self.toolbox.run(tool)
+            self.save_dynamic_tools()
+            return self.ok(result=result, tool=tool)
         return await {"file": self._file, "terminal": self._terminal,
                       "git": self._git, "json": self._json,
                       "dir": self._dir, "search": self._search_files,

@@ -1,209 +1,246 @@
 """
-Learning Layer — ਸਿੱਖਣ ਦੀ ਪਰਤ
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-AMRIT ਦਾ self-correction ਅਤੇ evolution DNA
-
-ਚੱਕਰ (Feedback Cycle):
-  1. ਦੇਖ (Observe)   — ਗਲਤੀ ਜਾਂ ਕਮਜ਼ੋਰੀ ਫੜੋ
-  2. ਸੋਚ (Reflect)   — ਕਾਰਨ ਲੱਭੋ, ਪੈਟਰਨ ਸਮਝੋ
-  3. ਠੀਕ (Correct)   — ਲਾਜ਼ਿਕ ਬਦਲੋ, ਸੁਧਾਰ ਕਰੋ
-  4. ਯਾਦ (Record)    — ਸਬਕ ਸੇਵ ਕਰੋ ਤਾਂ ਜੋ ਦੁਬਾਰਾ ਨਾ ਹੋਵੇ
-
-ੴ ਸਤਿਨਾਮ — ਹਰ ਗਲਤੀ ਇੱਕ ਸਿੱਖਿਆ ਹੈ।
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Learning Layer — ਸਿੱਖਣ ਦਾ ਦਿਮਾਗ (LLM-Independent)
+═══════════════════════════════════════════════════════
+ਇਹ ਸਿਸਟਮ LLM ਤੋਂ ਬਿਨਾਂ ਸਿੱਖਦਾ ਹੈ:
+  1. ਦੇਖ (Observe) — ਕੀ ਗਲਤ ਹੋਇਆ?
+  2. ਪੈਟਰਨ (Pattern) — ਕੀ ਇਹ ਪਹਿਲਾਂ ਵੀ ਹੋਇਆ?
+  3. ਸਬਕ (Lesson) — ਕੀ ਸਿੱਖਿਆ?
+  4. ਅਮਲ (Apply) — ਅਗਲੀ ਵਾਰ ਕੀ ਕਰੀਏ?
 """
+
 import json
-from datetime import datetime
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
+from datetime import datetime
 from logger import setup_logger
 
 logger = setup_logger("LearningLayer")
 
 LESSONS_PATH = Path("workspace/learning_lessons.json")
-PATTERNS_PATH = Path("workspace/failure_patterns.json")
+PATTERNS_PATH = Path("workspace/learning_patterns.json")
 
 
 class LearningLayer:
-    """
-    ਸਿੱਖਣ ਦੀ ਪਰਤ — observe → reflect → correct → record
-
-    ਇਹ ਸਾਰੇ ਸਿਸਟਮ ਦੇ ਤਜਰਬੇ ਇਕੱਠੇ ਕਰਦੀ ਹੈ,
-    ਪੈਟਰਨ ਲੱਭਦੀ ਹੈ, ਅਤੇ ਸਬਕ ਬਣਾਉਂਦੀ ਹੈ।
-    """
-
     def __init__(self):
-        self._lessons = self._load(LESSONS_PATH, default=[])
-        self._patterns = self._load(PATTERNS_PATH, default=[])
+        self._lessons = self._load(LESSONS_PATH, [])
+        self._patterns = self._load(PATTERNS_PATH, [])
+        self._failure_counts = Counter()  # agent → fail count
+        self._success_counts = Counter()  # agent → success count
+        self._error_patterns = Counter()  # error_type → count
+        self._agent_skills = {}  # agent → {skill: score}
 
-    # ──────────────────────────────────────────────
-    # 1. ਦੇਖ (Observe) — ਕੀ ਗਲਤ ਹੋਇਆ?
-    # ──────────────────────────────────────────────
-    def observe(self, event: dict) -> dict | None:
+    # ══════════════════════════════════════════════════════════════
+    # 1. ਦੇਖ (Observe) — Experience ਤੋਂ ਸਿੱਖੋ
+    # ══════════════════════════════════════════════════════════════
+
+    def observe(
+        self,
+        agent_or_dict,
+        action: str = None,
+        success: bool = None,
+        error: str = "",
+        duration: float = 0,
+        context: dict = None,
+    ):
+        """ਹਰ task ਦੇ ਬਾਅਦ observe ਕਰੋ — ਕੀ ਹੋਇਆ?
+        
+        Dict ਜਾਂ positional args ਦੋਵੇਂ ਤਰੀਕੇ ਕੰਮ ਕਰਦੇ ਹਨ:
+          ll.observe({"agent": "x", "action": "y", "success": True})
+          ll.observe("agent", "action", True)
         """
-        ਘਟਨਾ ਦੇਖੋ ਅਤੇ ਫ਼ੈਸਲਾ ਕਰੋ ਕਿ ਇਹ ਸਬਕ ਬਣਦੀ ਹੈ ਕਿ ਨਹੀਂ।
-
-        event ਵਿੱਚ ਇਹ ਹੋਣੇ ਚਾਹੀਦੇ:
-            agent  — ਕਿਹੜੇ agent ਨੇ ਕੰਮ ਕੀਤਾ
-            action — ਕੀ ਕੀਤਾ
-            success — ਕਾਮਯਾਬ ਹੋਇਆ ਜਾਂ ਨਹੀਂ
-            error  — (ਜੇ ਫੇਲ੍ਹ) ਕੀ ਗਲਤੀ ਸੀ
-        """
-        if event.get("success", True):
-            return None  # ਕਾਮਯਾਬੀ — ਸਿੱਖਣ ਦੀ ਲੋੜ ਨਹੀਂ
-
-        agent = event.get("agent", "unknown")
-        action = event.get("action", "unknown")
-        error = event.get("error", "")
-
-        # ਕੀ ਇਹ ਪਹਿਲਾਂ ਵੀ ਹੋ ਚੁੱਕੀ ਹੈ?
-        pattern = self._find_pattern(agent, error)
-        if pattern:
-            pattern["count"] = pattern.get("count", 1) + 1
-            pattern["last_seen"] = datetime.now().isoformat()
-            logger.info(f"  🔁 ਪੁਰਾਣੀ ਗਲਤੀ ({pattern['count']}ਵੀਂ ਵਾਰ): {agent}/{action}")
+        if isinstance(agent_or_dict, dict):
+            d = agent_or_dict
+            agent = d.get("agent", "unknown")
+            action = d.get("action", "unknown")
+            success = bool(d.get("success", False))
+            error = d.get("error", "")
+            duration = d.get("duration", 0)  # noqa: F841
+            context = d.get("context")  # noqa: F841
         else:
-            pattern = {
-                "agent": agent,
-                "action": action,
-                "error_key": error[:100].lower().strip(),
-                "count": 1,
-                "first_seen": datetime.now().isoformat(),
-                "last_seen": datetime.now().isoformat(),
-                "fix": None,
-            }
-            self._patterns.append(pattern)
-            logger.info(f"  🆕 ਨਵੀਂ ਗਲਤੀ ਫੜੀ: {agent}/{action}")
+            agent = agent_or_dict
+        if success:
+            self._success_counts[agent] += 1
+            self._update_skill(agent, action, +0.1)
+        else:
+            self._failure_counts[agent] += 1
+            self._update_skill(agent, action, -0.2)
+            error_type = self._classify_error(error)
+            self._error_patterns[error_type] += 1
+            self._detect_pattern(agent, action, error_type, error)
 
-        self._save(PATTERNS_PATH, self._patterns)
-        return pattern
+        # ਹਰ 20 observations ਤੇ save ਕਰੋ
+        total = sum(self._success_counts.values()) + sum(self._failure_counts.values())
+        if total % 20 == 0:
+            self._save_all()
 
-    # ──────────────────────────────────────────────
-    # 2. ਸੋਚ (Reflect) — ਕਿਉਂ ਹੋਇਆ?
-    # ──────────────────────────────────────────────
-    def reflect(self) -> list:
-        """
-        ਸਾਰੇ ਪੈਟਰਨਾਂ ਉੱਤੇ ਸੋਚੋ — ਕਿਹੜੇ agent ਸਭ ਤੋਂ ਵੱਧ ਫੇਲ੍ਹ?
-        ਕਿਹੜੀ ਗਲਤੀ ਵਾਰ-ਵਾਰ ਆਉਂਦੀ?
-        """
-        if not self._patterns:
-            return []
+    # ══════════════════════════════════════════════════════════════
+    # 2. ਪੈਟਰਨ (Pattern Detection) — ਕੀ ਵਾਰ ਵਾਰ ਹੋ ਰਿਹਾ?
+    # ══════════════════════════════════════════════════════════════
 
-        # ਸਭ ਤੋਂ ਵੱਧ ਫੇਲ੍ਹ ਹੋਣ ਵਾਲੇ agent
-        agent_counts = Counter(p["agent"] for p in self._patterns)
-        # ਵਾਰ-ਵਾਰ ਆਉਣ ਵਾਲੀਆਂ ਗਲਤੀਆਂ (3+ ਵਾਰ)
-        recurring = [p for p in self._patterns if p.get("count", 1) >= 3]
+    def _detect_pattern(self, agent: str, action: str, error_type: str, error: str):
+        """ਜੇ ਇੱਕੋ ਗਲਤੀ 3+ ਵਾਰ ਹੋਵੇ → ਸਬਕ ਬਣਾਓ"""
+        key = f"{agent}:{error_type}"
+        count = self._error_patterns[error_type]
 
-        insights = []
-        for agent, cnt in agent_counts.most_common(3):
-            insights.append({
-                "type": "ਕਮਜ਼ੋਰ_agent",
-                "agent": agent,
-                "failure_count": cnt,
-                "advice": f"{agent} ਨੂੰ ਵਧੇਰੇ ਧਿਆਨ ਚਾਹੀਦਾ — {cnt} ਵਾਰ ਫੇਲ੍ਹ"
-            })
-        for p in recurring:
-            insights.append({
-                "type": "ਵਾਰ-ਵਾਰ_ਗਲਤੀ",
-                "agent": p["agent"],
-                "error": p["error_key"][:60],
-                "count": p["count"],
-                "advice": f"ਇਹ ਗਲਤੀ {p['count']} ਵਾਰ ਹੋਈ — ਪੱਕਾ ਹੱਲ ਚਾਹੀਦਾ"
-            })
+        if count >= 3 and not self._has_lesson(key):
+            lesson = self._generate_lesson(agent, error_type, error, count)
+            self._lessons.append(lesson)
+            self._patterns.append(
+                {
+                    "key": key,
+                    "agent": agent,
+                    "error_type": error_type,
+                    "count": count,
+                    "detected": datetime.now().isoformat(),
+                }
+            )
+            logger.info(f"🧠 ਨਵਾਂ ਸਬਕ: {lesson['lesson']}")
 
-        if insights:
-            logger.info(f"  🪞 ਸੋਚ (Reflect): {len(insights)} ਸਬਕ ਮਿਲੇ")
-        return insights
-
-    # ──────────────────────────────────────────────
-    # 3. ਠੀਕ (Correct) — ਸੁਧਾਰ ਲਾਗੂ ਕਰੋ
-    # ──────────────────────────────────────────────
-    def correct(self, pattern: dict, fix_description: str):
-        """
-        ਜਦੋਂ ਕੋਈ ਗਲਤੀ ਠੀਕ ਹੋ ਜਾਵੇ, ਇੱਥੇ ਦੱਸੋ ਕਿ ਕਿਵੇਂ ਠੀਕ ਹੋਈ।
-        ਅਗਲੀ ਵਾਰ ਇਹੀ ਹੱਲ ਆਪੇ ਲੱਭੇਗਾ।
-        """
-        # ਪੈਟਰਨ ਵਿੱਚ fix ਸੇਵ ਕਰੋ
-        for p in self._patterns:
-            if p.get("error_key") == pattern.get("error_key") and p.get("agent") == pattern.get("agent"):
-                p["fix"] = fix_description
-                p["fixed_at"] = datetime.now().isoformat()
-                break
-
-        self._save(PATTERNS_PATH, self._patterns)
-        logger.info(f"  ✅ ਸੁਧਾਰ ਸੇਵ ਕੀਤਾ: {pattern.get('agent')}/{pattern.get('error_key','')[:40]}")
-
-    # ──────────────────────────────────────────────
-    # 4. ਯਾਦ (Record) — ਸਬਕ ਲਿਖੋ
-    # ──────────────────────────────────────────────
-    def record_lesson(self, lesson: str, source: str = "auto", tags: list = None):
-        """
-        ਸਬਕ ਸੇਵ ਕਰੋ — ਭਵਿੱਖ ਲਈ ਯਾਦ ਰੱਖਣਾ।
-        """
-        entry = {
-            "lesson": lesson,
-            "source": source,
-            "tags": tags or [],
-            "timestamp": datetime.now().isoformat(),
+    def _generate_lesson(
+        self, agent: str, error_type: str, error: str, count: int
+    ) -> dict:
+        """Rule-based lesson generation — ਕੋਈ LLM ਨਹੀਂ ਚਾਹੀਦਾ"""
+        LESSON_RULES = {
+            "timeout": {
+                "lesson": f"Agent '{agent}' ਵਾਰ ਵਾਰ timeout ਹੁੰਦਾ → ਟਾਸਕ ਛੋਟਾ ਕਰੋ ਜਾਂ timeout ਵਧਾਓ",
+                "action": "reduce_task_size",
+                "priority": "high",
+            },
+            "import_error": {
+                "lesson": f"Agent '{agent}' ਵਿੱਚ import ਗਲਤੀਆਂ → dependencies ਚੈੱਕ ਕਰੋ",
+                "action": "check_dependencies",
+                "priority": "critical",
+            },
+            "api_error": {
+                "lesson": "API ਕਾਲਾਂ ਫੇਲ੍ਹ ਹੋ ਰਹੀਆਂ → ਲੋਕਲ ਮਾਡਲ ਵਰਤੋ",
+                "action": "switch_to_local",
+                "priority": "high",
+            },
+            "memory_error": {
+                "lesson": "ਮੈਮੋਰੀ ਘੱਟ ਹੈ → batch size ਘਟਾਓ ਜਾਂ ਛੋਟਾ ਮਾਡਲ ਵਰਤੋ",
+                "action": "reduce_batch_size",
+                "priority": "critical",
+            },
+            "syntax_error": {
+                "lesson": f"Agent '{agent}' ਵਿੱਚ syntax ਗਲਤੀਆਂ → code validation ਵਧਾਓ",
+                "action": "add_validation",
+                "priority": "medium",
+            },
+            "connection_error": {
+                "lesson": "ਕਨੈਕਸ਼ਨ ਸਮੱਸਿਆ → retry ਨਾਲ backoff ਵਰਤੋ",
+                "action": "add_retry",
+                "priority": "medium",
+            },
         }
-        self._lessons.append(entry)
-        # ਵੱਧ ਤੋਂ ਵੱਧ 200 ਸਬਕ ਰੱਖੋ
-        if len(self._lessons) > 200:
-            self._lessons = self._lessons[-200:]
-        self._save(LESSONS_PATH, self._lessons)
-        logger.info(f"  📝 ਸਬਕ ਸੇਵ ਕੀਤਾ: {lesson[:60]}")
+        rule = LESSON_RULES.get(
+            error_type,
+            {
+                "lesson": f"Agent '{agent}' ਵਿੱਚ '{error_type}' ਗਲਤੀ {count} ਵਾਰ → ਜਾਂਚ ਕਰੋ",
+                "action": "investigate",
+                "priority": "low",
+            },
+        )
+        return {
+            **rule,
+            "agent": agent,
+            "error_type": error_type,
+            "occurrences": count,
+            "created": datetime.now().isoformat(),
+        }
 
-    # ──────────────────────────────────────────────
-    # ਪੁਰਾਣੇ ਸਬਕ ਲੱਭੋ — ਕੀ ਪਹਿਲਾਂ ਇਹ ਗਲਤੀ ਹੋਈ ਸੀ?
-    # ──────────────────────────────────────────────
-    def find_known_fix(self, agent: str, error: str) -> str | None:
-        """
-        ਜੇ ਇਹ ਗਲਤੀ ਪਹਿਲਾਂ ਹੋਈ ਸੀ ਅਤੇ ਉਸ ਦਾ ਹੱਲ ਪਤਾ ਹੈ,
-        ਤਾਂ ਹੱਲ ਵਾਪਸ ਦਿਓ। ਨਹੀਂ ਤਾਂ None।
-        """
-        pattern = self._find_pattern(agent, error)
-        if pattern and pattern.get("fix"):
-            logger.info(f"  💡 ਪੁਰਾਣਾ ਹੱਲ ਮਿਲਿਆ: {pattern['fix'][:50]}")
-            return pattern["fix"]
-        return None
+    # ══════════════════════════════════════════════════════════════
+    # 3. ਸਲਾਹ (Recommendations) — ਅਗਲੀ ਵਾਰ ਕੀ ਕਰੀਏ?
+    # ══════════════════════════════════════════════════════════════
 
-    def get_lessons(self, tag: str = None, n: int = 20) -> list:
-        """ਤਾਜ਼ਾ ਸਬਕ ਦਿਓ, tag ਨਾਲ ਫਿਲਟਰ ਕਰ ਸਕਦੇ ਹੋ।"""
-        if tag:
-            filtered = [ln for ln in self._lessons if tag in ln.get("tags", [])]
-            return filtered[-n:]
-        return self._lessons[-n:]
+    def recommend_agent(self, task_type: str) -> str:
+        """ਸਭ ਤੋਂ ਵਧੀਆ agent ਚੁਣੋ ਤਜ਼ਰਬੇ ਦੇ ਆਧਾਰ ਤੇ"""
+        best_agent = None
+        best_score = -999
+        for agent, skills in self._agent_skills.items():
+            for skill, score in skills.items():
+                if task_type.lower() in skill.lower() and score > best_score:
+                    best_score = score
+                    best_agent = agent
+        return best_agent or "planner"
 
-    def stats(self) -> dict:
-        """ਸੰਖੇਪ ਅੰਕੜੇ।"""
-        total_patterns = len(self._patterns)
-        fixed = sum(1 for p in self._patterns if p.get("fix"))
-        recurring = sum(1 for p in self._patterns if p.get("count", 1) >= 3)
+    def get_lessons_for(self, agent: str = None, error_type: str = None) -> list:
+        """ਕਿਸੇ agent ਜਾਂ error type ਲਈ ਸਬਕ ਲੱਭੋ"""
+        results = self._lessons
+        if agent:
+            results = [lesson for lesson in results if lesson.get("agent") == agent]
+        if error_type:
+            results = [
+                lesson for lesson in results if lesson.get("error_type") == error_type
+            ]
+        return results
+
+    def get_action_for_error(self, error_type: str) -> str:
+        """ਗਲਤੀ ਲਈ ਸਿੱਖਿਆ ਹੋਇਆ ਅਮਲ ਦੱਸੋ"""
+        for lesson in reversed(self._lessons):
+            if lesson.get("error_type") == error_type:
+                return lesson.get("action", "investigate")
+        return "investigate"
+
+    def get_summary(self) -> dict:
+        """ਸਿੱਖਣ ਦਾ ਸੰਖੇਪ"""
         return {
             "total_lessons": len(self._lessons),
-            "total_error_patterns": total_patterns,
-            "patterns_with_fix": fixed,
-            "recurring_errors": recurring,
+            "total_patterns": len(self._patterns),
+            "top_failures": dict(self._failure_counts.most_common(5)),
+            "top_errors": dict(self._error_patterns.most_common(5)),
+            "agent_scores": {
+                a: round(sum(s.values()) / max(len(s), 1), 2)
+                for a, s in self._agent_skills.items()
+            },
         }
 
-    # ── ਅੰਦਰੂਨੀ ਸਹਾਇਕ ────────────────────────
-    def _find_pattern(self, agent: str, error: str) -> dict | None:
-        key = error[:100].lower().strip()
-        for p in self._patterns:
-            if p.get("agent") == agent and p.get("error_key") == key:
-                return p
-        return None
+    def stats(self) -> dict:
+        """get_summary() ਦਾ alias — backward compatibility"""
+        return self.get_summary()
+
+    # ══════════════════════════════════════════════════════════════
+    # ਅੰਦਰੂਨੀ ਫੰਕਸ਼ਨ (Internal Helpers)
+    # ══════════════════════════════════════════════════════════════
+
+    def _classify_error(self, error: str) -> str:
+        e = error.lower()
+        if "timeout" in e:
+            return "timeout"
+        if "import" in e or "module" in e:
+            return "import_error"
+        if "api" in e or "http" in e or "404" in e:
+            return "api_error"
+        if "memory" in e or "oom" in e:
+            return "memory_error"
+        if "syntax" in e:
+            return "syntax_error"
+        if "connection" in e or "refused" in e:
+            return "connection_error"
+        if "permission" in e:
+            return "permission_error"
+        return "unknown"
+
+    def _update_skill(self, agent: str, action: str, delta: float):
+        self._agent_skills.setdefault(agent, {})
+        skill = action.split()[0] if action else "general"
+        current = self._agent_skills[agent].get(skill, 0.5)
+        self._agent_skills[agent][skill] = max(0.0, min(1.0, current + delta))
+
+    def _has_lesson(self, key: str) -> bool:
+        return any(p.get("key") == key for p in self._patterns)
+
+    def _save_all(self):
+        LESSONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        LESSONS_PATH.write_text(json.dumps(self._lessons[-200:], indent=2, default=str))
+        PATTERNS_PATH.write_text(
+            json.dumps(self._patterns[-200:], indent=2, default=str)
+        )
 
     @staticmethod
-    def _load(path: Path, default=None):
+    def _load(path: Path, default):
         if path.exists():
             try:
                 return json.loads(path.read_text())
             except Exception:
                 pass
-        return default if default is not None else []
-
-    @staticmethod
-    def _save(path: Path, data):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False, default=str))
+        return default

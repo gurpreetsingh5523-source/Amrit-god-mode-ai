@@ -58,10 +58,14 @@ class ResearchBrain:
     - Produces research reports
     """
 
-    def __init__(self, orchestrator):
+    def __init__(self, orchestrator, toolbox=None, meta_cognition=None):
         self.orc = orchestrator
+        self.toolbox = toolbox
+        self.meta_cognition = meta_cognition
         self._hypotheses = []
         self._findings = []
+        self._llm_router = None
+        self._llm_cache = {}
         RESEARCH_DIR.mkdir(parents=True, exist_ok=True)
 
     # ══════════════════════════════════════════════════════════════
@@ -186,98 +190,155 @@ Return detailed analysis."""
     # 3. FULL RESEARCH PIPELINE — ਪੂਰੀ ਖੋਜ ਪਾਈਪਲਾਈਨ
     # ══════════════════════════════════════════════════════════════
 
+
     async def full_research(self, question: str, domain: str = "") -> dict:
         """
-        Full scientific research cycle:
-        1. Search existing literature (Internet Agent)
-        2. Generate hypotheses
-        3. Design experiment (Simulation Agent)
-        4. Validate with simulation
-        5. Produce research report
+        Full scientific research cycle, refactored into modular steps for clarity and maintainability.
         """
+        self._meta_cognition_precheck()
         logger.info(f"\n{'═' * 50}")
         logger.info(f"  🔬 FULL RESEARCH: {question[:60]}")
         logger.info(f"{'═' * 50}")
-
         t0 = time.time()
         report = {"question": question, "domain": domain, "steps": {}}
-
+        internet, sim = self._get_agents()
         # Step 1: Literature search
-        logger.info("📚 Step 1: Literature search...")
-        internet = self.orc.get_agent("internet")
-        lit_review = {}
-        if internet:
-            lit_review = await internet.execute({
-                "name": f"Literature: {question[:40]}",
-                "data": {"action": "search",
-                         "query": f"scientific research {domain} {question} latest findings"}
-            })
-            report["steps"]["literature"] = {
-                "results": len(lit_review.get("results", [])),
-                "summary": str(lit_review.get("answer", ""))[:500]
-            }
-
-        # Step 2: arXiv search (via internet agent)
-        logger.info("📄 Step 2: arXiv search...")
-        if internet:
-            arxiv_results = await internet.execute({
-                "name": f"arXiv: {question[:40]}",
-                "data": {"action": "arxiv", "query": question, "max_results": 5}
-            })
-            report["steps"]["arxiv"] = arxiv_results.get("papers", [])[:3]
-
-        # Step 3: Generate hypotheses
-        logger.info("💡 Step 3: Hypothesis generation...")
-        context = str(lit_review.get("answer", ""))[:500]
-        hypotheses = await self.generate_hypotheses(
-            f"{question}\nExisting knowledge: {context}", domain
-        )
-        report["steps"]["hypotheses"] = hypotheses
-
-        # Step 4: Simulation / Experiment design
-        logger.info("🧪 Step 4: Experiment design...")
-        sim = self.orc.get_agent("simulation")
-        if sim and hypotheses:
-            best_h = hypotheses[0]
-            experiment = await sim.execute({
-                "name": f"Test: {best_h.get('hypothesis', '')[:50]}",
-                "data": {
-                    "action": "experiment",
-                    "name": question[:40],
-                    "description": f"Test hypothesis: {best_h.get('hypothesis', '')}\n"
-                                   f"Method: {best_h.get('test', '')}\n"
-                                   f"Prediction: {best_h.get('prediction', '')}"
-                }
-            })
-            report["steps"]["experiment"] = {
-                "design": str(experiment.get("design", ""))[:500]
-            }
-
-        # Step 5: Validate
-        logger.info("✅ Step 5: Validation...")
-        if sim and hypotheses:
-            validation = await sim.execute({
-                "name": f"Validate: {question[:40]}",
-                "data": {
-                    "action": "hypothesis",
-                    "hypothesis": hypotheses[0].get("hypothesis", question)
-                }
-            })
-            report["steps"]["validation"] = {
-                "evaluation": str(validation.get("evaluation", ""))[:500]
-            }
-
-        # Step 6: Generate report
-        logger.info("📝 Step 6: Research report...")
+        lit_review = await self._step_literature_search(internet, question, domain)
+        if lit_review:
+            report["steps"]["literature"] = lit_review
+        # Step 2: arXiv search
+        arxiv = await self._step_arxiv_search(internet, question)
+        if arxiv:
+            report["steps"]["arxiv"] = arxiv
+        # Step 3: Hypothesis generation
+        hypotheses = await self._step_hypothesis_generation(question, domain, report)
+        if hypotheses:
+            report["steps"]["hypotheses"] = hypotheses
+        # Step 4: Experiment design
+        experiment = await self._step_experiment_design(sim, hypotheses, question)
+        if experiment:
+            report["steps"]["experiment"] = experiment
+        # Step 5: Validation
+        validation = await self._step_validation(sim, hypotheses, question)
+        if validation:
+            report["steps"]["validation"] = validation
+        # Step 6: Report
         elapsed = time.time() - t0
         report["elapsed_seconds"] = round(elapsed, 1)
         report["timestamp"] = datetime.now().isoformat()
-
-        # Write full report
         await self._write_report(question, report)
-
         logger.info(f"🔬 Research complete in {elapsed:.1f}s")
         return report
+
+    def _meta_cognition_precheck(self):
+        if self.meta_cognition:
+            insights = self.meta_cognition.analyze_self([], {})
+            if any("Too many failures" in i for i in insights):
+                logger.warning("MetaCognition: Too many failures detected before research start.")
+            if any("Slow thinking" in i for i in insights):
+                logger.warning("MetaCognition: Latency issues detected before research start.")
+
+    def _get_agents(self):
+        internet = self.toolbox.run("get_agent", "internet") if self.toolbox else self.orc.get_agent("internet")
+        sim = self.toolbox.run("get_agent", "simulation") if self.toolbox else self.orc.get_agent("simulation")
+        return internet, sim
+
+    async def _step_literature_search(self, internet, question, domain):
+        logger.info("📚 Step 1: Literature search...")
+        if not internet:
+            return None
+        lit_review = await internet.execute({
+            "name": f"Literature: {question[:40]}",
+            "data": {"action": "search",
+                     "query": f"scientific research {domain} {question} latest findings"}
+        })
+        summary = str(lit_review.get("answer", ""))[:300]
+        return {
+            "results": len(lit_review.get("results", [])),
+            "summary": summary
+        }
+
+    async def _step_arxiv_search(self, internet, question):
+        logger.info("📄 Step 2: arXiv search...")
+        if not internet:
+            return None
+        arxiv_results = await internet.execute({
+            "name": f"arXiv: {question[:40]}",
+            "data": {"action": "arxiv", "query": question, "max_results": 5}
+        })
+        return arxiv_results.get("papers", [])[:3]
+
+    async def _step_hypothesis_generation(self, question, domain, report):
+        logger.info("💡 Step 3: Hypothesis generation...")
+        context = report["steps"].get("literature", {}).get("summary", "")
+        context = context[:350] if context else ""
+        prompt = f"{question}\nExisting knowledge: {context}"
+        logger.info(f"[LLM] Prompt length: {len(prompt)} chars")
+        cache_key = ("generate_hypotheses", prompt, domain)
+        max_tokens = 800
+        if self.meta_cognition:
+            perf = {"latency": 0}  # Latency not tracked here
+            insights = self.meta_cognition.analyze_self([], perf)
+            if any("Slow thinking" in i for i in insights):
+                max_tokens = 600
+        logger.info(f"[LLM] max_tokens: {max_tokens}")
+        if cache_key in self._llm_cache:
+            logger.info("[LLM] Using cached hypotheses result.")
+            return self._llm_cache[cache_key]
+        import asyncio
+        start_llm = time.time()
+        try:
+            hypotheses = await asyncio.wait_for(self.generate_hypotheses(prompt, domain, num=3), timeout=35)
+            self._llm_cache[cache_key] = hypotheses
+            elapsed_llm = time.time() - start_llm
+            logger.info(f"[LLM] Hypotheses LLM call took {elapsed_llm:.1f}s")
+            if elapsed_llm > 15:
+                logger.warning("[LLM] LLM call exceeded 15s, consider fallback or further reducing context.")
+        except asyncio.TimeoutError:
+            logger.error("[LLM] LLM call timed out after 35s!")
+            hypotheses = [
+                {"hypothesis": "[ERROR] LLM call timed out after 35s.", "mechanism": "", "test": "", "prediction": "", "confidence": "unknown"}
+            ]
+        except Exception as e:
+            logger.error(f"[LLM] Error during LLM call: {e}")
+            hypotheses = [
+                {"hypothesis": f"[ERROR] LLM call failed: {e}", "mechanism": "", "test": "", "prediction": "", "confidence": "unknown"}
+            ]
+        return hypotheses
+
+    async def _step_experiment_design(self, sim, hypotheses, question):
+        logger.info("🧪 Step 4: Experiment design...")
+        if not (sim and hypotheses):
+            return None
+        best_h = hypotheses[0]
+        experiment = await sim.execute({
+            "name": f"Test: {best_h.get('hypothesis', '')[:50]}",
+            "data": {
+                "action": "experiment",
+                "name": question[:40],
+                "description": f"Test hypothesis: {best_h.get('hypothesis', '')}\n"
+                               f"Method: {best_h.get('test', '')}\n"
+                               f"Prediction: {best_h.get('prediction', '')}"
+            }
+        })
+        return {
+            "design": str(experiment.get("design", ""))[:300]
+        }
+
+    async def _step_validation(self, sim, hypotheses, question):
+        logger.info("✅ Step 5: Validation...")
+        if not (sim and hypotheses):
+            return None
+        validation = await sim.execute({
+            "name": f"Validate: {question[:40]}",
+            "data": {
+                "action": "hypothesis",
+                "hypothesis": hypotheses[0].get("hypothesis", question)
+            }
+        })
+        return {
+            "evaluation": str(validation.get("evaluation", ""))[:300]
+        }
 
     # ══════════════════════════════════════════════════════════════
     # PAPER ANALYSIS — ਪੇਪਰ ਵਿਸ਼ਲੇਸ਼ਣ

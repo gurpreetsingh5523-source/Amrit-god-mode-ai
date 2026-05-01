@@ -10,7 +10,7 @@ Sits on top of PermissionManager and adds:
 from dataclasses import dataclass
 from enum import Enum, auto
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 from logger import setup_logger
 from permission_manager import PermissionManager
 
@@ -73,13 +73,13 @@ class PermissionEnforcer:
     """Enforces tool-level permissions with workspace boundary checks."""
 
     def __init__(self, perm_manager: PermissionManager,
-                 workspace_root: str | Path | None = None):
+                 workspace_root: Optional[Union[str, Path]] = None):
         self.pm = perm_manager
         self.workspace = Path(workspace_root).resolve() if workspace_root else None
         self._denied_log: list[EnforcementResult] = []
 
     def check(self, agent: str, tool: str,
-              target_path: str | None = None) -> EnforcementResult:
+              target_path: Optional[str] = None) -> EnforcementResult:
         """Check if agent can use tool, optionally on a specific path."""
         action = TOOL_PERMISSIONS.get(tool, tool)
 
@@ -115,7 +115,7 @@ class PermissionEnforcer:
         )
 
     def require(self, agent: str, tool: str,
-                target_path: str | None = None) -> EnforcementResult:
+                target_path: Optional[str] = None) -> EnforcementResult:
         """Like check(), but raises PermissionError on deny."""
         result = self.check(agent, tool, target_path)
         if not result:

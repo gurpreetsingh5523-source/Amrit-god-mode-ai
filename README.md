@@ -20,7 +20,6 @@
 AMRIT GODMODE is an **autonomous AI agent platform** that can:
 
 - **Write, test, and fix its own code** — the self-evolution engine scans all 97 modules, finds weaknesses, generates improvements, tests them, and applies only if tests pass
-- **Escalate from 7B to 32B models automatically** — starts with fast 7B (Ollama), escalates to Qwen3-32B (AirLLM, 64 layers) when 7B fails
 - **Research the internet** — searches arXiv for latest papers and feeds findings into code improvements
 - **Talk and listen** — voice control via Whisper STT + TTS
 - **See and understand** — vision mode with image/video analysis
@@ -166,7 +165,6 @@ python main.py --mode vision
 | `model_selector.py` | Picks best model for each task |
 | `local_llm.py` | Ollama integration |
 | `cloud_llm.py` | OpenAI/Anthropic/Groq/Gemini APIs |
-| `airllm_qwen3_patch.py` | Qwen3-32B patches for AirLLM (Apple Silicon) |
 
 ### Self-Evolution
 | Module | Purpose |
@@ -230,7 +228,6 @@ Phase 7: TRAIN    → Feeds learnings back into the model
 
 When the fast 7B model fails to generate good refactoring code:
 1. **Attempt 1-2**: Uses Ollama 7B (fast, ~2s/response)
-2. **Attempt 3**: Escalates to Qwen3-32B via AirLLM (64 layers, layer-by-layer inference)
 
 This works on 16GB RAM — AirLLM loads one layer at a time through Metal GPU.
 
@@ -325,7 +322,6 @@ Control AMRIT via Telegram:
 AMRIT includes a LoRA fine-tuning pipeline for Punjabi language:
 
 ```bash
-# Train (45K Punjabi samples on Qwen2.5-Coder-7B)
 python punjabi_trainer.py train
 
 # Deploy to Ollama
@@ -349,7 +345,6 @@ Amrit-god-mode-ai/
 ├── llm_router.py           # Smart model routing
 ├── self_evolution.py        # Self-improvement engine
 ├── learning_layer.py        # Observe/reflect/correct
-├── airllm_qwen3_patch.py   # 32B model patches
 │
 ├── *_agent.py              # 14 specialized agents
 ├── *_memory.py             # 8 memory types
