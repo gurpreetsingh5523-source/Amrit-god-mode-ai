@@ -106,13 +106,12 @@ class GoalEngine:
                 goal.error = str(e)
                 self._persist(goal, event="failed")
                 print(f"[GoalEngine] ❌ Failed: {goal} — {e}")
+        return completed
     def execute_task(self, task):
         agent_type = task.get("type")
         if agent_type in self.agents:
             return self.agents[agent_type].run(task.get("input"))
         return f"No agent for {agent_type}"
-
-        return completed
 
     def retry_failed(self) -> list[Goal]:
         """ਸਾਰੇ failed goals ਨੂੰ pending ਕਰਕੇ ਦੁਬਾਰਾ try ਕਰੋ"""

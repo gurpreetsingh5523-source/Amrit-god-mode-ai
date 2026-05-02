@@ -1,5 +1,4 @@
 """File Operations — Safe read/write/search/copy within workspace."""
-import os
 import shutil
 import json
 from pathlib import Path

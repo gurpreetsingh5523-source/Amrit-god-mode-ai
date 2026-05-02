@@ -14,12 +14,10 @@ Usage (from GODMODE):
     await trainer.run_cycle()            # One full train+eval cycle
 """
 import json
-import os
 import csv
 import random
 import subprocess
 import time
-import shutil
 from pathlib import Path
 from logger import setup_logger
 
@@ -125,25 +123,29 @@ class PunjabiTrainer:
         Returns:
             dict: Preparation status and stats.
         """
-        DATA_DIR.mkdir(parents=True, exist_ok=True)
-        all_examples = self._gather_all_examples()
-        if not all_examples:
-            return {"status": "error", "error": "No data loaded from any dataset"}
-        unique = self._deduplicate_examples(all_examples)
-        random.shuffle(unique)
-        unique = unique[:self.max_samples] if len(unique) > self.max_samples else unique
-        train_data, valid_data, test_data = self._split_data(unique)
-        for data, path in [(train_data, TRAIN_FILE), (valid_data, VALID_FILE), (test_data, TEST_FILE)]:
-            self._write_chatml_jsonl(data, path)
-        stats = {
-            "train": len(train_data),
-            "valid": len(valid_data),
-            "test": len(test_data),
-            "total_unique": len(unique),
-            "datasets_used": len([d for d in DATASETS if DATASETS[d]["path"].exists()])
-        }
-        logger.info(f"  📊 Prepared: {stats}")
-        return {"status": "ok", **stats}
+        try:
+            DATA_DIR.mkdir(parents=True, exist_ok=True)
+            all_examples = self._gather_all_examples()
+            if not all_examples:
+                return {"status": "error", "error": "No data loaded from any dataset"}
+            unique = self._deduplicate_examples(all_examples)
+            random.shuffle(unique)
+            unique = unique[:self.max_samples] if len(unique) > self.max_samples else unique
+            train_data, valid_data, test_data = self._split_data(unique)
+            for data, path in [(train_data, TRAIN_FILE), (valid_data, VALID_FILE), (test_data, TEST_FILE)]:
+                self._write_chatml_jsonl(data, path)
+            stats = {
+                "train": len(train_data),
+                "valid": len(valid_data),
+                "test": len(test_data),
+                "total_unique": len(unique),
+                "datasets_used": len([d for d in DATASETS if DATASETS[d]["path"].exists()])
+            }
+            logger.info(f"  📊 Prepared: {stats}")
+            return {"status": "ok", **stats}
+        except Exception as e:
+            logger.error(f"Error preparing datasets: {e}")
+            return {"status": "error", "error": str(e)}
 
     def _gather_all_examples(self) -> list:
         """Load all available datasets and return combined examples list."""
@@ -556,9 +558,13 @@ TEMPLATE \"\"\"{{{{ if .System }}}}<|im_start|>system
 
     def is_best(self) -> bool:
         """Check if model has plateaued (no improvement in 3+ cycles)."""
-        cycles = self._metrics.get("cycles", 0)
-        best_cycle = self._metrics.get("best_cycle", 0)
-        return cycles - best_cycle >= 3
+        try:
+            cycles = self._metrics.get("cycles", 0)
+            best_cycle = self._metrics.get("best_cycle", 0)
+            return cycles - best_cycle >= 3
+        except Exception as e:
+            logger.error(f"Error in is_best method: {e}")
+            raise RuntimeError("An error occurred while checking if the model has plateaued.") from e
 
     # ─── HELPERS ─────────────────────────────────────────────────
 

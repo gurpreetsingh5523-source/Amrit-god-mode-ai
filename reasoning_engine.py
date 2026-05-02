@@ -158,31 +158,17 @@ class ReasoningEngine:
     # CORE: THINK — ਡੂੰਘੀ ਸੋਚ ਵਾਲਾ ਜਵਾਬ
     # ══════════════════════════════════════════════════════════════
 
-    async def think(self, question: str, n_candidates: int = 0,
-                    domain: str = "") -> dict:
-        """
-        Multi-candidate reasoning pipeline.
-        
-        1. Estimate complexity
-        2. Generate N candidates using different strategies
-        3. Score each candidate
-        4. Validate the best one
-        5. Return best answer with confidence
-        
-        n_candidates=0 means auto (based on complexity).
-        """
+    async def think(self, question: str, n_candidates: int = 0, domain: str = ""):
         self._stats["total"] += 1
         t0 = time.time()
 
         complexity = estimate_complexity(question)
 
-        # Auto-set candidate count based on complexity
         if n_candidates == 0:
             n_candidates = {"low": 1, "medium": 2, "high": 3}[complexity]
 
         logger.info(f"Thinking: complexity={complexity}, candidates={n_candidates}")
 
-        # Check relevant lessons
         relevant_lessons = self._find_relevant_lessons(question)
         lesson_context = ""
         if relevant_lessons:
@@ -191,10 +177,8 @@ class ReasoningEngine:
             )
             lesson_context = f"\nLEARNED FROM PAST:\n{lesson_context}\n"
 
-        # Check unified memory for relevant context
         memory_context = await self._query_memory(question)
 
-        # ── High complexity → AmritDeepReasoner (RDT-inspired loop reasoning) ──
         if complexity == "high":
             try:
                 from llm_router import LLMRouter
@@ -218,7 +202,6 @@ class ReasoningEngine:
             except Exception as e:
                 logger.warning(f"AmritDeepReasoner failed ({e}), falling back to multi-candidate")
 
-        # Single candidate — just answer well (no multi-path overhead for simple tasks)
         if n_candidates == 1:
             system = (
                 "You are AMRIT, an expert AI. Answer precisely and correctly."
@@ -237,53 +220,52 @@ class ReasoningEngine:
             self._learn_from_result(question, result)
             return result
 
-        # Multi-candidate: generate different approaches
         strategies = list(STRATEGIES.keys())[:n_candidates]
         candidates = []
 
-        for strat in strategies:
-            strat_instruction = STRATEGIES[strat]
-            system = (
-                f"You are AMRIT. Use this reasoning strategy: {strat_instruction}\n"
-                f"Domain: {domain or 'general'}\n"
-                f"{lesson_context}"
-                f"{memory_context}"
-                "Be thorough but concise."
-            )
+        async def generate_candidates():
+            for strat in strategies:
+                strat_instruction = STRATEGIES[strat]
+                system = (
+                    f"You are AMRIT. Use this reasoning strategy: {strat_instruction}\n"
+                    f"Domain: {domain or 'general'}\n"
+                    f"{lesson_context}"
+                    f"{memory_context}"
+                    "Be thorough but concise."
+                )
 
-            response = await self._llm(
-                f"QUESTION: {question}\n\nSTRATEGY: {strat_instruction}",
-                system=system
-            )
-            candidates.append({
-                "strategy": strat,
-                "response": response,
-                "score": 0.0,
-            })
-            self._stats["candidates_tested"] += 1
+                response = await self._llm(
+                    f"QUESTION: {question}\n\nSTRATEGY: {strat_instruction}",
+                    system=system
+                )
+                candidates.append({
+                    "strategy": strat,
+                    "response": response,
+                    "score": 0.0,
+                })
+                self._stats["candidates_tested"] += 1
 
-        # Score each candidate
-        scored = await self._score_candidates(question, candidates)
+        async def score_candidates():
+            scored = await self._score_candidates(question, candidates)
+            return max(scored, key=lambda c: c["score"])
 
-        # Pick the best
-        best = max(scored, key=lambda c: c["score"])
+        async def validate_answer(best):
+            validation = await self._validate_answer(question, best["response"])
+            confidence = min(1.0, best["score"] * 0.8 + validation["validity"] * 0.2)
+            return {
+                "answer": best["response"],
+                "confidence": round(confidence, 2),
+                "complexity": complexity,
+                "strategy": best["strategy"],
+                "candidates_tested": len(candidates),
+                "all_scores": {c["strategy"]: c["score"] for c in candidates},
+                "validation": validation,
+                "elapsed": round(time.time() - t0, 2),
+            }
 
-        # Validate the best answer (try to find flaws)
-        validation = await self._validate_answer(question, best["response"])
-
-        confidence = min(1.0, best["score"] * 0.8 + validation["validity"] * 0.2)
-
-        result = {
-            "answer": best["response"],
-            "confidence": round(confidence, 2),
-            "complexity": complexity,
-            "strategy": best["strategy"],
-            "candidates_tested": len(scored),
-            "all_scores": {c["strategy"]: c["score"] for c in scored},
-            "validation": validation,
-            "elapsed": round(time.time() - t0, 2),
-        }
-
+        await generate_candidates()
+        best = await score_candidates()
+        result = await validate_answer(best)
         self._learn_from_result(question, result)
         return result
 

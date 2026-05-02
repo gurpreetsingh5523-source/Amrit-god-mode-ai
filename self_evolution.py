@@ -15,7 +15,6 @@ It continuously:
 import asyncio
 import time
 import json
-import os
 import sys
 import subprocess
 from amrit_core.adaptive_layer import AdaptiveLayer

@@ -1,5 +1,4 @@
 """Self Upgrade — Analyzes and improves system components autonomously."""
-import re
 from pathlib import Path
 from logger import setup_logger
 

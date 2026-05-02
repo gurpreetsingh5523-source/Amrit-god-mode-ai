@@ -1,5 +1,4 @@
 """Voice Agent — STT (Whisper) + TTS (pyttsx3/ElevenLabs) + emotion detection."""
-import asyncio
 from base_agent import BaseAgent
 
 class VoiceAgent(BaseAgent):

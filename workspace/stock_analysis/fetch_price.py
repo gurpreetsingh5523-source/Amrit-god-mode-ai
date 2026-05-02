@@ -36,7 +36,7 @@ def fetch_price():
         with urllib.request.urlopen(req, timeout=30) as r:
             text = r.read().decode(errors="ignore")
         # CSV: Symbol,Date,Time,Open,High,Low,Close,Volume
-        lines = [l for l in text.splitlines() if l.strip()]
+        lines = [ln for ln in text.splitlines() if ln.strip()]
         if len(lines) >= 2:
             last = lines[1].split(',')
             # Close price is at index 6 in the returned format

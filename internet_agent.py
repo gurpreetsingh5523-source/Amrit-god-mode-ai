@@ -1,4 +1,3 @@
-import asyncio
 """Internet Agent — Deep web crawling, scientific research, multi-source data extraction."""
 import re
 import json
@@ -9,8 +8,23 @@ from base_agent import BaseAgent
 
 class InternetAgent(BaseAgent):
     def __init__(self, eb, state):
+        """Initialize an InternetAgent instance.
+
+        Args:
+            eb (BrowserOps): The browser operations instance.
+            state (str): The current state of the agent.
+
+        Returns:
+            None
+
+        Raises:
+            TypeError: If `eb` is not an instance of BrowserOps or `state` is not a str.
+        """
+        from logger import setup_logger
+        logger = setup_logger(__name__)
         super().__init__("InternetAgent", eb, state)
         self._browser = None  # lazy BrowserOps instance
+        logger.info(f"Initializing InternetAgent with eb: {type(eb)}, state: {state}")
 
     def _get_browser(self):
         if self._browser is None:
@@ -23,30 +37,36 @@ class InternetAgent(BaseAgent):
         return self._browser if self._browser else None
 
     async def execute(self, task: dict) -> dict:
+        """Executes an internet action based on the provided task dictionary.
+
+        Args:
+            task (dict): A dictionary containing the details of the action to be executed. It must include a "data" key with additional parameters for specific actions.
+
+        Returns:
+            dict: A dictionary containing the result of the executed action.
+
+        Raises:
+            KeyError: If 'data' key is not present in task or if any required parameter under 'data' is missing.
+        """
         d = task.get("data", {})
         action = d.get("action", "search")
         await self.report(f"Internet [{action}]")
-        if action == "search":
-            return await self._search(d.get("query",""))
-        if action == "browse":
-            return await self._browse(d.get("url",""), d.get("query",""))
-        if action == "crawl":
-            return await self._crawl(d.get("url",""), d.get("depth",1))
-        if action == "extract":
-            return await self._extract(d.get("url",""), d.get("fields",[]))
-        if action == "news":
-            return await self._news(d.get("topic",""))
-        if action == "wikipedia":
-            return await self._wikipedia(d.get("query",""))
-        if action == "download":
-            return await self._download(d.get("url",""), d.get("dest","workspace/"))
-        if action == "arxiv":
-            return await self._arxiv(d.get("query",""), d.get("max_results",5))
-        if action == "pubmed":
-            return await self._pubmed(d.get("query",""), d.get("max_results",5))
-        if action == "scholar":
-            return await self._scholar_search(d.get("query",""))
-        return await self._search(d.get("query", task.get("name","")))
+        actions = {
+            "search": lambda: self._search(d.get("query","")),
+            "browse": lambda: self._browse(d.get("url",""), d.get("query","")),
+            "crawl": lambda: self._crawl(d.get("url",""), d.get("depth",1)),
+            "extract": lambda: self._extract(d.get("url",""), d.get("fields",[])),
+            "news": lambda: self._news(d.get("topic","")),
+            "wikipedia": lambda: self._wikipedia(d.get("query","")),
+            "download": lambda: self._download(d.get("url",""), d.get("dest","workspace/")),
+            "arxiv": lambda: self._arxiv(d.get("query",""), d.get("max_results",5)),
+            "pubmed": lambda: self._pubmed(d.get("query",""), d.get("max_results",5)),
+            "scholar": lambda: self._scholar_search(d.get("query","")),
+        }
+        if action in actions:
+            return await actions[action]()
+        else:
+            return await self._search(d.get("query", task.get("name","")))
 
     async def _browse(self, url: str, query: str = "") -> dict:
         """Use real browser (Selenium) to load a JS-heavy page and extract text."""
@@ -156,13 +176,33 @@ class InternetAgent(BaseAgent):
             return self.err(str(e))
 
     async def interactive_loop(self, orchestrator):
+        """Run an interactive loop for querying and receiving answers from the internet mode.
+
+        Args:
+            self (object): The instance of the class running the interactive loop.
+            orchestrator (object): The orchestrator object used to handle queries.
+
+        Returns:
+            None.
+
+        Raises:
+            Exception: Any exceptions raised by _search method or input/output operations.
+        """
+        from logger import setup_logger
+        logger = setup_logger(__name__)
         print("\n\033[96m🌐 Internet Mode\033[0m")
         while True:
             q = input("\n[Internet] Query (or exit): ").strip()
             if q.lower() == "exit":
                 break
-            r = await self._search(q)
-            print(f"\n{r.get('answer','')}\n")
+            logger.info(f"Query received: {q}")
+            try:
+                r = await self._search(q)
+                print(f"\n{r.get('answer','')}\n")
+                logger.debug(f"Answer retrieved: {r.get('answer','')}")
+            except Exception as e:
+                logger.error(f"Error during search for query '{q}': {e}")
+                print("\033[91mAn error occurred. Please try again.\033[0m")
 
     # ══════════════════════════════════════════════════════════════
     # SCIENTIFIC SEARCH — arXiv, PubMed, Scholar

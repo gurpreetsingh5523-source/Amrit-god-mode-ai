@@ -117,6 +117,13 @@ def build_graph() -> tuple[list, list]:
     return nodes, links
 
 
+
+CATEGORY_COLORS = {
+    'agent': '#539bf5', 'memory': '#f97306', 'llm': '#d29034',
+    'engine': '#b16cbe', 'infra': '#8cb44e', 'test': '#e03f3f',
+    'workspace': '#5eb95e', 'other': '#a77afe'
+}
+
 def generate_html(nodes: list, links: list) -> str:
     nodes_json = json.dumps(nodes, ensure_ascii=False)
     links_json = json.dumps(links, ensure_ascii=False)
@@ -127,7 +134,16 @@ def generate_html(nodes: list, links: list) -> str:
 <head>
 <meta charset="UTF-8"/>
 <title>ੴ Amrit GodMode — Brain Map</title>
-<style>
+<style>{CSS_STYLE}</style>
+</head>
+<body>
+{HTML_BODY}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>{JS_SCRIPT.format(nodes_json=nodes_json, links_json=links_json, categories=categories)}</script>
+</body>
+</html>"""
+
+CSS_STYLE = """
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 body {{ background:#0d1117; color:#e6edf3; font-family:'SF Mono',monospace; overflow:hidden; }}
 #canvas {{ width:100vw; height:100vh; }}
@@ -163,9 +179,9 @@ body {{ background:#0d1117; color:#e6edf3; font-family:'SF Mono',monospace; over
   font-size:13px; width:200px; outline:none;
 }}
 #search input:focus {{ border-color:#58a6ff; }}
-</style>
-</head>
-<body>
+"""
+
+HTML_BODY = """
 <div id="info">
   <h1>ੴ AMRIT BRAIN MAP</h1>
   <div class="stat">Files: <b id="s-nodes">-</b></div>
@@ -180,9 +196,9 @@ body {{ background:#0d1117; color:#e6edf3; font-family:'SF Mono',monospace; over
 <div id="search"><input id="search-input" placeholder="🔍 Search file..." /></div>
 <div id="tooltip"></div>
 <svg id="canvas"></svg>
+"""
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
+JS_SCRIPT = """
 const nodes = {nodes_json};
 const links = {links_json};
 const CAT_COLORS = {categories};
@@ -213,43 +229,50 @@ svg.call(d3.zoom().scaleExtent([0.1,8]).on('zoom', e => g.attr('transform', e.tr
 svg.append('defs').append('marker')
   .attr('id','arrow').attr('viewBox','0 -4 8 8')
   .attr('refX',18).attr('refY',0)
-  .attr('markerWidth',6).attr('markerHeight',6)
-  .attr('orient','auto')
-  .append('path').attr('d','M0,-4L8,0L0,4').attr('fill','#30363d');
+  .attr('refY',0)
+  .attr('markerWidth', 10).attr('markerHeight', 10).attr('orient', 'auto');
 
-// Simulation
-const sim = d3.forceSimulation(nodes)
-  .force('link', d3.forceLink(links).id(d=>d.id).distance(80).strength(0.4))
-  .force('charge', d3.forceManyBody().strength(-280))
-  .force('center', d3.forceCenter(W/2, H/2))
-  .force('collide', d3.forceCollide(d => d.size + 4));
+// Draw arrowhead
+svg.append('line')
+  .attr('id', 'arrow-head')
+  .attr('x1', 18).attr('y1', 0)
+  .attr('x2', 28).attr('y2', -5)
+  .attr('stroke', '#000').attr('marker-end', 'url(#arrow)');
 
-const link = g.append('g').selectAll('line')
-  .data(links).join('line')
-  .attr('stroke','#30363d').attr('stroke-width',1.2)
-  .attr('marker-end','url(#arrow)');
+// Arrow marker end
+svg.append('defs').append('marker')
+  .attr('id', 'arrow')
+  .attr('viewBox', '0 0 10 10').attr('refX', 8).attr('markerWidth', 4).attr('markerHeight', 4);
 
-const node = g.append('g').selectAll('circle')
-  .data(nodes).join('circle')
-  .attr('r', d => d.size)
-  .attr('fill', d => d.color)
-  .attr('fill-opacity', 0.85)
-  .attr('stroke', d => d.color)
-  .attr('stroke-width', 1.5)
-  .style('cursor','pointer')
-  .call(d3.drag()
-    .on('start', (e,d) => {{ if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }})
-    .on('drag',  (e,d) => {{ d.fx=e.x; d.fy=e.y; }})
-    .on('end',   (e,d) => {{ if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }}));
+// Draw arrow path
+svg.append('path')
+  .attr('id', 'arrow-path')
+  .attr('d', 'M0,5H10M7,2L10,5L7,8')
+  .attr('stroke', '#000').attr('fill', 'none');
 
-const label = g.append('g').selectAll('text')
-  .data(nodes).join('text')
+// Arrow marker end
+svg.append('use')
+  .attr('xlink:href', '#arrow-head')
+  .attr('x', 28).attr('y', -5);
+
+// Arrow marker start
+svg.append('use')
+  .attr('xlink:href', '#arrow-path')
+  .attr('x', 0).attr('y', 5);
+
+// Node elements
+const node = g.selectAll('.node').data(nodes).enter().append('circle')
+  .attr('class', 'node')
+  .attr('r', d => Math.max(8, d.size * 0.65))
+  .attr('cx', d => d.x).attr('cy', d => d.y)
+  .style('fill', d => d.category ? CATEGORY_COLORS[d.category] : 'grey');
+
+const label = g.selectAll('.label').data(nodes).enter().append('text')
   .text(d => d.name)
+  .attr('class', 'label')
   .attr('font-size', d => Math.max(8, d.size * 0.65))
-  .attr('fill','#e6edf3').attr('text-anchor','middle')
-  .attr('dy', d => d.size + 10)
-  .style('pointer-events','none')
-  .style('user-select','none');
+  .attr('fill', '#e6edf3').attr('text-anchor', 'middle')
+  .attr('x', d => d.x).attr('y', d => d.y + (d.size * 2));
 
 // Tooltip
 const tip = document.getElementById('tooltip');
@@ -262,59 +285,11 @@ node.on('mousemove', (e,d) => {{
     <div class="t-name">${{d.name}}</div>
     <div class="t-path">${{d.path}}</div>
     <div class="t-stat">📄 ${{d.lines}} lines &nbsp;|&nbsp; 🔗 ${{ins}} connections</div>
-    <div class="t-stat">🏷 ${{d.category}}</div>`;
-}}).on('mouseleave', () => tip.style.display='none');
-
-// Click to highlight
-let selected = null;
-node.on('click', (e,d) => {{
-  e.stopPropagation();
-  if(selected === d.id) {{
-    selected = null;
-    node.attr('fill-opacity',0.85).attr('stroke-width',1.5);
-    link.attr('stroke','#30363d').attr('stroke-opacity',1).attr('stroke-width',1.2);
-  }} else {{
-    selected = d.id;
-    const connected = new Set();
-    connected.add(d.id);
-    links.forEach(l => {{
-      if(l.source.id===d.id) connected.add(l.target.id);
-      if(l.target.id===d.id) connected.add(l.source.id);
-    }});
-    node.attr('fill-opacity', n => connected.has(n.id)?1:0.15)
-        .attr('stroke-width',  n => n.id===d.id?3:1.5);
-    link.attr('stroke', l => (l.source.id===d.id||l.target.id===d.id)?l.source.color||'#58a6ff':'#30363d')
-        .attr('stroke-opacity', l => (l.source.id===d.id||l.target.id===d.id)?1:0.1)
-        .attr('stroke-width',   l => (l.source.id===d.id||l.target.id===d.id)?2:1.2);
-  }}
+  `;
+}}).on('mouseout', (e) => {{
+  tip.style.display='none';
 }});
-svg.on('click', () => {{
-  selected=null;
-  node.attr('fill-opacity',0.85).attr('stroke-width',1.5);
-  link.attr('stroke','#30363d').attr('stroke-opacity',1).attr('stroke-width',1.2);
-}});
-
-// Search
-document.getElementById('search-input').addEventListener('input', function() {{
-  const q = this.value.toLowerCase().trim();
-  if(!q) {{
-    node.attr('fill-opacity',0.85);
-    label.attr('fill','#e6edf3');
-    return;
-  }}
-  node.attr('fill-opacity', d => d.name.toLowerCase().includes(q)?1:0.1);
-  label.attr('fill', d => d.name.toLowerCase().includes(q)?'#58a6ff':'#30363d');
-}});
-
-sim.on('tick', () => {{
-  link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
-      .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
-  node.attr('cx',d=>d.x).attr('cy',d=>d.y);
-  label.attr('x',d=>d.x).attr('y',d=>d.y);
-}});
-</script>
-</body>
-</html>"""
+"""
 
 
 if __name__ == "__main__":

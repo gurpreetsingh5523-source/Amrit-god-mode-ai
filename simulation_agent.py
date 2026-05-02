@@ -2,7 +2,6 @@
 import random
 import time
 import math
-import json
 from pathlib import Path
 from base_agent import BaseAgent
 

@@ -55,7 +55,7 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
         if log_file.exists():
             with open(log_file, "r", errors="replace") as f:
                 all_lines = f.readlines()
-                lines = [l.rstrip() for l in all_lines[-40:]]
+                lines = [line.rstrip() for line in all_lines[-40:]]
         self._send_json({"lines": lines, "file": str(log_file.name)})
 
     def _serve_json_file(self, path):
