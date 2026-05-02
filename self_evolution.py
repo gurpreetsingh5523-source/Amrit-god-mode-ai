@@ -303,7 +303,9 @@ class SelfEvolution:
         # Test 1: Import every module
         py_files = [f.stem for f in Path(".").glob("*.py")
                     if f.name not in ("main.py", "self_evolution.py", "test_godmode.py",
-                                      "test_security.py", "setup.py")]
+                                      "test_security.py", "test_goal_engine.py",
+                                      "test_research.py", "setup.py")
+                    and not f.name.startswith("test_")]
         for mod in py_files:
             try:
                 r = subprocess.run(
@@ -687,8 +689,8 @@ class SelfEvolution:
                         + base_instructions
                     )
 
-                # Final attempt (legacy: used to escalate to larger models)
-                category = "deep" if attempt == MAX_RETRIES else "refactor"
+                # Final attempt — same model, different prompt emphasis
+                category = "refactor"
 
                 result = await coder.execute({
                     "name": f"Refactor {func_name} in {fp.name}",
@@ -1041,8 +1043,8 @@ class SelfEvolution:
                         else:
                             instructions_with_feedback = instructions
 
-                        # Escalate to 32B on final attempt
-                        category = "deep" if attempt == 3 else "refactor"
+                        # Same model on all attempts (deepseek-r1:32b not installed)
+                        category = "refactor"
                         # if attempt == 3:
                         #     logger.info("  7B escalation (legacy, now skipped)...")
 
