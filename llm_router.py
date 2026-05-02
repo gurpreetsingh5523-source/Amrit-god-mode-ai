@@ -180,23 +180,14 @@ class LLMRouter:
         return MODEL_REGISTRY.get(category, MODEL_REGISTRY["brain"])
 
     def _smart_route(self, prompt: str, agent: str = None) -> str:
-        """ਸਮਾਰਟ ਰਾਊਟਿੰਗ — ਏਜੰਟ ਜਾਂ ਪ੍ਰੌਂਪਟ ਦੇ ਹਿਸਾਬ ਨਾਲ ਮਾਡਲ ਚੁਣੋ"""
-        # 1. Agent-based routing
-        if agent and agent in AGENT_MODEL_MAP:
-            category = AGENT_MODEL_MAP[agent]
-            return MODEL_REGISTRY[category]
-
-        # 2. Content-based routing
-        prompt_lower = prompt.lower()[:500]
-        if any(kw in prompt_lower for kw in CODE_KEYWORDS):
-            return MODEL_REGISTRY["coder"]
-
-        # 3. Short prompts → fast model
-        if len(prompt) < 200:
-            return MODEL_REGISTRY["fast"]
-
-        # 4. Default → brain
-        return MODEL_REGISTRY["brain"]
+        """AmritMoERouter \u0a35\u0a30\u0a24 \u0a15\u0a47 model \u0a1a\u0a41\u0a23\u0a4b"""
+        from amrit_moe_router import AmritMoERouter
+        moe = AmritMoERouter()
+        if agent:
+            return moe.route_by_agent(agent, prompt)
+        complexity = moe.complexity_from_text(prompt)
+        task_type = "code" if any(kw in prompt.lower() for kw in CODE_KEYWORDS) else "general"
+        return moe.route(task_type=task_type, complexity=complexity, prompt=prompt)
 
     async def complete(
         self,
