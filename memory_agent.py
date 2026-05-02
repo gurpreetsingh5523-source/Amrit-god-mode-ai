@@ -11,29 +11,6 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-class MemoryAgent(BaseAgent):
-    """Unified Memory Agent — cross-queries all memory systems."""
-
-    def __init__(self, eb, state):
-        super().__init__("MemoryAgent", eb, state)
-        self.ctx      = ContextBuffer()
-        self.lt       = LongTermMemory()
-        self.know     = KnowledgeStore()
-        self.xp       = ExperienceLog()
-        self.epis     = EpisodicMemory()
-        self.sem      = SemanticMemory()
-        self.plan     = PlanningMemory()
-        self.failures = FailurePatternDB()
-
-    def store(self, key: str, value: dict):
-        try:
-            # Use state manager to persist data
-            print(f"[MemoryAgent.store] Called on instance id {id(self)} for key: {key}")
-            self.state.set(key, value)
-            print(f"💾 [Memory] Saved: {key}")
-        except Exception as e:
-            print(f"[Memory] ❌ Store failed: {e}")
-
 """
 Memory Agent — Unified Multi-Layer Memory / ਏਕੀਕ੍ਰਿਤ ਯਾਦਦਾਸ਼ਤ
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

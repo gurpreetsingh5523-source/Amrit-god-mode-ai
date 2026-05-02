@@ -1,6 +1,5 @@
 """Image Reader — PIL-based image processing."""
 import base64
-from pathlib import Path
 from logger import setup_logger
 logger = setup_logger("ImageReader")
 

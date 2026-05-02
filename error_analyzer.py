@@ -1,5 +1,4 @@
 """Error Analyzer — Root cause analysis for agent failures."""
-import re
 from logger import setup_logger
 logger = setup_logger("ErrorAnalyzer")
 

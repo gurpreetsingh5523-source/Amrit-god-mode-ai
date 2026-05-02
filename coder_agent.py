@@ -1,13 +1,11 @@
-from toolbox import ToolBox
-from toolbox_persistence import ToolBoxPersistence
-import asyncio
 """Coder Agent — Multi-language code generation, fixing, refactoring, testing."""
 import ast
 import re
 import subprocess
-import tempfile
 from pathlib import Path
 from base_agent import BaseAgent
+from toolbox import ToolBox
+from toolbox_persistence import ToolBoxPersistence
 
 
 # Language-specific first-token patterns for _strip() detection

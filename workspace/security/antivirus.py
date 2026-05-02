@@ -32,7 +32,7 @@ import subprocess
 import zipfile
 import tarfile
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 import threading
 import logging
 
@@ -377,7 +377,7 @@ def scan(paths: List[Path], signatures: List[re.Pattern], quarantine: bool = Fal
     if use_clam:
         print(json.dumps({"info": f"clamscan_available: {clamscan}"}))
 
-    yara_rules = load_yara_rules()
+    load_yara_rules()
 
     for base in paths:
         if not base.exists():
