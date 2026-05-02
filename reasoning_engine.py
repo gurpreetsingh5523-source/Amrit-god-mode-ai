@@ -194,6 +194,30 @@ class ReasoningEngine:
         # Check unified memory for relevant context
         memory_context = await self._query_memory(question)
 
+        # ── High complexity → AmritDeepReasoner (RDT-inspired loop reasoning) ──
+        if complexity == "high":
+            try:
+                from llm_router import LLMRouter
+                from amrit_deep_reasoner import AmritDeepReasoner
+                reasoner = AmritDeepReasoner(LLMRouter())
+                mem_ctx = (memory_context + lesson_context).strip()
+                result_raw = await reasoner.reason(question, context=mem_ctx)
+                final_answer = result_raw["answer"]
+                loops = result_raw["loops_used"]
+                logger.info(f"\u262c \u0a38\u0a4b\u0a1a: {loops} loops \u0a35\u0a30\u0a24\u0a47")
+                result = {
+                    "answer": final_answer,
+                    "confidence": round(result_raw["confidence"], 2),
+                    "complexity": complexity,
+                    "strategy": f"deep_reason/{loops}_loops",
+                    "candidates_tested": loops,
+                    "elapsed": round(time.time() - t0, 2),
+                }
+                self._learn_from_result(question, result)
+                return result
+            except Exception as e:
+                logger.warning(f"AmritDeepReasoner failed ({e}), falling back to multi-candidate")
+
         # Single candidate — just answer well (no multi-path overhead for simple tasks)
         if n_candidates == 1:
             system = (
