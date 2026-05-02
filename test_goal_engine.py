@@ -3,7 +3,6 @@ import pytest
 from orchestrator import Orchestrator
 from event_bus import EventBus
 
-
 @pytest.mark.asyncio
 async def test_goal_engine():
     print("[TEST] Initializing Orchestrator and GoalEngine...")
@@ -21,7 +20,6 @@ async def test_goal_engine():
     print(f"[TEST] Goal result: {goal.result}")
     assert goal.status in ("done", "failed"), "Goal should be processed"
     print("[TEST] GoalEngine test complete.")
-
 
 if __name__ == "__main__":
     asyncio.run(test_goal_engine())

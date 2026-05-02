@@ -23,14 +23,15 @@ logger = setup_logger("LLMRouter")
 # ── Model Registry ────────────────────────────────────────────
 # ਹੁਣ ਸਾਰੇ ਕੰਮ ਲਈ ਸਿਰਫ਼ DeepSeek (Ollama) ਦੀ ਵਰਤੋਂ ਹੋਵੇਗੀ
 MODEL_REGISTRY = {
-    "brain": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਸੋਚ, ਯੋਜਨਾ ਅਤੇ ਵਿਸ਼ਲੇਸ਼ਣ ਲਈ
-    "coder": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਕੋਡ ਲਿਖਣ ਅਤੇ ਡੀਬੱਗਿੰਗ ਲਈ
-    "coding": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # alias for coder
-    "fast": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਤੇਜ਼ ਜਵਾਬਾਂ ਲਈ
+    "brain":     "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਸੋਚ, ਯੋਜਨਾ, ਵਿਸ਼ਲੇਸ਼ਣ
+    "coder":     "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਕੋਡ ਲਿਖਣਾ, ਡੀਬੱਗ
+    "coding":    "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # alias for coder
+    "fast":      "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਤੇਜ਼ ਜਵਾਬ
     "reasoning": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਡੂੰਘੀ ਸੋਚ
-    "creative": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਰਚਨਾਤਮਕ ਕੰਮ
-    "deep": "deepseek-r1:32b",  # ਬਹੁਤ ਡੂੰਘਾ ਵਿਸ਼ਲੇਸ਼ਣ (32B)
-    "embed": "nomic-embed-text:latest",  # ਐਮਬੈਡਿੰਗ (ਇਹ ਪਹਿਲਾਂ ਵਾਲਾ ਹੀ ਹੈ)
+    "creative":  "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # ਰਚਨਾਤਮਕ ਕੰਮ
+    "deep":      "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # deepseek-r1:32b ਅਜੇ ਨਹੀਂ, same model
+    "embed":     "nomic-embed-text:latest",                     # embedding only
+    "refactor":  "deepseek-coder-v2:16b-lite-instruct-q4_K_M",  # self_evolution refactor
 }
 
 # Provider Registry (ਇਹ ਵੀ ਚੈੱਕ ਕਰ ਲਵੋ)
@@ -93,16 +94,29 @@ CODE_KEYWORDS = {
 
 class LLMRouter:
     def __init__(self):
-        self.cfg = ConfigLoader()
-        self._response_cache = {}
-        self._load_response_cache()
-        self._call_stats = {
-            "total": 0,
-            "cache_hits": 0,
-            "errors": 0,
-            "local_calls": 0,
-            "cloud_calls": 0,
-        }
+        try:
+            self.cfg = ConfigLoader()
+            self._response_cache = {}
+            self._load_response_cache()
+            self._call_stats = {
+                "total": 0,
+                "cache_hits": 0,
+                "errors": 0,
+                "local_calls": 0,
+                "cloud_calls": 0,
+            }
+        except Exception as e:
+            logger.error(f"Error initializing object: {e}")
+            self.cfg = None
+            self._response_cache = {}
+            self._call_stats = {
+                "total": 0,
+                "cache_hits": 0,
+                "errors": 1,
+                "local_calls": 0,
+                "cloud_calls": 0,
+            }
+            raise RuntimeError("Failed to initialize object due to initialization error.") from e
 
     def _load_response_cache(self):
         cache_path = Path("workspace/llm_cache.json")
@@ -192,58 +206,62 @@ class LLMRouter:
         max_tokens: int = 2000,
         agent: str = None,
     ) -> str:
-        self._call_stats["total"] += 1
+        try:
+            self._call_stats["total"] += 1
 
-        # ── Smart Model Selection ──
-        if model and model in MODEL_REGISTRY.values():
-            chosen = model
-        elif model and "claude" in model.lower():
-            chosen = self._smart_route(prompt, agent)
-        else:
-            chosen = self._smart_route(prompt, agent)
-
-        # ── Prompt trimming — context window ਤੋਂ ਵੱਧ ਨਾ ਜਾਵੇ ──
-        MAX_PROMPT_CHARS = 6000  # ~1500 tokens — Ollama context safe limit
-        if len(prompt) > MAX_PROMPT_CHARS:
-            trimmed_chars = len(prompt) - MAX_PROMPT_CHARS
-            prompt = prompt[:MAX_PROMPT_CHARS] + f"\n... [{trimmed_chars} chars trimmed]"
-            logger.debug(f"Prompt trimmed by {trimmed_chars} chars")
-
-        # ── Adaptive max_tokens ──
-        if max_tokens == 2000:  # caller used default
-            if len(prompt) < 300:
-                max_tokens = 400   # short query → short reply
-            elif agent in ("monitor", "memory", "tool"):
-                max_tokens = 600   # infra agents need less
-            elif agent in ("coder", "tester", "debugger"):
-                max_tokens = 1200  # code needs more
+            # ── Smart Model Selection ──
+            if model and model in MODEL_REGISTRY.values():
+                chosen = model
+            elif model and "claude" in model.lower():
+                chosen = self._smart_route(prompt, agent)
             else:
-                max_tokens = 800   # default brain response
+                chosen = self._smart_route(prompt, agent)
 
-        # ── Cache Check (normalized key — dynamic content stripped) ──
-        ckey = self._cache_key(prompt, system or "", chosen)
-        if ckey in self._response_cache:
-            self._call_stats["cache_hits"] += 1
-            logger.info(f"Cache HIT [{ckey[:10]}...] ਕੁੱਲ hits={self._call_stats['cache_hits']}")
-            return self._response_cache[ckey]
+            # ── Prompt trimming — context window ਤੋਂ ਵੱਧ ਨਾ ਜਾਵੇ ──
+            MAX_PROMPT_CHARS = 6000  # ~1500 tokens — Ollama context safe limit
+            if len(prompt) > MAX_PROMPT_CHARS:
+                trimmed_chars = len(prompt) - MAX_PROMPT_CHARS
+                prompt = prompt[:MAX_PROMPT_CHARS] + f"\n... [{trimmed_chars} chars trimmed]"
+                logger.debug(f"Prompt trimmed by {trimmed_chars} chars")
 
-        # ── Local First → Cloud Fallback ──
-        result = await self._call_local(prompt, system, chosen, max_tokens)
+            # ── Adaptive max_tokens ──
+            if max_tokens == 2000:  # caller used default
+                if len(prompt) < 300:
+                    max_tokens = 400   # short query → short reply
+                elif agent in ("monitor", "memory", "tool"):
+                    max_tokens = 600   # infra agents need less
+                elif agent in ("coder", "tester", "debugger"):
+                    max_tokens = 1200  # code needs more
+                else:
+                    max_tokens = 800   # default brain response
 
-        if result and not result.startswith("[ERROR]"):
-            self._response_cache[ckey] = result
-            self._save_response_cache()
-            return result
+            # ── Cache Check (normalized key — dynamic content stripped) ──
+            ckey = self._cache_key(prompt, system or "", chosen)
+            if ckey in self._response_cache:
+                self._call_stats["cache_hits"] += 1
+                logger.info(f"Cache HIT [{ckey[:10]}...] ਕੁੱਲ hits={self._call_stats['cache_hits']}")
+                return self._response_cache[ckey]
 
-        # Fallback to Anthropic if local fails
-        logger.warning(f"Local failed ({chosen}), trying Anthropic fallback...")
-        cloud_result = await self._call_anthropic(prompt, system, max_tokens)
-        if cloud_result and not cloud_result.startswith("[ERROR]"):
-            self._response_cache[ckey] = cloud_result
-            self._save_response_cache()
-            return cloud_result
+            # ── Local First → Cloud Fallback ──
+            result = await self._call_local(prompt, system, chosen, max_tokens)
 
-        return result or "[ERROR] All models failed"
+            if result and not result.startswith("[ERROR]"):
+                self._response_cache[ckey] = result
+                self._save_response_cache()
+                return result
+
+            # Fallback to Anthropic if local fails
+            logger.warning(f"Local failed ({chosen}), trying Anthropic fallback...")
+            cloud_result = await self._call_anthropic(prompt, system, max_tokens)
+            if cloud_result and not cloud_result.startswith("[ERROR]"):
+                self._response_cache[ckey] = cloud_result
+                self._save_response_cache()
+                return cloud_result
+
+            return result or "[ERROR] All models failed"
+        except Exception as e:
+            logger.error(f"An error occurred: {e}")
+            return "[ERROR] An error occurred while processing the request"
 
     async def _call_local(self, prompt, system, model, max_tokens):
         """Ollama Local Call — Non-blocking, ਮੁੱਖ ਰਸਤਾ"""
