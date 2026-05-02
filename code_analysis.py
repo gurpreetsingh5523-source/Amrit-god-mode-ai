@@ -194,7 +194,7 @@ class CodeAnalyzer:
      "line": node.lineno,
     })
 
-  # TODO/FIXME/HACK comments
+  # Detect code-smell comment patterns (FIXME/HACK/XXX markers)
   for i, line in enumerate(code.split("\n"), 1):
    stripped = line.strip()
    if stripped.startswith("#"):
