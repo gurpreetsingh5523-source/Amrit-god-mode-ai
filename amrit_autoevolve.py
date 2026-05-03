@@ -107,7 +107,9 @@ async def phase_learn() -> dict:
 
         for url in _REPOS:
             try:
-                content = await scraper.scrape(url)
+                # WebScraper.text() is sync — run in executor to avoid blocking
+                loop = asyncio.get_event_loop()
+                content = await loop.run_in_executor(None, scraper.text, url)
                 if content and len(content) > 100:
                     all_text.append(content[:3000])
                     result["sources"] += 1
