@@ -807,11 +807,19 @@ class SelfEvolution:
                         # Preserve original indentation level
                         indent = len(lines[start]) - len(lines[start].lstrip())
                         indent_str = " " * indent
-                        # Re-indent new functions to match
+                        # Determine base indent of new_funcs_src so relative
+                        # indentation (nested defs, loops, etc.) is preserved.
+                        raw_indents = [
+                            len(ln) - len(ln.lstrip())
+                            for ln in new_funcs_src.splitlines() if ln.strip()
+                        ]
+                        base_new = min(raw_indents) if raw_indents else 0
+                        # Re-indent new functions to match, keeping relative depth
                         new_lines = []
                         for line in new_funcs_src.splitlines():
                             if line.strip():
-                                new_lines.append(indent_str + line.lstrip() if not line.startswith(indent_str) else line)
+                                extra = (len(line) - len(line.lstrip())) - base_new
+                                new_lines.append(indent_str + " " * extra + line.lstrip())
                             else:
                                 new_lines.append("")
                         replaced = lines[:start] + new_lines + lines[end:]
