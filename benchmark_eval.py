@@ -14,7 +14,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-import re
 import time
 from pathlib import Path
 from datetime import datetime
@@ -145,31 +144,23 @@ async def run_benchmark(subject: str | None = None) -> dict:
     for subj in subjects:
         questions = BENCHMARK.get(subj, [])
         subj_results = []
-        print(f"\n{'═'*60}")
-        print(f"  📋 Subject: {subj.upper()}  ({len(questions)} questions)")
-        print(f"{'═'*60}")
+        print_header(subj, len(questions))
 
         for i, item in enumerate(questions, 1):
             q = item["q"]
             kws = item["keywords"]
-            print(f"\n  Q{i}: {q[:80]}{'...' if len(q) > 80 else ''}")
+            print_question(i, q)
 
-            # 1. Single-pass
             s_resp, s_time = await single_pass(router, q)
             s_score = score_response(s_resp, kws)
 
-            # 2. Deep reasoning
             d_resp, d_time = await deep_reasoning_pass(q)
             d_score = score_response(d_resp, kws)
 
-            improvement = round((d_score - s_score) * 100, 1)
-            better = "🟢 better" if d_score > s_score else ("🔴 same/worse" if d_score < s_score else "🟡 equal")
+            improvement = calculate_improvement(s_score, d_score)
+            better = determine_better(s_score, d_score)
 
-            print(f"  ┌─ Single-pass  score={s_score:.2f} | {s_time}s")
-            print(f"  │  {s_resp[:120].strip()}")
-            print(f"  ├─ Deep reason  score={d_score:.2f} | {d_time}s  {better} ({improvement:+.0f}%)")
-            print(f"  │  {d_resp[:120].strip()}")
-            print(f"  └─ Keywords: {kws}")
+            print_results(i, s_score, s_time, s_resp, d_score, d_time, d_resp, kws, better, improvement)
 
             subj_results.append({
                 "question": q,
@@ -180,16 +171,50 @@ async def run_benchmark(subject: str | None = None) -> dict:
                 "improvement_pct": improvement,
             })
 
-            totals["single"]["score"] += s_score
-            totals["single"]["time"]  += s_time
-            totals["single"]["n"]     += 1
-            totals["deep"]["score"]   += d_score
-            totals["deep"]["time"]    += d_time
-            totals["deep"]["n"]       += 1
+            update_totals(totals["single"], s_score, s_time)
+            update_totals(totals["deep"], d_score, d_time)
 
         all_results[subj] = subj_results
 
-    # ── Summary ───────────────────────────────────────────────────
+    summary = generate_summary(all_results, totals)
+    print_final_summary(summary)
+    save_results(summary)
+
+    return summary
+
+def print_header(subject: str, question_count: int):
+    print(f"\n{'═'*60}")
+    print(f"  📋 Subject: {subject.upper()}  ({question_count} questions)")
+    print(f"{'═'*60}")
+
+def print_question(index: int, question: str):
+    q = question[:80] + ('...' if len(question) > 80 else '')
+    print(f"\n  Q{index}: {q}")
+
+def calculate_improvement(s_score: float, d_score: float) -> float:
+    return round((d_score - s_score) * 100, 1)
+
+def determine_better(s_score: float, d_score: float) -> str:
+    if d_score > s_score:
+        return "🟢 better"
+    elif d_score < s_score:
+        return "🔴 same/worse"
+    else:
+        return "🟡 equal"
+
+def print_results(index: int, s_score: float, s_time: float, s_resp: str, d_score: float, d_time: float, d_resp: str, kws: list, better: str, improvement: float):
+    print(f"  ┌─ Single-pass  score={s_score:.2f} | {s_time}s")
+    print(f"  │  {s_resp[:120].strip()}")
+    print(f"  ├─ Deep reason  score={d_score:.2f} | {d_time}s  {better}")
+    print(f"  │  {d_resp[:120].strip()}")
+    print(f"  └─ Keywords: {kws}")
+
+def update_totals(total: dict, score: float, time: float):
+    total["score"] += score
+    total["time"] += time
+    total["n"] += 1
+
+def generate_summary(all_results: dict, totals: dict) -> dict:
     n = totals["single"]["n"] or 1
     avg_s = round(totals["single"]["score"] / n, 3)
     avg_d = round(totals["deep"]["score"]   / n, 3)
@@ -201,7 +226,7 @@ async def run_benchmark(subject: str | None = None) -> dict:
         if r["deep_reason"]["score"] > r["single_pass"]["score"]
     )
 
-    summary = {
+    return {
         "model": MODEL,
         "date": datetime.now().isoformat(),
         "total_questions": n,
@@ -212,23 +237,22 @@ async def run_benchmark(subject: str | None = None) -> dict:
         "results": all_results,
     }
 
+def print_final_summary(summary: dict):
     print(f"\n{'═'*60}")
-    print(f"  📊 FINAL SUMMARY")
+    print("  📊 FINAL SUMMARY")
     print(f"{'═'*60}")
-    print(f"  Model         : {MODEL}")
-    print(f"  Questions     : {n}")
-    print(f"  Single-pass   : avg score={avg_s:.3f} | avg {avg_t_s}s/q")
-    print(f"  Deep reasoning: avg score={avg_d:.3f} | avg {avg_t_d}s/q")
-    print(f"  Deep wins     : {win}/{n} questions")
+    print(f"  Model         : {summary['model']}")
+    print(f"  Questions     : {summary['total_questions']}")
+    print(f"  Single-pass   : avg score={summary['single_pass']['avg_score']:.3f} | avg {summary['single_pass']['avg_time_s']}s/q")
+    print(f"  Deep reasoning: avg score={summary['deep_reasoning']['avg_score']:.3f} | avg {summary['deep_reasoning']['avg_time_s']}s/q")
+    print(f"  Deep wins     : {summary['deep_wins']}/{summary['total_questions']} questions")
     print(f"  Improvement   : {summary['overall_improvement_pct']:+.1f}%")
     print(f"{'═'*60}\n")
 
-    # Save
+def save_results(summary: dict):
     RESULTS_FILE.parent.mkdir(exist_ok=True)
     RESULTS_FILE.write_text(json.dumps(summary, ensure_ascii=False, indent=2))
     print(f"  💾 Results saved → {RESULTS_FILE}")
-
-    return summary
 
 
 if __name__ == "__main__":

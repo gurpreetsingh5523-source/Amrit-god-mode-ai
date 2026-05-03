@@ -158,6 +158,30 @@ class ReasoningEngine:
     # CORE: THINK — ਡੂੰਘੀ ਸੋਚ ਵਾਲਾ ਜਵਾਬ
     # ══════════════════════════════════════════════════════════════
 
+    async def _generate_candidates(self, question, n_candidates, domain, lesson_context, memory_context):
+        strategies = list(STRATEGIES.keys())[:n_candidates]
+        candidates = []
+        for strat in strategies:
+            strat_instruction = STRATEGIES[strat]
+            system = (
+                f"You are AMRIT. Use this reasoning strategy: {strat_instruction}\n"
+                f"Domain: {domain or 'general'}\n"
+                f"{lesson_context}"
+                f"{memory_context}"
+                "Be thorough but concise."
+            )
+            response = await self._llm(
+                f"QUESTION: {question}\n\nSTRATEGY: {strat_instruction}",
+                system=system
+            )
+            candidates.append({
+                "strategy": strat,
+                "response": response,
+                "score": 0.0,
+            })
+            self._stats["candidates_tested"] += 1
+        return candidates
+
     async def think(self, question: str, n_candidates: int = 0, domain: str = ""):
         self._stats["total"] += 1
         t0 = time.time()
@@ -220,52 +244,23 @@ class ReasoningEngine:
             self._learn_from_result(question, result)
             return result
 
-        strategies = list(STRATEGIES.keys())[:n_candidates]
-        candidates = []
-
-        async def generate_candidates():
-            for strat in strategies:
-                strat_instruction = STRATEGIES[strat]
-                system = (
-                    f"You are AMRIT. Use this reasoning strategy: {strat_instruction}\n"
-                    f"Domain: {domain or 'general'}\n"
-                    f"{lesson_context}"
-                    f"{memory_context}"
-                    "Be thorough but concise."
-                )
-
-                response = await self._llm(
-                    f"QUESTION: {question}\n\nSTRATEGY: {strat_instruction}",
-                    system=system
-                )
-                candidates.append({
-                    "strategy": strat,
-                    "response": response,
-                    "score": 0.0,
-                })
-                self._stats["candidates_tested"] += 1
-
-        async def score_candidates():
-            scored = await self._score_candidates(question, candidates)
-            return max(scored, key=lambda c: c["score"])
-
-        async def validate_answer(best):
-            validation = await self._validate_answer(question, best["response"])
-            confidence = min(1.0, best["score"] * 0.8 + validation["validity"] * 0.2)
-            return {
-                "answer": best["response"],
-                "confidence": round(confidence, 2),
-                "complexity": complexity,
-                "strategy": best["strategy"],
-                "candidates_tested": len(candidates),
-                "all_scores": {c["strategy"]: c["score"] for c in candidates},
-                "validation": validation,
-                "elapsed": round(time.time() - t0, 2),
-            }
-
-        await generate_candidates()
-        best = await score_candidates()
-        result = await validate_answer(best)
+        candidates = await self._generate_candidates(
+            question, n_candidates, domain, lesson_context, memory_context
+        )
+        scored = await self._score_candidates(question, candidates)
+        best = max(scored, key=lambda c: c["score"])
+        validation = await self._validate_answer(question, best["response"])
+        confidence = min(1.0, best["score"] * 0.8 + validation["validity"] * 0.2)
+        result = {
+            "answer": best["response"],
+            "confidence": round(confidence, 2),
+            "complexity": complexity,
+            "strategy": best["strategy"],
+            "candidates_tested": len(candidates),
+            "all_scores": {c["strategy"]: c["score"] for c in candidates},
+            "validation": validation,
+            "elapsed": round(time.time() - t0, 2),
+        }
         self._learn_from_result(question, result)
         return result
 
