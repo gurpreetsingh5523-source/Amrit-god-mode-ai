@@ -63,19 +63,35 @@ async def phase_selffix(orchestrator) -> dict:
     logger.info("🔧 Phase 1: SELFFIX ਸ਼ੁਰੂ...")
     t0 = time.perf_counter()
     result = {"fixed": 0, "errors": 0, "time_s": 0}
+    log_path = Path("workspace/evolution_log.json")
+
+    def _count_fix_entries(payload: object) -> int:
+        entries = payload if isinstance(payload, list) else payload.get("entries", []) if isinstance(payload, dict) else []
+        return len(
+            [
+                e
+                for e in entries
+                if isinstance(e, dict) and e.get("phase") in ("fix", "refactor")
+            ]
+        )
+
+    before_count = 0
+    if log_path.exists():
+        try:
+            before_count = _count_fix_entries(json.loads(log_path.read_text(errors="replace")))
+        except Exception:
+            before_count = 0
+
     try:
         from self_evolution import SelfEvolution
         evo = SelfEvolution(orchestrator)
         # Run 1 full cycle (analyze + fix + test)
         await evo.run(max_cycles=1)
-        # Read evolution log for stats
-        log_path = Path("workspace/evolution_log.json")
+        # Read evolution log delta for this cycle only
         if log_path.exists():
             log = json.loads(log_path.read_text(errors="replace"))
-            entries = log if isinstance(log, list) else log.get("entries", [])
-            recent = [e for e in entries if isinstance(e, dict)
-                      and e.get("phase") in ("fix", "refactor")]
-            result["fixed"] = len(recent)
+            after_count = _count_fix_entries(log)
+            result["fixed"] = max(after_count - before_count, 0)
     except Exception as exc:
         logger.error(f"Selffix error: {exc}")
         result["errors"] += 1
@@ -122,10 +138,11 @@ async def phase_learn() -> dict:
                 from episodic_memory import EpisodicMemory
                 mem = EpisodicMemory()
                 combined = "\n\n---\n\n".join(all_text)
-                await mem.store(
-                    event_type="web_learning",
+                mem.record(
+                    title="web_learning",
                     content=combined[:8000],
-                    metadata={"source": "github_trending", "cycle_time": datetime.now().isoformat()}
+                    tags=["learning", "web", "github_trending"],
+                    agents=["autoevolve"]
                 )
                 result["snippets"] = len(all_text)
             except Exception as e:
