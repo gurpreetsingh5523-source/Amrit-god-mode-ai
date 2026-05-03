@@ -33,7 +33,7 @@ async def main():
     parser.add_argument("--mode",    type=str,  default="interactive",
                         choices=["interactive", "autonomous", "voice", "vision",
                                  "internet", "godmode", "evolve", "selftest", "selffix",
-                                 "research", "mcp", "swarm", "distributed"],
+                                 "research", "mcp", "swarm", "distributed", "autoevolve"],
                         help="Execution mode")
     parser.add_argument("--config",  type=str,  default="config.yaml")
     parser.add_argument("--verbose", action="store_true")
@@ -78,6 +78,12 @@ async def main():
             await orchestrator._run_selftest()
         elif args.mode == "selffix":
             await orchestrator._run_selffix()
+        elif args.mode == "autoevolve":
+            from amrit_autoevolve import AmritAutoEvolve
+            # --goal ਵਿੱਚ cycles ਦੱਸੋ, ਨਹੀਂ ਤਾਂ ਹਮੇਸ਼ਾ ਚੱਲੇ
+            cycles = int(args.goal) if args.goal and args.goal.isdigit() else 0
+            evolver = AmritAutoEvolve(orchestrator, max_cycles=cycles)
+            await evolver.run()
         elif args.mode == "mcp":
             from mcp_server import MCPServer
             transport = "sse" if not args.goal else args.goal  # --goal sse|stdio

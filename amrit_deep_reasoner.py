@@ -60,7 +60,15 @@ class AmritDeepReasoner:
 
         for loop_i in range(1, n_loops + 1):
             # ਹਰ loop ਪਿਛਲੇ ਸੋਚ ਤੋਂ ਅੱਗੇ ਵਧਦਾ ਹੈ
-            if loop_i == 1:
+            is_last = (loop_i == n_loops)
+            if loop_i == 1 and n_loops == 1:
+                # Single loop — give direct final answer, not intermediate thought
+                prompt = (
+                    f"Question: {question}\n"
+                    + (f"\nContext: {context}\n" if context else "")
+                    + "\nProvide a clear, direct answer with your reasoning."
+                )
+            elif loop_i == 1:
                 prompt = (
                     f"ਸਵਾਲ: {question}\n"
                     + (f"\nਸੰਦਰਭ: {context}\n" if context else "")
