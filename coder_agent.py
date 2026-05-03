@@ -212,13 +212,22 @@ class CoderAgent(BaseAgent):
             max_tokens=4000,
         )
         code = self._strip(code, lang)
+        if lang == "python":
+            code = self._normalize_python_indentation(code)
 
         # Python syntax validation
         if lang == "python":
             ok, err = self._py_syntax_check(code)
             if not ok:
-                await self.report(f"Refactor produced invalid syntax ({err}) — keeping original")
-                return self.ok(code=original, refactored=False, error=err)
+                # One more deterministic salvage pass for mixed tabs/spaces.
+                normalized = self._normalize_python_indentation(code)
+                ok2, err2 = self._py_syntax_check(normalized)
+                if ok2:
+                    code = normalized
+                    await self.report("Refactor syntax auto-normalized (tabs/spaces)")
+                else:
+                    await self.report(f"Refactor produced invalid syntax ({err2}) — keeping original")
+                    return self.ok(code=original, refactored=False, error=err2)
 
         # Save if filename provided
         if fn:
@@ -401,3 +410,15 @@ class CoderAgent(BaseAgent):
                 break
 
         return "\n".join(lines[start:]).strip()
+
+    @staticmethod
+    def _normalize_python_indentation(code: str) -> str:
+        """Normalize leading indentation to avoid tab/space parser conflicts."""
+        if not code:
+            return ""
+        fixed = []
+        for line in code.replace("\r\n", "\n").replace("\r", "\n").splitlines():
+            stripped = line.lstrip(" \t")
+            indent = line[:len(line) - len(stripped)]
+            fixed.append(indent.expandtabs(4) + stripped)
+        return "\n".join(fixed).strip()

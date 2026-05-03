@@ -700,7 +700,7 @@ class SelfEvolution:
                         "error": instructions,
                     }
                 })
-                new_funcs = result.get("code", "").strip()
+                new_funcs = self._sanitize_generated_python(result.get("code", ""))
 
                 # If coder reported refactor failed, treat as error
                 if result.get("refactored") is False:
@@ -727,14 +727,21 @@ class SelfEvolution:
                 try:
                     ast.parse(new_funcs)
                 except SyntaxError as e:
-                    last_error = str(e)
-                    if attempt < MAX_RETRIES:
-                        logger.info(f"  \u26a0\ufe0f  Attempt {attempt}: syntax error: {e} \u2014 retrying with feedback")
-                        continue
-                    logger.warning(f"  \u274c LLM syntax error after {MAX_RETRIES} attempts: {e}")
-                    self._restore(fp)
-                    self._refactor_history.setdefault(key, []).append(self.cycle)
-                    return
+                    # One deterministic salvage attempt before re-prompting LLM.
+                    normalized = self._normalize_generated_indentation(new_funcs)
+                    try:
+                        ast.parse(normalized)
+                        new_funcs = normalized
+                        logger.info("  🔧 Auto-normalized indentation from LLM output")
+                    except SyntaxError:
+                        last_error = str(e)
+                        if attempt < MAX_RETRIES:
+                            logger.info(f"  \u26a0\ufe0f  Attempt {attempt}: syntax error: {e} \u2014 retrying with feedback")
+                            continue
+                        logger.warning(f"  \u274c LLM syntax error after {MAX_RETRIES} attempts: {e}")
+                        self._restore(fp)
+                        self._refactor_history.setdefault(key, []).append(self.cycle)
+                        return
 
                 # Stitch: replace old function body in file with new functions
                 new_code = self._replace_function_in_source(code, func_name, func_src, new_funcs)
@@ -827,6 +834,31 @@ class SelfEvolution:
         except Exception:
             pass
         return ""
+
+    def _sanitize_generated_python(self, src: str) -> str:
+        """Remove common LLM wrappers and normalize newlines/tabs."""
+        if not src:
+            return ""
+
+        text = src.replace("\r\n", "\n").replace("\r", "\n").strip()
+        lines = text.splitlines()
+
+        # Drop markdown code fences if present.
+        if lines and lines[0].strip().startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].strip().startswith("```"):
+            lines = lines[:-1]
+
+        return "\n".join(lines).expandtabs(4).strip()
+
+    def _normalize_generated_indentation(self, src: str) -> str:
+        """Normalize indentation so tabs/spaces don't mix and break parsing."""
+        fixed_lines = []
+        for line in src.splitlines():
+            stripped = line.lstrip(" \t")
+            indent = line[:len(line) - len(stripped)]
+            fixed_lines.append(indent.expandtabs(4) + stripped)
+        return "\n".join(fixed_lines).strip()
 
     # ══════════════════════════════════════════════════════════════
     # PHASE 4: SELF-OPTIMIZE — ਤੇਜ਼ ਬਣਾਓ
