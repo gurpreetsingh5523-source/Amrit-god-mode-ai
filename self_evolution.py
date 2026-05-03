@@ -63,6 +63,10 @@ class SelfEvolution:
         self._lessons = self._load_lessons()  # Applied lessons
         self._prev_test_results = None  # Track before/after
         self._blacklist: set = set()          # Files that caused regression — never touch
+        self._refactor_denylist: set = {
+            "debugger_agent.py::_optimize",
+            "punjabi_trainer.py::deploy_to_ollama",
+        }
         self._fix_history: dict = {}           # file → list of cycle numbers when fixed
         self._consec_fail: dict = {}           # file → consecutive failure count
         self._refactor_history: dict = {}      # file → list of cycle numbers when refactored
@@ -633,6 +637,8 @@ class SelfEvolution:
                 detail = issue.get("detail", "")
                 func_name = detail.split("(")[0].strip()
                 key = f"{fp.name}::{func_name}"
+                if key in self._refactor_denylist:
+                    continue
                 recent = [c for c in self._refactor_history.get(key, [])
                           if self.cycle - c <= SKIP_CYCLES]
                 if not recent:
@@ -1481,8 +1487,13 @@ class SelfEvolution:
 
         fixed_this_cycle    = [fname for fname, cycles in self._fix_history.items()
                                 if self.cycle in cycles]
-        refactored_this_cycle = [fname for fname, cycles in self._refactor_history.items()
-                                 if self.cycle in cycles]
+        refactored_this_cycle = [
+            e.get("action", "").replace("split ", "")
+            for e in cycle_entries
+            if e.get("phase") == "refactor"
+            and e.get("success")
+            and e.get("action", "").startswith("split ")
+        ]
         applied_this_cycle   = [e.get("action", "").replace("apply ", "") for e in cycle_entries
                                 if e.get("phase") == "apply" and e.get("success")]
         regressed_files      = [e.get("action", "") for e in cycle_entries
