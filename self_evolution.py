@@ -66,6 +66,7 @@ class SelfEvolution:
         self._refactor_denylist: set = {
             "debugger_agent.py::_optimize",
             "punjabi_trainer.py::deploy_to_ollama",
+            "recovery_recipes.py::attempt_recovery",
         }
         self._fix_history: dict = {}           # file → list of cycle numbers when fixed
         self._consec_fail: dict = {}           # file → consecutive failure count
