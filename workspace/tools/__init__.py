@@ -3,7 +3,8 @@
 This file re-exports the SelfCodeGenerator class so callers can do
 `from workspace.tools import SelfCodeGenerator`.
 """
-import sys as _sys, os as _os
+import sys as _sys
+import os as _os
 _ROOT = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 if _ROOT not in _sys.path:
     _sys.path.insert(0, _ROOT)

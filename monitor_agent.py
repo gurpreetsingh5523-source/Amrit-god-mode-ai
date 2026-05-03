@@ -1,8 +1,6 @@
 """Monitor Agent — System health, resource usage, performance tracking."""
-import asyncio
 import os
 import time
-import psutil
 from base_agent import BaseAgent
 
 class MonitorAgent(BaseAgent):

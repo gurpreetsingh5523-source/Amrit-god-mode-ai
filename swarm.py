@@ -17,7 +17,6 @@ import uuid
 from enum import Enum
 from dataclasses import dataclass, field
 from typing import Optional
-from base_agent import BaseAgent
 from event_bus import EventBus
 from state_manager import StateManager
 from logger import setup_logger

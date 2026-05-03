@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8"/>
+<title>ੴ Amrit GodMode — Brain Map</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0d1117; color:#e6edf3; font-family:'SF Mono',monospace; overflow:hidden; }
+#canvas { width:100vw; height:100vh; }
+#info {
+  position:fixed; top:16px; left:16px; background:rgba(22,27,34,0.95);
+  border:1px solid #30363d; border-radius:12px; padding:16px 20px;
+  min-width:240px; max-width:320px; z-index:10;
+}
+#info h1 { font-size:14px; color:#58a6ff; margin-bottom:8px; letter-spacing:1px; }
+#info .stat { font-size:11px; color:#8b949e; margin:2px 0; }
+#info .stat b { color:#e6edf3; }
+#tooltip {
+  position:fixed; pointer-events:none; background:rgba(22,27,34,0.97);
+  border:1px solid #58a6ff44; border-radius:8px; padding:10px 14px;
+  font-size:12px; z-index:20; display:none; max-width:260px;
+}
+#tooltip .t-name { color:#58a6ff; font-size:14px; font-weight:bold; margin-bottom:4px; }
+#tooltip .t-path { color:#8b949e; font-size:10px; margin-bottom:6px; }
+#tooltip .t-stat { color:#e6edf3; font-size:11px; }
+#legend {
+  position:fixed; bottom:16px; left:16px; background:rgba(22,27,34,0.95);
+  border:1px solid #30363d; border-radius:10px; padding:12px 16px; z-index:10;
+}
+#legend .l-title { font-size:11px; color:#8b949e; margin-bottom:8px; letter-spacing:1px; }
+#legend .l-item { display:flex; align-items:center; gap:8px; font-size:11px; color:#e6edf3; margin:3px 0; }
+#legend .l-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+#search {
+  position:fixed; top:16px; right:16px; z-index:10;
+}
+#search input {
+  background:rgba(22,27,34,0.95); border:1px solid #30363d;
+  border-radius:8px; padding:8px 14px; color:#e6edf3;
+  font-size:13px; width:200px; outline:none;
+}
+#search input:focus { border-color:#58a6ff; }
+</style>
+</head>
+<body>
+<div id="info">
+  <h1>ੴ AMRIT BRAIN MAP</h1>
+  <div class="stat">Files: <b id="s-nodes">-</b></div>
+  <div class="stat">Connections: <b id="s-links">-</b></div>
+  <div class="stat">Click node to highlight connections</div>
+  <div class="stat">Scroll to zoom · Drag to pan</div>
+</div>
+<div id="legend">
+  <div class="l-title">CATEGORIES</div>
+  <div id="legend-items"></div>
+</div>
+<div id="search"><input id="search-input" placeholder="🔍 Search file..." /></div>
+<div id="tooltip"></div>
+<svg id="canvas"></svg>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const nodes = [{"id": 0, "name": "video_engine", "path": "video_engine.py", "category": "engine", "color": "#ce93d8", "lines": 74, "size": 8}, {"id": 1, "name": "swarm", "path": "swarm.py", "category": "agent", "color": "#4fc3f7", "lines": 343, "size": 17}, {"id": 2, "name": "knowledge_store", "path": "knowledge_store.py", "category": "memory", "color": "#81c784", "lines": 135, "size": 10}, {"id": 3, "name": "reasoning_engine", "path": "reasoning_engine.py", "category": "engine", "color": "#ce93d8", "lines": 490, "size": 22}, {"id": 4, "name": "permission_enforcer", "path": "permission_enforcer.py", "category": "infra", "color": "#f48fb1", "lines": 134, "size": 10}, {"id": 5, "name": "config_loader", "path": "config_loader.py", "category": "infra", "color": "#f48fb1", "lines": 50, "size": 7}, {"id": 6, "name": "self_learning_loop", "path": "self_learning_loop.py", "category": "engine", "color": "#ce93d8", "lines": 40, "size": 7}, {"id": 7, "name": "web_scraper", "path": "web_scraper.py", "category": "other", "color": "#e0e0e0", "lines": 53, "size": 7}, {"id": 8, "name": "ethical_guard", "path": "ethical_guard.py", "category": "other", "color": "#e0e0e0", "lines": 44, "size": 7}, {"id": 9, "name": "test_security", "path": "test_security.py", "category": "test", "color": "#fff176", "lines": 7, "size": 6}, {"id": 10, "name": "test_godmode", "path": "test_godmode.py", "category": "test", "color": "#fff176", "lines": 291, "size": 15}, {"id": 11, "name": "state_manager", "path": "state_manager.py", "category": "infra", "color": "#f48fb1", "lines": 71, "size": 8}, {"id": 12, "name": "video_reader", "path": "video_reader.py", "category": "other", "color": "#e0e0e0", "lines": 52, "size": 7}, {"id": 13, "name": "policy_engine", "path": "policy_engine.py", "category": "engine", "color": "#ce93d8", "lines": 261, "size": 14}, {"id": 14, "name": "_check_imports", "path": "_check_imports.py", "category": "other", "color": "#e0e0e0", "lines": 12, "size": 6}, {"id": 15, "name": "object_detector", "path": "object_detector.py", "category": "other", "color": "#e0e0e0", "lines": 55, "size": 7}, {"id": 16, "name": "monitor_agent", "path": "monitor_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 131, "size": 10}, {"id": 17, "name": "embedding_model", "path": "embedding_model.py", "category": "llm", "color": "#ffb74d", "lines": 109, "size": 9}, {"id": 18, "name": "meta_cognition", "path": "meta_cognition.py", "category": "other", "color": "#e0e0e0", "lines": 20, "size": 6}, {"id": 19, "name": "git_ops", "path": "git_ops.py", "category": "other", "color": "#e0e0e0", "lines": 49, "size": 7}, {"id": 20, "name": "learning_layer", "path": "learning_layer.py", "category": "engine", "color": "#ce93d8", "lines": 246, "size": 14}, {"id": 21, "name": "planning_memory", "path": "planning_memory.py", "category": "memory", "color": "#81c784", "lines": 29, "size": 6}, {"id": 22, "name": "dataset_trainer", "path": "dataset_trainer.py", "category": "other", "color": "#e0e0e0", "lines": 41, "size": 7}, {"id": 23, "name": "workflow_engine", "path": "workflow_engine.py", "category": "engine", "color": "#ce93d8", "lines": 113, "size": 9}, {"id": 24, "name": "toolbox", "path": "toolbox.py", "category": "other", "color": "#e0e0e0", "lines": 20, "size": 6}, {"id": 25, "name": "llm_router", "path": "llm_router.py", "category": "llm", "color": "#ffb74d", "lines": 297, "size": 15}, {"id": 26, "name": "vector_store", "path": "vector_store.py", "category": "memory", "color": "#81c784", "lines": 41, "size": 7}, {"id": 27, "name": "autonomy_loop", "path": "autonomy_loop.py", "category": "engine", "color": "#ce93d8", "lines": 377, "size": 18}, {"id": 28, "name": "search_engine", "path": "search_engine.py", "category": "engine", "color": "#ce93d8", "lines": 37, "size": 7}, {"id": 29, "name": "terminal_ops", "path": "terminal_ops.py", "category": "other", "color": "#e0e0e0", "lines": 76, "size": 8}, {"id": 30, "name": "base_agent", "path": "base_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 107, "size": 9}, {"id": 31, "name": "visual_memory", "path": "visual_memory.py", "category": "memory", "color": "#81c784", "lines": 15, "size": 6}, {"id": 32, "name": "dataset_agent", "path": "dataset_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 259, "size": 14}, {"id": 33, "name": "simulation_agent", "path": "simulation_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 204, "size": 12}, {"id": 34, "name": "planner_agent", "path": "planner_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 70, "size": 8}, {"id": 35, "name": "browser_ops", "path": "browser_ops.py", "category": "other", "color": "#e0e0e0", "lines": 173, "size": 11}, {"id": 36, "name": "speech_to_text", "path": "speech_to_text.py", "category": "other", "color": "#e0e0e0", "lines": 51, "size": 7}, {"id": 37, "name": "file_ops", "path": "file_ops.py", "category": "other", "color": "#e0e0e0", "lines": 98, "size": 9}, {"id": 38, "name": "bitnet_run", "path": "bitnet_run.py", "category": "other", "color": "#e0e0e0", "lines": 147, "size": 10}, {"id": 39, "name": "toolbox_persistence", "path": "toolbox_persistence.py", "category": "other", "color": "#e0e0e0", "lines": 19, "size": 6}, {"id": 40, "name": "code_generation", "path": "code_generation.py", "category": "other", "color": "#e0e0e0", "lines": 11, "size": 6}, {"id": 41, "name": "__init__", "path": "__init__.py", "category": "other", "color": "#e0e0e0", "lines": 23, "size": 6}, {"id": 42, "name": "punjabi_trainer", "path": "punjabi_trainer.py", "category": "other", "color": "#e0e0e0", "lines": 655, "size": 24}, {"id": 43, "name": "tester_agent", "path": "tester_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 67, "size": 8}, {"id": 44, "name": "module_installer", "path": "module_installer.py", "category": "other", "color": "#e0e0e0", "lines": 52, "size": 7}, {"id": 45, "name": "internet_agent", "path": "internet_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 283, "size": 15}, {"id": 46, "name": "local_llm", "path": "local_llm.py", "category": "llm", "color": "#ffb74d", "lines": 33, "size": 7}, {"id": 47, "name": "failure_taxonomy", "path": "failure_taxonomy.py", "category": "other", "color": "#e0e0e0", "lines": 228, "size": 13}, {"id": 48, "name": "voice_agent", "path": "voice_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 81, "size": 8}, {"id": 49, "name": "logger", "path": "logger.py", "category": "infra", "color": "#f48fb1", "lines": 35, "size": 7}, {"id": 50, "name": "test_research", "path": "test_research.py", "category": "test", "color": "#fff176", "lines": 219, "size": 13}, {"id": 51, "name": "task_graph", "path": "task_graph.py", "category": "other", "color": "#e0e0e0", "lines": 195, "size": 12}, {"id": 52, "name": "semantic_memory", "path": "semantic_memory.py", "category": "memory", "color": "#81c784", "lines": 39, "size": 7}, {"id": 53, "name": "dataset_builder", "path": "dataset_builder.py", "category": "other", "color": "#e0e0e0", "lines": 7, "size": 6}, {"id": 54, "name": "amrit_kv_cache", "path": "amrit_kv_cache.py", "category": "other", "color": "#e0e0e0", "lines": 188, "size": 12}, {"id": 55, "name": "text_to_speech", "path": "text_to_speech.py", "category": "other", "color": "#e0e0e0", "lines": 65, "size": 8}, {"id": 56, "name": "event_bus", "path": "event_bus.py", "category": "infra", "color": "#f48fb1", "lines": 113, "size": 9}, {"id": 57, "name": "sandbox", "path": "sandbox.py", "category": "other", "color": "#e0e0e0", "lines": 63, "size": 8}, {"id": 58, "name": "priority_engine", "path": "priority_engine.py", "category": "engine", "color": "#ce93d8", "lines": 25, "size": 6}, {"id": 59, "name": "code_safety", "path": "code_safety.py", "category": "other", "color": "#e0e0e0", "lines": 43, "size": 7}, {"id": 60, "name": "goal_parser", "path": "goal_parser.py", "category": "other", "color": "#e0e0e0", "lines": 427, "size": 20}, {"id": 61, "name": "context_buffer", "path": "context_buffer.py", "category": "other", "color": "#e0e0e0", "lines": 22, "size": 6}, {"id": 62, "name": "research_brain", "path": "research_brain.py", "category": "engine", "color": "#ce93d8", "lines": 426, "size": 20}, {"id": 63, "name": "dataset_loader", "path": "dataset_loader.py", "category": "other", "color": "#e0e0e0", "lines": 7, "size": 6}, {"id": 64, "name": "telegram_agent", "path": "telegram_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 120, "size": 10}, {"id": 65, "name": "goal_engine", "path": "goal_engine.py", "category": "engine", "color": "#ce93d8", "lines": 174, "size": 11}, {"id": 66, "name": "worker_lifecycle", "path": "worker_lifecycle.py", "category": "agent", "color": "#4fc3f7", "lines": 235, "size": 13}, {"id": 67, "name": "permission_manager", "path": "permission_manager.py", "category": "infra", "color": "#f48fb1", "lines": 56, "size": 7}, {"id": 68, "name": "orchestrator", "path": "orchestrator.py", "category": "other", "color": "#e0e0e0", "lines": 830, "size": 24}, {"id": 69, "name": "dependency_resolver", "path": "dependency_resolver.py", "category": "other", "color": "#e0e0e0", "lines": 50, "size": 7}, {"id": 70, "name": "tool_agent", "path": "tool_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 247, "size": 14}, {"id": 71, "name": "image_reader", "path": "image_reader.py", "category": "other", "color": "#e0e0e0", "lines": 49, "size": 7}, {"id": 72, "name": "upgrade_agent", "path": "upgrade_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 121, "size": 10}, {"id": 73, "name": "research_agent", "path": "research_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 101, "size": 9}, {"id": 74, "name": "strategy_builder", "path": "strategy_builder.py", "category": "other", "color": "#e0e0e0", "lines": 26, "size": 6}, {"id": 75, "name": "coder_agent", "path": "coder_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 405, "size": 19}, {"id": 76, "name": "voice_memory", "path": "voice_memory.py", "category": "memory", "color": "#81c784", "lines": 28, "size": 6}, {"id": 77, "name": "evaluation_engine", "path": "evaluation_engine.py", "category": "engine", "color": "#ce93d8", "lines": 41, "size": 7}, {"id": 78, "name": "task_packet", "path": "task_packet.py", "category": "other", "color": "#e0e0e0", "lines": 211, "size": 13}, {"id": 79, "name": "debugger_agent", "path": "debugger_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 521, "size": 23}, {"id": 80, "name": "scheduler", "path": "scheduler.py", "category": "other", "color": "#e0e0e0", "lines": 62, "size": 8}, {"id": 81, "name": "code_analysis", "path": "code_analysis.py", "category": "other", "color": "#e0e0e0", "lines": 264, "size": 14}, {"id": 82, "name": "information_extractor", "path": "information_extractor.py", "category": "other", "color": "#e0e0e0", "lines": 51, "size": 7}, {"id": 83, "name": "memory_agent", "path": "memory_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 401, "size": 19}, {"id": 84, "name": "experience_log", "path": "experience_log.py", "category": "other", "color": "#e0e0e0", "lines": 33, "size": 7}, {"id": 85, "name": "cloud_llm", "path": "cloud_llm.py", "category": "llm", "color": "#ffb74d", "lines": 10, "size": 6}, {"id": 86, "name": "auto_refactor", "path": "auto_refactor.py", "category": "other", "color": "#e0e0e0", "lines": 39, "size": 7}, {"id": 87, "name": "test_self_evolution_indent", "path": "test_self_evolution_indent.py", "category": "test", "color": "#fff176", "lines": 68, "size": 8}, {"id": 88, "name": "recovery_recipes", "path": "recovery_recipes.py", "category": "other", "color": "#e0e0e0", "lines": 368, "size": 18}, {"id": 89, "name": "self_evolution", "path": "self_evolution.py", "category": "engine", "color": "#ce93d8", "lines": 1563, "size": 24}, {"id": 90, "name": "main", "path": "main.py", "category": "other", "color": "#e0e0e0", "lines": 159, "size": 11}, {"id": 91, "name": "self_upgrade", "path": "self_upgrade.py", "category": "other", "color": "#e0e0e0", "lines": 52, "size": 7}, {"id": 92, "name": "api_client", "path": "api_client.py", "category": "other", "color": "#e0e0e0", "lines": 65, "size": 8}, {"id": 93, "name": "test_goal_engine", "path": "test_goal_engine.py", "category": "test", "color": "#fff176", "lines": 27, "size": 6}, {"id": 94, "name": "task_decomposer", "path": "task_decomposer.py", "category": "other", "color": "#e0e0e0", "lines": 28, "size": 6}, {"id": 95, "name": "episodic_memory", "path": "episodic_memory.py", "category": "memory", "color": "#81c784", "lines": 35, "size": 7}, {"id": 96, "name": "dashboard_server", "path": "dashboard_server.py", "category": "other", "color": "#e0e0e0", "lines": 112, "size": 9}, {"id": 97, "name": "long_term_memory", "path": "long_term_memory.py", "category": "memory", "color": "#81c784", "lines": 51, "size": 7}, {"id": 98, "name": "banner", "path": "banner.py", "category": "other", "color": "#e0e0e0", "lines": 15, "size": 6}, {"id": 99, "name": "plugin_manager", "path": "plugin_manager.py", "category": "infra", "color": "#f48fb1", "lines": 210, "size": 13}, {"id": 100, "name": "reward_engine", "path": "reward_engine.py", "category": "engine", "color": "#ce93d8", "lines": 42, "size": 7}, {"id": 101, "name": "patch_safety", "path": "patch_safety.py", "category": "other", "color": "#e0e0e0", "lines": 39, "size": 7}, {"id": 102, "name": "autonomous_agent", "path": "autonomous_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 24, "size": 6}, {"id": 103, "name": "vision_agent", "path": "vision_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 93, "size": 9}, {"id": 104, "name": "mcp_server", "path": "mcp_server.py", "category": "other", "color": "#e0e0e0", "lines": 475, "size": 21}, {"id": 105, "name": "crawler", "path": "crawler.py", "category": "other", "color": "#e0e0e0", "lines": 51, "size": 7}, {"id": 106, "name": "model_selector", "path": "model_selector.py", "category": "llm", "color": "#ffb74d", "lines": 33, "size": 7}, {"id": 107, "name": "error_analyzer", "path": "error_analyzer.py", "category": "other", "color": "#e0e0e0", "lines": 64, "size": 8}, {"id": 108, "name": "skill_evolver", "path": "skill_evolver.py", "category": "other", "color": "#e0e0e0", "lines": 34, "size": 7}, {"id": 109, "name": "create_a_blueprint_for_the_function_incl", "path": "workspace/create_a_blueprint_for_the_function_incl.py", "category": "other", "color": "#e0e0e0", "lines": 16, "size": 6}, {"id": 110, "name": "orchestrator_autonomy", "path": "workspace/orchestrator_autonomy.py", "category": "other", "color": "#e0e0e0", "lines": 171, "size": 11}, {"id": 111, "name": "Researcher_agent", "path": "workspace/Researcher_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 16, "size": 6}, {"id": 112, "name": "__init__", "path": "workspace/__init__.py", "category": "other", "color": "#e0e0e0", "lines": 8, "size": 6}, {"id": 113, "name": "convert_the_natural_language_query_into", "path": "workspace/convert_the_natural_language_query_into.py", "category": "other", "color": "#e0e0e0", "lines": 28, "size": 6}, {"id": 114, "name": "identify_any_patches_needed_and_apply_th", "path": "workspace/identify_any_patches_needed_and_apply_th.py", "category": "other", "color": "#e0e0e0", "lines": 29, "size": 6}, {"id": 115, "name": "configurer_agent", "path": "workspace/configurer_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 33, "size": 7}, {"id": 116, "name": "coders_agent", "path": "workspace/coders_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 23, "size": 6}, {"id": 117, "name": "read_news", "path": "workspace/read_news.py", "category": "other", "color": "#e0e0e0", "lines": 19, "size": 6}, {"id": 118, "name": "_coder planner_agent", "path": "workspace/_coder planner_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 77, "size": 8}, {"id": 119, "name": "checker_agent", "path": "workspace/checker_agent.py", "category": "agent", "color": "#4fc3f7", "lines": 18, "size": 6}, {"id": 120, "name": "dummy_patch_test", "path": "workspace/dummy_patch_test.py", "category": "test", "color": "#fff176", "lines": 10, "size": 6}, {"id": 121, "name": "read_and_analyze_affected_code_segments", "path": "workspace/read_and_analyze_affected_code_segments.py", "category": "other", "color": "#e0e0e0", "lines": 43, "size": 7}];
+const links = [{"source": 1, "target": 56}, {"source": 1, "target": 49}, {"source": 1, "target": 30}, {"source": 1, "target": 11}, {"source": 2, "target": 26}, {"source": 2, "target": 17}, {"source": 2, "target": 49}, {"source": 3, "target": 25}, {"source": 3, "target": 84}, {"source": 3, "target": 49}, {"source": 4, "target": 67}, {"source": 4, "target": 49}, {"source": 5, "target": 49}, {"source": 6, "target": 25}, {"source": 6, "target": 49}, {"source": 7, "target": 49}, {"source": 8, "target": 49}, {"source": 10, "target": 56}, {"source": 10, "target": 6}, {"source": 10, "target": 49}, {"source": 10, "target": 25}, {"source": 10, "target": 59}, {"source": 10, "target": 17}, {"source": 10, "target": 20}, {"source": 10, "target": 11}, {"source": 10, "target": 81}, {"source": 10, "target": 45}, {"source": 10, "target": 5}, {"source": 10, "target": 60}, {"source": 11, "target": 49}, {"source": 12, "target": 49}, {"source": 13, "target": 49}, {"source": 15, "target": 49}, {"source": 16, "target": 30}, {"source": 17, "target": 49}, {"source": 20, "target": 49}, {"source": 22, "target": 49}, {"source": 23, "target": 49}, {"source": 25, "target": 5}, {"source": 25, "target": 49}, {"source": 26, "target": 49}, {"source": 27, "target": 51}, {"source": 27, "target": 18}, {"source": 27, "target": 49}, {"source": 27, "target": 25}, {"source": 27, "target": 8}, {"source": 27, "target": 13}, {"source": 28, "target": 49}, {"source": 29, "target": 49}, {"source": 30, "target": 56}, {"source": 30, "target": 49}, {"source": 30, "target": 25}, {"source": 30, "target": 3}, {"source": 30, "target": 11}, {"source": 30, "target": 5}, {"source": 32, "target": 30}, {"source": 33, "target": 30}, {"source": 34, "target": 30}, {"source": 35, "target": 49}, {"source": 36, "target": 49}, {"source": 37, "target": 49}, {"source": 42, "target": 49}, {"source": 43, "target": 30}, {"source": 44, "target": 49}, {"source": 45, "target": 35}, {"source": 45, "target": 30}, {"source": 46, "target": 49}, {"source": 47, "target": 49}, {"source": 48, "target": 30}, {"source": 50, "target": 89}, {"source": 50, "target": 25}, {"source": 50, "target": 3}, {"source": 50, "target": 83}, {"source": 50, "target": 79}, {"source": 50, "target": 60}, {"source": 51, "target": 49}, {"source": 55, "target": 49}, {"source": 56, "target": 49}, {"source": 57, "target": 49}, {"source": 58, "target": 49}, {"source": 59, "target": 49}, {"source": 60, "target": 25}, {"source": 60, "target": 49}, {"source": 62, "target": 25}, {"source": 62, "target": 49}, {"source": 66, "target": 49}, {"source": 67, "target": 49}, {"source": 68, "target": 89}, {"source": 68, "target": 51}, {"source": 68, "target": 56}, {"source": 68, "target": 67}, {"source": 68, "target": 78}, {"source": 68, "target": 80}, {"source": 68, "target": 70}, {"source": 68, "target": 47}, {"source": 68, "target": 3}, {"source": 68, "target": 99}, {"source": 68, "target": 11}, {"source": 68, "target": 102}, {"source": 68, "target": 48}, {"source": 68, "target": 45}, {"source": 68, "target": 1}, {"source": 68, "target": 33}, {"source": 68, "target": 66}, {"source": 68, "target": 84}, {"source": 68, "target": 75}, {"source": 68, "target": 49}, {"source": 68, "target": 4}, {"source": 68, "target": 25}, {"source": 68, "target": 32}, {"source": 68, "target": 103}, {"source": 68, "target": 88}, {"source": 68, "target": 13}, {"source": 68, "target": 43}, {"source": 68, "target": 23}, {"source": 68, "target": 62}, {"source": 68, "target": 34}, {"source": 68, "target": 83}, {"source": 68, "target": 73}, {"source": 68, "target": 104}, {"source": 68, "target": 16}, {"source": 68, "target": 65}, {"source": 68, "target": 27}, {"source": 68, "target": 72}, {"source": 68, "target": 79}, {"source": 68, "target": 5}, {"source": 68, "target": 60}, {"source": 69, "target": 49}, {"source": 70, "target": 30}, {"source": 70, "target": 29}, {"source": 70, "target": 8}, {"source": 70, "target": 37}, {"source": 70, "target": 24}, {"source": 70, "target": 39}, {"source": 71, "target": 49}, {"source": 72, "target": 101}, {"source": 72, "target": 84}, {"source": 72, "target": 8}, {"source": 72, "target": 30}, {"source": 73, "target": 30}, {"source": 74, "target": 49}, {"source": 75, "target": 39}, {"source": 75, "target": 25}, {"source": 75, "target": 24}, {"source": 75, "target": 30}, {"source": 77, "target": 81}, {"source": 77, "target": 49}, {"source": 78, "target": 49}, {"source": 79, "target": 3}, {"source": 79, "target": 30}, {"source": 80, "target": 49}, {"source": 82, "target": 49}, {"source": 83, "target": 30}, {"source": 83, "target": 97}, {"source": 83, "target": 2}, {"source": 83, "target": 61}, {"source": 83, "target": 21}, {"source": 83, "target": 52}, {"source": 83, "target": 95}, {"source": 83, "target": 84}, {"source": 86, "target": 49}, {"source": 87, "target": 89}, {"source": 88, "target": 47}, {"source": 88, "target": 49}, {"source": 89, "target": 49}, {"source": 89, "target": 25}, {"source": 89, "target": 83}, {"source": 89, "target": 42}, {"source": 89, "target": 20}, {"source": 89, "target": 84}, {"source": 90, "target": 89}, {"source": 90, "target": 56}, {"source": 90, "target": 49}, {"source": 90, "target": 104}, {"source": 90, "target": 68}, {"source": 90, "target": 98}, {"source": 90, "target": 5}, {"source": 91, "target": 49}, {"source": 93, "target": 68}, {"source": 93, "target": 56}, {"source": 94, "target": 25}, {"source": 94, "target": 49}, {"source": 97, "target": 49}, {"source": 99, "target": 49}, {"source": 100, "target": 49}, {"source": 101, "target": 84}, {"source": 101, "target": 49}, {"source": 103, "target": 31}, {"source": 103, "target": 30}, {"source": 104, "target": 56}, {"source": 104, "target": 49}, {"source": 104, "target": 25}, {"source": 104, "target": 68}, {"source": 104, "target": 1}, {"source": 105, "target": 49}, {"source": 106, "target": 49}, {"source": 107, "target": 49}, {"source": 108, "target": 49}, {"source": 111, "target": 30}, {"source": 115, "target": 30}, {"source": 116, "target": 30}, {"source": 118, "target": 30}, {"source": 119, "target": 30}];
+const CAT_COLORS = {"agent": "#4fc3f7", "memory": "#81c784", "llm": "#ffb74d", "engine": "#ce93d8", "infra": "#f48fb1", "test": "#fff176", "workspace": "#90a4ae", "other": "#e0e0e0"};
+
+// Stats
+document.getElementById('s-nodes').textContent = nodes.length;
+document.getElementById('s-links').textContent = links.length;
+
+// Legend
+const legendEl = document.getElementById('legend-items');
+const catLabels = {
+  agent:'Agents', memory:'Memory', llm:'LLM/Models',
+  engine:'Engines', infra:'Infrastructure', test:'Tests',
+  workspace:'Workspace', other:'Other'
+};
+Object.entries(CAT_COLORS).forEach(([k,c])=>{
+  legendEl.innerHTML += `<div class="l-item"><div class="l-dot" style="background:${c}"></div>${catLabels[k]||k}</div>`;
+});
+
+const W = window.innerWidth, H = window.innerHeight;
+const svg = d3.select('#canvas').attr('width',W).attr('height',H);
+const g = svg.append('g');
+
+// Zoom
+svg.call(d3.zoom().scaleExtent([0.1,8]).on('zoom', e => g.attr('transform', e.transform)));
+
+// Arrow marker
+svg.append('defs').append('marker')
+  .attr('id','arrow').attr('viewBox','0 -4 8 8')
+  .attr('refX',18).attr('refY',0)
+  .attr('markerWidth',6).attr('markerHeight',6)
+  .attr('orient','auto')
+  .append('path').attr('d','M0,-4L8,0L0,4').attr('fill','#30363d');
+
+// Simulation
+const sim = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d=>d.id).distance(80).strength(0.4))
+  .force('charge', d3.forceManyBody().strength(-280))
+  .force('center', d3.forceCenter(W/2, H/2))
+  .force('collide', d3.forceCollide(d => d.size + 4));
+
+const link = g.append('g').selectAll('line')
+  .data(links).join('line')
+  .attr('stroke','#30363d').attr('stroke-width',1.2)
+  .attr('marker-end','url(#arrow)');
+
+const node = g.append('g').selectAll('circle')
+  .data(nodes).join('circle')
+  .attr('r', d => d.size)
+  .attr('fill', d => d.color)
+  .attr('fill-opacity', 0.85)
+  .attr('stroke', d => d.color)
+  .attr('stroke-width', 1.5)
+  .style('cursor','pointer')
+  .call(d3.drag()
+    .on('start', (e,d) => { if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on('drag',  (e,d) => { d.fx=e.x; d.fy=e.y; })
+    .on('end',   (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
+
+const label = g.append('g').selectAll('text')
+  .data(nodes).join('text')
+  .text(d => d.name)
+  .attr('font-size', d => Math.max(8, d.size * 0.65))
+  .attr('fill','#e6edf3').attr('text-anchor','middle')
+  .attr('dy', d => d.size + 10)
+  .style('pointer-events','none')
+  .style('user-select','none');
+
+// Tooltip
+const tip = document.getElementById('tooltip');
+node.on('mousemove', (e,d) => {
+  const ins = links.filter(l => l.source.id===d.id || l.target.id===d.id).length;
+  tip.style.display='block';
+  tip.style.left = (e.clientX+16)+'px';
+  tip.style.top  = (e.clientY-10)+'px';
+  tip.innerHTML = `
+    <div class="t-name">${d.name}</div>
+    <div class="t-path">${d.path}</div>
+    <div class="t-stat">📄 ${d.lines} lines &nbsp;|&nbsp; 🔗 ${ins} connections</div>
+    <div class="t-stat">🏷 ${d.category}</div>`;
+}).on('mouseleave', () => tip.style.display='none');
+
+// Click to highlight
+let selected = null;
+node.on('click', (e,d) => {
+  e.stopPropagation();
+  if(selected === d.id) {
+    selected = null;
+    node.attr('fill-opacity',0.85).attr('stroke-width',1.5);
+    link.attr('stroke','#30363d').attr('stroke-opacity',1).attr('stroke-width',1.2);
+  } else {
+    selected = d.id;
+    const connected = new Set();
+    connected.add(d.id);
+    links.forEach(l => {
+      if(l.source.id===d.id) connected.add(l.target.id);
+      if(l.target.id===d.id) connected.add(l.source.id);
+    });
+    node.attr('fill-opacity', n => connected.has(n.id)?1:0.15)
+        .attr('stroke-width',  n => n.id===d.id?3:1.5);
+    link.attr('stroke', l => (l.source.id===d.id||l.target.id===d.id)?l.source.color||'#58a6ff':'#30363d')
+        .attr('stroke-opacity', l => (l.source.id===d.id||l.target.id===d.id)?1:0.1)
+        .attr('stroke-width',   l => (l.source.id===d.id||l.target.id===d.id)?2:1.2);
+  }
+});
+svg.on('click', () => {
+  selected=null;
+  node.attr('fill-opacity',0.85).attr('stroke-width',1.5);
+  link.attr('stroke','#30363d').attr('stroke-opacity',1).attr('stroke-width',1.2);
+});
+
+// Search
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  if(!q) {
+    node.attr('fill-opacity',0.85);
+    label.attr('fill','#e6edf3');
+    return;
+  }
+  node.attr('fill-opacity', d => d.name.toLowerCase().includes(q)?1:0.1);
+  label.attr('fill', d => d.name.toLowerCase().includes(q)?'#58a6ff':'#30363d');
+});
+
+sim.on('tick', () => {
+  link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+      .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+  node.attr('cx',d=>d.x).attr('cy',d=>d.y);
+  label.attr('x',d=>d.x).attr('y',d=>d.y);
+});
+</script>
+</body>
+</html>

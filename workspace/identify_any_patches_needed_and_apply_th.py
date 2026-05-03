@@ -3,7 +3,7 @@ import subprocess
 
 def apply_patch(patch_file):
     try:
-        result = subprocess.run(['patch', '-p1', '<', patch_file], check=True)
+        subprocess.run(['patch', '-p1', '<', patch_file], check=True)
         print(f"Patch {patch_file} applied successfully.")
         return True
     except subprocess.CalledProcessError as e:

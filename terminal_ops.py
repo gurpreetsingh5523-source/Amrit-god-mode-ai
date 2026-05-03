@@ -1,6 +1,5 @@
 """Terminal Operations — Safe command execution, output capture, process management."""
 import subprocess
-import shlex
 import os
 from pathlib import Path
 from logger import setup_logger

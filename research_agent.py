@@ -1,5 +1,4 @@
 """Research Agent — Web search, URL fetch, document analysis."""
-import asyncio
 import re
 import urllib.request
 import urllib.parse

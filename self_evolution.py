@@ -15,7 +15,6 @@ It continuously:
 import asyncio
 import time
 import json
-import os
 import sys
 import subprocess
 from amrit_core.adaptive_layer import AdaptiveLayer
@@ -64,6 +63,11 @@ class SelfEvolution:
         self._lessons = self._load_lessons()  # Applied lessons
         self._prev_test_results = None  # Track before/after
         self._blacklist: set = set()          # Files that caused regression — never touch
+        self._refactor_denylist: set = {
+            "debugger_agent.py::_optimize",
+            "punjabi_trainer.py::deploy_to_ollama",
+            "recovery_recipes.py::attempt_recovery",
+        }
         self._fix_history: dict = {}           # file → list of cycle numbers when fixed
         self._consec_fail: dict = {}           # file → consecutive failure count
         self._refactor_history: dict = {}      # file → list of cycle numbers when refactored
@@ -303,7 +307,9 @@ class SelfEvolution:
         # Test 1: Import every module
         py_files = [f.stem for f in Path(".").glob("*.py")
                     if f.name not in ("main.py", "self_evolution.py", "test_godmode.py",
-                                      "test_security.py", "setup.py")]
+                                      "test_security.py", "test_goal_engine.py",
+                                      "test_research.py", "setup.py")
+                    and not f.name.startswith("test_")]
         for mod in py_files:
             try:
                 r = subprocess.run(
@@ -632,6 +638,8 @@ class SelfEvolution:
                 detail = issue.get("detail", "")
                 func_name = detail.split("(")[0].strip()
                 key = f"{fp.name}::{func_name}"
+                if key in self._refactor_denylist:
+                    continue
                 recent = [c for c in self._refactor_history.get(key, [])
                           if self.cycle - c <= SKIP_CYCLES]
                 if not recent:
@@ -687,8 +695,8 @@ class SelfEvolution:
                         + base_instructions
                     )
 
-                # Final attempt (legacy: used to escalate to larger models)
-                category = "deep" if attempt == MAX_RETRIES else "refactor"
+                # Final attempt — same model, different prompt emphasis
+                category = "refactor"
 
                 result = await coder.execute({
                     "name": f"Refactor {func_name} in {fp.name}",
@@ -699,7 +707,7 @@ class SelfEvolution:
                         "error": instructions,
                     }
                 })
-                new_funcs = result.get("code", "").strip()
+                new_funcs = self._sanitize_generated_python(result.get("code", ""))
 
                 # If coder reported refactor failed, treat as error
                 if result.get("refactored") is False:
@@ -726,14 +734,21 @@ class SelfEvolution:
                 try:
                     ast.parse(new_funcs)
                 except SyntaxError as e:
-                    last_error = str(e)
-                    if attempt < MAX_RETRIES:
-                        logger.info(f"  \u26a0\ufe0f  Attempt {attempt}: syntax error: {e} \u2014 retrying with feedback")
-                        continue
-                    logger.warning(f"  \u274c LLM syntax error after {MAX_RETRIES} attempts: {e}")
-                    self._restore(fp)
-                    self._refactor_history.setdefault(key, []).append(self.cycle)
-                    return
+                    # One deterministic salvage attempt before re-prompting LLM.
+                    normalized = self._normalize_generated_indentation(new_funcs)
+                    try:
+                        ast.parse(normalized)
+                        new_funcs = normalized
+                        logger.info("  🔧 Auto-normalized indentation from LLM output")
+                    except SyntaxError:
+                        last_error = str(e)
+                        if attempt < MAX_RETRIES:
+                            logger.info(f"  \u26a0\ufe0f  Attempt {attempt}: syntax error: {e} \u2014 retrying with feedback")
+                            continue
+                        logger.warning(f"  \u274c LLM syntax error after {MAX_RETRIES} attempts: {e}")
+                        self._restore(fp)
+                        self._refactor_history.setdefault(key, []).append(self.cycle)
+                        return
 
                 # Stitch: replace old function body in file with new functions
                 new_code = self._replace_function_in_source(code, func_name, func_src, new_funcs)
@@ -806,11 +821,19 @@ class SelfEvolution:
                         # Preserve original indentation level
                         indent = len(lines[start]) - len(lines[start].lstrip())
                         indent_str = " " * indent
-                        # Re-indent new functions to match
+                        # Determine base indent of new_funcs_src so relative
+                        # indentation (nested defs, loops, etc.) is preserved.
+                        raw_indents = [
+                            len(ln) - len(ln.lstrip())
+                            for ln in new_funcs_src.splitlines() if ln.strip()
+                        ]
+                        base_new = min(raw_indents) if raw_indents else 0
+                        # Re-indent new functions to match, keeping relative depth
                         new_lines = []
                         for line in new_funcs_src.splitlines():
                             if line.strip():
-                                new_lines.append(indent_str + line.lstrip() if not line.startswith(indent_str) else line)
+                                extra = (len(line) - len(line.lstrip())) - base_new
+                                new_lines.append(indent_str + " " * extra + line.lstrip())
                             else:
                                 new_lines.append("")
                         replaced = lines[:start] + new_lines + lines[end:]
@@ -818,6 +841,31 @@ class SelfEvolution:
         except Exception:
             pass
         return ""
+
+    def _sanitize_generated_python(self, src: str) -> str:
+        """Remove common LLM wrappers and normalize newlines/tabs."""
+        if not src:
+            return ""
+
+        text = src.replace("\r\n", "\n").replace("\r", "\n").strip()
+        lines = text.splitlines()
+
+        # Drop markdown code fences if present.
+        if lines and lines[0].strip().startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].strip().startswith("```"):
+            lines = lines[:-1]
+
+        return "\n".join(lines).expandtabs(4).strip()
+
+    def _normalize_generated_indentation(self, src: str) -> str:
+        """Normalize indentation so tabs/spaces don't mix and break parsing."""
+        fixed_lines = []
+        for line in src.splitlines():
+            stripped = line.lstrip(" \t")
+            indent = line[:len(line) - len(stripped)]
+            fixed_lines.append(indent.expandtabs(4) + stripped)
+        return "\n".join(fixed_lines).strip()
 
     # ══════════════════════════════════════════════════════════════
     # PHASE 4: SELF-OPTIMIZE — ਤੇਜ਼ ਬਣਾਓ
@@ -1041,8 +1089,8 @@ class SelfEvolution:
                         else:
                             instructions_with_feedback = instructions
 
-                        # Escalate to 32B on final attempt
-                        category = "deep" if attempt == 3 else "refactor"
+                        # Same model on all attempts (deepseek-r1:32b not installed)
+                        category = "refactor"
                         # if attempt == 3:
                         #     logger.info("  7B escalation (legacy, now skipped)...")
 
@@ -1440,8 +1488,13 @@ class SelfEvolution:
 
         fixed_this_cycle    = [fname for fname, cycles in self._fix_history.items()
                                 if self.cycle in cycles]
-        refactored_this_cycle = [fname for fname, cycles in self._refactor_history.items()
-                                 if self.cycle in cycles]
+        refactored_this_cycle = [
+            e.get("action", "").replace("split ", "")
+            for e in cycle_entries
+            if e.get("phase") == "refactor"
+            and e.get("success")
+            and e.get("action", "").startswith("split ")
+        ]
         applied_this_cycle   = [e.get("action", "").replace("apply ", "") for e in cycle_entries
                                 if e.get("phase") == "apply" and e.get("success")]
         regressed_files      = [e.get("action", "") for e in cycle_entries

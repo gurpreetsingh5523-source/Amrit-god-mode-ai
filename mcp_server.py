@@ -14,8 +14,6 @@ pure asyncio + json. No express/fastify/flask needed.
 import asyncio
 import json
 import sys
-import os
-import time
 from typing import Optional, Any, Dict
 from logger import setup_logger
 from swarm import Queen
@@ -454,8 +452,6 @@ class MCPServer:
 
 async def start_mcp_server(mode: str = "stdio"):
     """Start MCP server (called from main.py)."""
-    from event_bus import EventBus
-    from orchestrator import Orchestrator
 
     bus = EventBus()
     orch = Orchestrator(bus)
