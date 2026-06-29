@@ -10,9 +10,9 @@
         "worked": true
       }
     ],
-    "count": 1673,
+    "count": 1727,
     "first_seen": "2026-04-01T12:59:31.852249",
-    "last_seen": "2026-05-03T00:38:37.762260"
+    "last_seen": "2026-05-03T12:57:17.737320"
   },
   {
     "error_key": "fix regression: before=74ok/16fail, after=73ok/17fail",
@@ -30,9 +30,9 @@
     "agent": "self_evolution",
     "task": "fix embedding_model.py",
     "fixes": [],
-    "count": 89,
+    "count": 144,
     "first_seen": "2026-04-01T13:44:19.701589",
-    "last_seen": "2026-05-03T00:31:49.686152"
+    "last_seen": "2026-05-03T12:57:20.496827"
   },
   {
     "error_key": "regressed",

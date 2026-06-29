@@ -134,6 +134,19 @@ class Orchestrator:
             "dataset": DatasetAgent(self.event_bus, self.state),
             "simulation": SimulationAgent(self.event_bus, self.state),
         }
+        # Reverse-engineering agent (static binary/APK analysis — own constructor, deps optional)
+        try:
+            from reverse_agent import ReverseAgent
+            self.agents["reverse"] = ReverseAgent(
+                config=getattr(self, "config", None),
+                sandbox=getattr(self, "sandbox", None),
+                memory=self.agents.get("memory"),
+                ethical_guard=getattr(self, "ethical_guard", None),
+            )
+            logger.info("reverse agent loaded ✅")
+        except Exception as e:
+            logger.warning(f"reverse agent not loaded: {e}")
+
         # Load plugins from amrit_plugins/
         plugin_agents = self.plugin_mgr.load_all(self.event_bus, self.state)
         if plugin_agents:

@@ -296,11 +296,10 @@ class LLMRouter:
             resp = await loop.run_in_executor(None, _sync_call)
             text = resp.get("message", {}).get("content", "")
 
-            # Strip thinking tags from qwen3
-            if "נקוד" in text:
-                end = text.find("נקוד")
-                if end > 0:
-                    text = text[end + 8 :].strip()
+            # Strip thinking tags from qwen3 (model emits <think>...</think>)
+            if "</think>" in text:
+                end = text.find("</think>")
+                text = text[end + len("</think>") :].strip()
 
             return text if text else "[ERROR] Empty response"
         except Exception as e:
