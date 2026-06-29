@@ -109,5 +109,7 @@ class WorkflowEngine:
     def _eval_condition(self, condition: str) -> bool:
         try:
             return bool(eval(condition, {"__builtins__": {}}, self._variables))
-        except Exception:
-            return True
+        except Exception as e:
+            # fail-safe: a condition we cannot evaluate should SKIP the step, not run it
+            logger.warning(f"Condition eval failed ({condition!r}): {e} — skipping step")
+            return False

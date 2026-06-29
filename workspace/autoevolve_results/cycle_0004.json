@@ -1,0 +1,21 @@
+{
+  "cycle": 4,
+  "ts": "2026-05-03T12:48:16.029187",
+  "selffix": {
+    "fixed": 0,
+    "errors": 0,
+    "time_s": 52.7
+  },
+  "learn": {
+    "sources": 2,
+    "snippets": 2,
+    "errors": 0,
+    "time_s": 1.8
+  },
+  "benchmark": {
+    "coding": 0.78,
+    "math": 1.0,
+    "avg": 0.89,
+    "time_s": 11.3
+  }
+}
