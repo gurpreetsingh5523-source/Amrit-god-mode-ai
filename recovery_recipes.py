@@ -12,7 +12,7 @@ from typing import Optional, Callable, Awaitable
 import asyncio
 import time
 from logger import setup_logger
-from failure_taxonomy import ClassifiedFailure, FailureClass, Severity
+from failure_taxonomy import ClassifiedFailure, FailureClass
 
 logger = setup_logger("RecoveryRecipes")
 
@@ -254,26 +254,40 @@ class RecoveryEngine:
             return self._recipes[scenario]
         return None
 
-    async def attempt_recovery(self, failure: ClassifiedFailure,
-                                terminal_exec=None,
-                                event_publish=None) -> dict:
+    async def attempt_recovery(self, failure: ClassifiedFailure, terminal_exec=None, event_publish=None) -> dict:
         """Try to auto-recover from a failure. Returns result dict."""
         recipe = self.find_recipe(failure)
         if not recipe:
             logger.debug(f"No recipe for {failure.tag}: {failure.error[:60]}")
             return {"recovered": False, "reason": "no_recipe"}
 
-        ctx = RecoveryContext(
-            failure=failure,
-            terminal_exec=terminal_exec,
-            event_publish=event_publish,
-        )
+        ctx = RecoveryContext(failure=failure, terminal_exec=terminal_exec, event_publish=event_publish)
         logger.info(f"Attempting recovery: {recipe.name} for [{failure.tag}]")
 
         template_vars = _extract_vars(failure)
         success = True
 
-        async def execute_bash_step(step, cmd):
+        async def execute_step(step):
+            if step.step_type == StepType.BASH:
+                cmd = step.command.format_map(template_vars)
+                return await execute_bash_step(cmd, step)
+            elif step.step_type == StepType.WAIT:
+                await asyncio.sleep(step.wait_seconds)
+                return {"success": True}
+            elif step.step_type == StepType.RETRY:
+                return {"success": True, "action": "retry_signaled"}
+            elif step.step_type == StepType.ESCALATE:
+                result = {"success": False, "action": "escalated"}
+                if event_publish:
+                    await event_publish("recovery.escalated", {
+                        "recipe": recipe.name,
+                        "failure": failure.to_dict(),
+                    }, source="RecoveryEngine")
+                return result
+            elif step.step_type == StepType.PYTHON:
+                return await execute_python_step(step, ctx)
+
+        async def execute_bash_step(cmd, step):
             if terminal_exec:
                 try:
                     out = await terminal_exec(cmd)
@@ -297,41 +311,14 @@ class RecoveryEngine:
             except Exception as e:
                 return {"error": str(e)[:200], "success": step.fail_ok}
 
+        ctx.step_results = []
         for step in recipe.steps:
             step_result = {"step": step.description, "type": step.step_type.value}
-
-            if step.step_type == StepType.BASH:
-                cmd = step.command.format_map(template_vars)
-                step_result.update(await execute_bash_step(step, cmd))
-                if not step.fail_ok and not step_result["success"]:
-                    success = False
-                    break
-
-            elif step.step_type == StepType.WAIT:
-                await asyncio.sleep(step.wait_seconds)
-                step_result["success"] = True
-
-            elif step.step_type == StepType.RETRY:
-                step_result["success"] = True
-                step_result["action"] = "retry_signaled"
-
-            elif step.step_type == StepType.ESCALATE:
-                step_result["success"] = False
-                step_result["action"] = "escalated"
-                if event_publish:
-                    await event_publish("recovery.escalated", {
-                        "recipe": recipe.name,
-                        "failure": failure.to_dict(),
-                    }, source="RecoveryEngine")
+            result = await execute_step(step)
+            step_result.update(result)
+            if not step.fail_ok and not step_result["success"]:
                 success = False
                 break
-
-            elif step.step_type == StepType.PYTHON:
-                step_result.update(await execute_python_step(step, ctx))
-                if not step.fail_ok and not step_result["success"]:
-                    success = False
-                    break
-
             ctx.step_results.append(step_result)
 
         entry = {

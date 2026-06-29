@@ -1,5 +1,4 @@
 import subprocess
-from typing import Optional, List
 
 class GitOps:
     """Git operations for repository management and version control."""

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """Test all AMRIT GODMODE brain upgrades — standalone (no LLM needed for most)."""
 import traceback
-import ast
-import sys
-import json
+import asyncio
 from pathlib import Path
 
 PASS = 0
@@ -36,7 +34,7 @@ def test_complexity_estimator():
     assert estimate_complexity("build an API server with routes") == "medium"
 
 def test_cache():
-    from reasoning_engine import _cache_key, _CACHE
+    from reasoning_engine import _cache_key
     k1 = _cache_key("hello world")
     k2 = _cache_key("hello world")
     k3 = _cache_key("different prompt")
@@ -211,6 +209,116 @@ def test_optimize_pattern():
 
 _test_runner("Think pattern", test_think_pattern)
 _test_runner("Optimize pattern", test_optimize_pattern)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+print("\n=== 7. AmritMoERouter ===")
+
+def test_moe_router_installed_models():
+    """ਸਾਰੇ expert slots installed model ਵਾਪਸ ਕਰਨ।"""
+    from amrit_moe_router import EXPERTS
+    for key, model in EXPERTS.items():
+        assert isinstance(model, str) and len(model) > 0, f"EXPERTS[{key}] empty"
+
+def test_moe_router_code_routing():
+    from amrit_moe_router import AmritMoERouter, EXPERTS
+    moe = AmritMoERouter()
+    m = moe.route(task_type="code", prompt="write a python function")
+    assert m == EXPERTS["coding"]
+
+def test_moe_router_embed():
+    from amrit_moe_router import AmritMoERouter, EXPERTS
+    moe = AmritMoERouter()
+    m = moe.route(task_type="embed")
+    assert m == EXPERTS["embed"]
+
+def test_moe_router_complexity():
+    from amrit_moe_router import AmritMoERouter
+    moe = AmritMoERouter()
+    s_low  = moe.complexity_from_text("say hello")
+    s_med  = moe.complexity_from_text("build an API server with routes")
+    s_high = moe.complexity_from_text("implement compiler from scratch with tokenizer")
+    assert s_low < s_med < s_high, f"Complexity order wrong: {s_low} {s_med} {s_high}"
+
+def test_moe_agent_routing():
+    from amrit_moe_router import AmritMoERouter, EXPERTS
+    moe = AmritMoERouter()
+    assert moe.route_by_agent("coder")    == EXPERTS["coding"]
+    assert moe.route_by_agent("monitor")  == EXPERTS["fast"]
+    assert moe.route_by_agent("vision")   == EXPERTS["vision"]
+
+_test_runner("MoE router — installed models", test_moe_router_installed_models)
+_test_runner("MoE router — code routing",    test_moe_router_code_routing)
+_test_runner("MoE router — embed routing",   test_moe_router_embed)
+_test_runner("MoE router — complexity score", test_moe_router_complexity)
+_test_runner("MoE router — agent routing",   test_moe_agent_routing)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+print("\n=== 8. AmritDeepReasoner ===")
+
+def test_deep_reasoner_init():
+    from amrit_deep_reasoner import AmritDeepReasoner
+    class FakeLLM:
+        async def complete(self, *a, **kw): return "test answer"
+    r = AmritDeepReasoner(FakeLLM())
+    assert r.max_loops > 0
+    assert 0 < r.halt_threshold <= 1.0
+
+def test_deep_reasoner_depth():
+    from amrit_deep_reasoner import AmritDeepReasoner
+    class FakeLLM:
+        async def complete(self, *a, **kw): return "test answer"
+    r = AmritDeepReasoner(FakeLLM())
+    assert r.classify_depth("hello") == 1
+    assert r.classify_depth("solve this math problem") >= 3
+    assert r.classify_depth("explain complex quantum physics science") >= 6
+
+def test_deep_reasoner_confidence():
+    from amrit_deep_reasoner import AmritDeepReasoner
+    class FakeLLM:
+        async def complete(self, *a, **kw): return "test answer"
+    r = AmritDeepReasoner(FakeLLM())
+    conf_high = r._estimate_confidence("The answer is clearly 42.")
+    conf_low  = r._estimate_confidence("maybe perhaps not sure might be unclear")
+    assert conf_high > conf_low
+
+
+def test_deep_reasoner_reason():
+    """Mock LLM ਨਾਲ reason() async pipeline ਚੈੱਕ ਕਰੋ।"""
+    from amrit_deep_reasoner import AmritDeepReasoner
+    call_count = 0
+    class FakeLLM:
+        async def complete(self, *a, **kw):
+            nonlocal call_count
+            call_count += 1
+            return "definitive clear confident answer"
+    r = AmritDeepReasoner(FakeLLM())
+    result = asyncio.run(r.reason("say hello"))
+    assert "answer"      in result
+    assert "loops_used"  in result
+    assert "confidence"  in result
+    assert result["loops_used"] >= 1
+    assert call_count >= 1
+
+_test_runner("DeepReasoner init",       test_deep_reasoner_init)
+_test_runner("DeepReasoner depth",      test_deep_reasoner_depth)
+_test_runner("DeepReasoner confidence", test_deep_reasoner_confidence)
+_test_runner("DeepReasoner reason()",   test_deep_reasoner_reason)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+print("\n=== 9. ReasoningEngine ↔ DeepReasoner Integration ===")
+
+def test_reasoning_engine_high_complexity():
+    """complexity='high' → strategy='deep_reason/N_loops'"""
+    from reasoning_engine import estimate_complexity
+    assert estimate_complexity("implement compiler from scratch with parser") == "high"
+
+def test_reasoning_engine_low_complexity():
+    """complexity='low' → strategy='direct' (no deep reasoner)"""
+    from reasoning_engine import estimate_complexity
+    assert estimate_complexity("say hello") == "low"
+
+_test_runner("ReasoningEngine high-complexity route", test_reasoning_engine_high_complexity)
+_test_runner("ReasoningEngine low-complexity route",  test_reasoning_engine_low_complexity)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 print(f"\n{'='*50}")

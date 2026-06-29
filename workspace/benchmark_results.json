@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-coder-v2:16b-lite-instruct-q4_K_M",
+  "date": "2026-05-03T12:27:08.425698",
+  "total_questions": 5,
+  "single_pass": {
+    "avg_score": 0.95,
+    "avg_time_s": 1.31
+  },
+  "deep_reasoning": {
+    "avg_score": 0.95,
+    "avg_time_s": 7.66
+  },
+  "deep_wins": 1,
+  "overall_improvement_pct": 0.0,
+  "results": {
+    "coding": [
+      {
+        "question": "Write a Python function to check if a string is a palindrome.",
+        "keywords": [
+          "def",
+          "return",
+          "[::-1]",
+          "=="
+        ],
+        "expected": "def is_palindrome(s): return s == s[::-1]",
+        "single_pass": {
+          "response": " Here's a concise Python function to check if a string is a palindrome:\n\n```python\ndef is_palindrome(s):\n    return s == s[::-1]\n```",
+          "score": 1.0,
+          "time_s": 1.15
+        },
+        "deep_reason": {
+          "response": " To determine if a given string is a palindrome in Python, you can follow these steps:\n\n1. Remove any non-alphanumeric characters from the string since they do not contribute to determining whether the word or phrase reads the same forwards and backwards.\n2. Convert all letters to lowercase to ensur",
+          "score": 1.0,
+          "time_s": 7.0
+        },
+        "improvement_pct": 0.0
+      },
+      {
+        "question": "Write a Python function to find duplicates in a list.",
+        "keywords": [
+          "def",
+          "set()",
+          "for",
+          "return"
+        ],
+        "expected": "Uses set or Counter to find duplicates",
+        "single_pass": {
+          "response": " To find duplicates in a list, you can use the following Python function:\n```python\ndef find_duplicates(lst):\n    seen = set()\n    duplicates = []\n    for item in lst:\n        if item in seen and item not in duplicates:\n            duplicates.append(item)\n        else:\n            seen.add(item)\n   ",
+          "score": 1.0,
+          "time_s": 1.53
+        },
+        "deep_reason": {
+          "response": " Certainly! To write a Python function that finds duplicates in a list, you can use the following approach:\n\n1. Create an empty dictionary to store the count of each element in the list.\n2. Iterate through the list and update the count of each element in the dictionary.\n3. Identify elements with a c",
+          "score": 0.75,
+          "time_s": 6.84
+        },
+        "improvement_pct": -25.0
+      },
+      {
+        "question": "Fix this Python bug: `print(1/0)`",
+        "keywords": [
+          "ZeroDivisionError",
+          "try",
+          "except",
+          "0"
+        ],
+        "expected": "try/except ZeroDivisionError",
+        "single_pass": {
+          "response": " The bug is a ZeroDivisionError, which occurs when trying to divide by zero. To fix it, avoid dividing by zero or handle the exception appropriately.",
+          "score": 0.75,
+          "time_s": 0.69
+        },
+        "deep_reason": {
+          "response": " To fix the issue in the code snippet `print(1/0)`, you need to handle the division by zero error appropriately. In Python, attempting to divide any number by zero will raise a `ZeroDivisionError`. Here's how you can prevent this from happening and provide an appropriate message instead:\n\n```python\n",
+          "score": 1.0,
+          "time_s": 4.11
+        },
+        "improvement_pct": 25.0
+      },
+      {
+        "question": "Write a Python decorator that measures function execution time.",
+        "keywords": [
+          "def",
+          "time",
+          "wrapper",
+          "return"
+        ],
+        "expected": "Uses time.perf_counter, wraps function",
+        "single_pass": {
+          "response": " Here's a concise implementation of a Python decorator to measure the execution time of a function:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Functi",
+          "score": 1.0,
+          "time_s": 1.95
+        },
+        "deep_reason": {
+          "response": " Certainly! A Python decorator to measure the execution time of a function can be implemented using the `time` module, which provides access to various time-related functions. Here is a step-by-step explanation and code example to create such a decorator:\n\n1. **Import the Time Module**: The first st",
+          "score": 1.0,
+          "time_s": 10.37
+        },
+        "improvement_pct": 0.0
+      },
+      {
+        "question": "Write a Python async function to run multiple coroutines concurrently.",
+        "keywords": [
+          "async",
+          "await",
+          "asyncio.gather"
+        ],
+        "expected": "asyncio.gather(*coros)",
+        "single_pass": {
+          "response": " Here's an example of a Python async function that runs multiple coroutines concurrently using `asyncio.gather`:\n\n```python\nimport asyncio\n\nasync def concurrent_coroutines(coros):\n    results = await asyncio.gather(*coros)\n    return results\n```",
+          "score": 1.0,
+          "time_s": 1.24
+        },
+        "deep_reason": {
+          "response": " Certainly! To write a Python `async` function that runs multiple coroutines concurrently, you can use the `asyncio` module, which provides tools for writing concurrent code using coroutines. Here’s a step-by-step guide on how to do this:\n\n1. **Import the `asyncio` module**: This module contains the",
+          "score": 1.0,
+          "time_s": 9.98
+        },
+        "improvement_pct": 0.0
+      }
+    ]
+  }
+}

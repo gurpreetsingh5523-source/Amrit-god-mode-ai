@@ -2,7 +2,6 @@ import ast
 import shutil
 from pathlib import Path
 from experience_log import ExperienceLog
-from logger import setup_logger
 
 def validate_patch(file_path: str, old_code: str, new_code: str):
     """Validate new_code for syntax safety using ast.parse."""

@@ -11,7 +11,7 @@ def read_and_print_headlines(filename):
     except FileNotFoundError:
         print(f"Error: {filename} not found.")
     except KeyError:
-        print(f"Error: The expected key was not found in the JSON data.")
+        print("Error: The expected key was not found in the JSON data.")
     except Exception as e:
         print(f"An error occurred: {e}")
 

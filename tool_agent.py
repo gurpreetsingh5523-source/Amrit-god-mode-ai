@@ -1,6 +1,3 @@
-from toolbox import ToolBox
-from toolbox_persistence import ToolBoxPersistence
-import asyncio
 """Tool Agent — File I/O, terminal, git, JSON operations with EthicalGuard enforcement."""
 import os
 import shutil
@@ -8,6 +5,8 @@ import subprocess
 import json
 from pathlib import Path
 from typing import TYPE_CHECKING
+from toolbox import ToolBox
+from toolbox_persistence import ToolBoxPersistence
 
 if TYPE_CHECKING:
     from base_agent import BaseAgent  # type: ignore

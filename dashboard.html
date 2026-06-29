@@ -249,36 +249,36 @@
         <div class="sec-title">Active Agents</div>
         <div class="sec-action">View all →</div>
       </div>
-      <div class="agent-grid">
-        <div class="agent-card" style="--ac:#51cf66">
-          <div class="agent-top"><div class="agent-icon">🎯</div><div><div class="agent-name">Orchestrator</div><div class="agent-status s-running">● Running</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:78%"></div></div>
-          <div class="agent-meta">78% • 14 tasks queued</div>
+      <div class="agent-grid" id="agent-grid">
+        <div class="agent-card" data-agent="planner" style="--ac:#51cf66">
+          <div class="agent-top"><div class="agent-icon">🎯</div><div><div class="agent-name">Planner</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">Goal decomposition</div>
         </div>
-        <div class="agent-card" style="--ac:#a78bfa">
-          <div class="agent-top"><div class="agent-icon">🎤</div><div><div class="agent-name">Voice Agent</div><div class="agent-status s-running">● Listening</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:45%"></div></div>
-          <div class="agent-meta">45% • Punjabi STT active</div>
+        <div class="agent-card" data-agent="coder" style="--ac:#a78bfa">
+          <div class="agent-top"><div class="agent-icon">💻</div><div><div class="agent-name">Coder</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">Code generation & fix</div>
         </div>
-        <div class="agent-card" style="--ac:#4ecdc4">
-          <div class="agent-top"><div class="agent-icon">🌐</div><div><div class="agent-name">Web Crawler</div><div class="agent-status s-running">● Crawling</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:62%"></div></div>
-          <div class="agent-meta">62% • 3 URLs pending</div>
+        <div class="agent-card" data-agent="internet" style="--ac:#4ecdc4">
+          <div class="agent-top"><div class="agent-icon">🌐</div><div><div class="agent-name">Internet</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">Web search & crawl</div>
         </div>
-        <div class="agent-card" style="--ac:#f0b429">
-          <div class="agent-top"><div class="agent-icon">⬆</div><div><div class="agent-name">Self-Upgrade</div><div class="agent-status s-queue">◐ Queued</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:20%"></div></div>
-          <div class="agent-meta">20% • Waiting on LLM</div>
+        <div class="agent-card" data-agent="upgrade" style="--ac:#f0b429">
+          <div class="agent-top"><div class="agent-icon">⬆</div><div><div class="agent-name">Upgrade</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">Self-upgrade engine</div>
         </div>
-        <div class="agent-card" style="--ac:#ff6b6b">
-          <div class="agent-top"><div class="agent-icon">👁</div><div><div class="agent-name">Vision Agent</div><div class="agent-status s-running">● Processing</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:91%"></div></div>
-          <div class="agent-meta">91% • Frame analysis</div>
+        <div class="agent-card" data-agent="vision" style="--ac:#ff6b6b">
+          <div class="agent-top"><div class="agent-icon">👁</div><div><div class="agent-name">Vision</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">Image analysis</div>
         </div>
-        <div class="agent-card" style="--ac:#7a80a0">
-          <div class="agent-top"><div class="agent-icon">🔒</div><div><div class="agent-name">Security</div><div class="agent-status s-idle">○ Idle</div></div></div>
-          <div class="agent-bar-bg"><div class="agent-bar" style="width:5%"></div></div>
-          <div class="agent-meta">5% • Monitoring</div>
+        <div class="agent-card" data-agent="monitor" style="--ac:#7a80a0">
+          <div class="agent-top"><div class="agent-icon">📊</div><div><div class="agent-name">Monitor</div><div class="agent-status s-idle">○ Idle</div></div></div>
+          <div class="agent-bar-bg"><div class="agent-bar" style="width:0%"></div></div>
+          <div class="agent-meta">System health</div>
         </div>
       </div>
     </div>
@@ -477,61 +477,63 @@ setInterval(()=>{
   }
 },9000);
 
-// Log messages
-const logs=[
-  ['log-ok','✓ DeepSeek','inference complete — 22.4 tokens/sec'],
-  ['log-info','ℹ Researcher','new papers indexed to ChromaDB'],
-  ['log-ok','✓ Tester','unit tests passed: 102/102'],
-  ['log-ok','✓ Voice','Punjabi phrase recognized: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ'],
-  ['log-ok','✓ Vision','image analyzed — 5 objects detected'],
-  ['log-info','ℹ Orchestrator','task routing optimized'],
-  ['log-ok','✓ Security','no threats detected'],
-  ['log-info','ℹ Memory','semantic vectors indexed: 1,847'],
-];
-let li=0;
+// Log messages — replaced with real API logs below
 const term=document.getElementById('log-terminal');
-setInterval(()=>{
-  const msg=logs[li%logs.length];li++;
-  const now=new Date();
-  const ts=`[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
-  const cur=document.getElementById('log-cursor');
-  const div=document.createElement('div');
-  div.className='log-line';
-  div.innerHTML=`<span class="log-ts">${ts}</span> <span class="${msg[0]}">${msg[1]}</span> ${msg[2]}`;
-  term.insertBefore(div,cur);
-  if(term.children.length>20)term.removeChild(term.children[0]);
-  term.scrollTop=term.scrollHeight;
-},4000);
 
-// Task counter
-setInterval(()=>{
-  if(Math.random()>0.7){
-    const v=parseInt(document.getElementById('tasks-val').textContent)+1;
-    document.getElementById('tasks-val').textContent=v;
-  }
-},8000);
-
-// Fetch real logs from API
+// Fetch real logs from API — shows all recent lines, ANSI-clean
 async function fetchRealLogs(){
   try{
     const res=await fetch('/api/logs');
     if(!res.ok)return;
     const data=await res.json();
     const lines=data.lines||[];
-    if(lines.length>0){
-      const lastLine=lines[lines.length-1];
-      const term=document.getElementById('log-terminal');
-      const cur=document.getElementById('log-cursor');
+    if(lines.length===0)return;
+    const cur=document.getElementById('log-cursor');
+    // Clear old fake lines, keep cursor
+    while(term.firstChild&&term.firstChild!==cur)term.removeChild(term.firstChild);
+    lines.slice(-20).forEach(line=>{
+      if(!line.trim())return;
+      const parts=line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}[^\|]*)\|\s*([^\|]+)\|\s*([^\|]+)\|\s*(.*)/);
       const div=document.createElement('div');
       div.className='log-line';
-      div.innerHTML=`<span class="log-ts">[API]</span> <span class="log-info">ℹ</span> ${lastLine.substring(0,100)}`;
-      if(cur)term.insertBefore(div,cur);
-      else term.appendChild(div);
-      if(term.children.length>25)term.removeChild(term.firstChild);
-    }
+      if(parts){
+        const level=(parts[2]||'').trim().toLowerCase();
+        const agent=(parts[3]||'').trim();
+        const msg=(parts[4]||'').trim();
+        const cls=level.includes('error')?'log-err':level.includes('warn')?'log-warn':'log-ok';
+        div.innerHTML=`<span class="log-ts">[${(parts[1]||'').trim().slice(11,19)}]</span> <span class="${cls}">${agent}</span> ${msg.substring(0,120)}`;
+      }else{
+        div.innerHTML=`<span class="log-info">ℹ</span> ${line.substring(0,130)}`;
+      }
+      term.insertBefore(div,cur);
+    });
+    term.scrollTop=term.scrollHeight;
   }catch(e){}
 }
-setInterval(fetchRealLogs,5000);
+fetchRealLogs();
+setInterval(fetchRealLogs,4000);
+
+// Fetch real agent status from /api/agents
+async function fetchAgents(){
+  try{
+    const res=await fetch('/api/agents');
+    if(!res.ok)return;
+    const data=await res.json();
+    const agents=data.agents||[];
+    const grid=document.getElementById('agent-grid');
+    if(!grid)return;
+    // Only update status dots — don't rebuild whole grid
+    agents.forEach(ag=>{
+      const el=document.querySelector(`[data-agent="${ag.name}"] .agent-status`);
+      if(el){
+        el.className='agent-status s-'+ag.status;
+        el.textContent=ag.status;
+      }
+    });
+  }catch(e){}
+}
+fetchAgents();
+setInterval(fetchAgents,6000);
 
 function clearLog(){
   const cur=document.getElementById('log-cursor');

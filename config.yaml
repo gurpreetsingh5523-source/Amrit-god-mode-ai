@@ -1,9 +1,9 @@
 # AMRIT GODMODE v2.1 — Configuration
 llm:
-  model: "mistral:7b-instruct-q4_K_M"      # fastest general model (2s)
-  reasoning_model: "gemma3:4b"             # fast reasoning (2.3s)
-  coding_model: "gemma3:4b"                # replaced slow qwen2.5-coder
-  fast_model: "gemma3:4b"                  # 4B = quick responses
+  model: "deepseek-coder-v2:16b-lite-instruct-q4_K_M"      # ਇੱਕੋ installed model
+  reasoning_model: "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
+  coding_model: "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
+  fast_model: "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
   openai_base_url: "http://127.0.0.1:11434/v1"
   openai_api_key: "ollama"
   system_prompt: "ਪੰਜਾਬੀ ਵਿੱਚ ਜਵਾਬ ਦਿਓ। STRICT JSON ONLY."

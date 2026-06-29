@@ -2,14 +2,16 @@
 
 Serves dashboard.html and provides live API endpoints:
   GET /              → dashboard.html
-  GET /api/logs      → last 40 lines from today's log file (JSON)
+  GET /api/logs      → last 40 lines from today's log file (JSON, ANSI stripped)
   GET /api/state     → workspace/state.json contents
   GET /api/memory    → summary of workspace JSON memory files
+  GET /api/agents    → live agent status summary
 
 Run:  python dashboard_server.py
 Open:  http://localhost:7777
 """
 
+import re
 import json
 import os
 import http.server
@@ -20,6 +22,9 @@ PORT = 7777
 BASE = Path(__file__).resolve().parent
 LOG_DIR = BASE / "logs"
 WS_DIR = BASE / "workspace"
+
+# Strip ANSI escape codes from log lines
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[mGKHF]")
 
 
 class DashboardHandler(http.server.SimpleHTTPRequestHandler):
@@ -33,6 +38,8 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
             self._serve_json_file(WS_DIR / "state.json")
         elif self.path == "/api/memory":
             self._serve_memory_summary()
+        elif self.path == "/api/agents":
+            self._serve_agents()
         else:
             super().do_GET()
 
@@ -55,7 +62,7 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
         if log_file.exists():
             with open(log_file, "r", errors="replace") as f:
                 all_lines = f.readlines()
-                lines = [l.rstrip() for l in all_lines[-40:]]
+                lines = [_ANSI_RE.sub("", line.rstrip()) for line in all_lines[-60:]]
         self._send_json({"lines": lines, "file": str(log_file.name)})
 
     def _serve_json_file(self, path):
@@ -97,6 +104,47 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         self.wfile.write(data)
+
+    def _serve_agents(self):
+        """Return live agent status from state + recent log lines."""
+        agents = [
+            "planner", "coder", "researcher", "tester", "debugger",
+            "tool", "memory", "upgrade", "monitor", "voice",
+            "vision", "internet", "dataset", "simulation",
+        ]
+        state = {}
+        try:
+            state = json.loads((WS_DIR / "state.json").read_text(errors="replace"))
+        except Exception:
+            pass
+
+        # Parse last 200 log lines to find recent agent activity
+        today = datetime.date.today().isoformat()
+        log_file = LOG_DIR / f"{today}.log"
+        recent_agents: dict = {}
+        if log_file.exists():
+            try:
+                lines = log_file.read_text(errors="replace").splitlines()[-200:]
+                for ln in reversed(lines):
+                    clean = _ANSI_RE.sub("", ln)
+                    for ag in agents:
+                        if ag not in recent_agents and ag.lower() in clean.lower():
+                            status = "error" if "error" in clean.lower() or "❌" in clean else \
+                                     "running" if "running" in clean.lower() else "idle"
+                            recent_agents[ag] = status
+                            break
+            except Exception:
+                pass
+
+        result = []
+        for ag in agents:
+            result.append({
+                "name": ag,
+                "status": recent_agents.get(ag, "idle"),
+                "last_task": state.get(f"{ag}:last_task", ""),
+            })
+        health = state.get("MonitorAgent:last_health", {})
+        self._send_json({"agents": result, "health": health})
 
     def log_message(self, fmt, *args):
         pass  # silent

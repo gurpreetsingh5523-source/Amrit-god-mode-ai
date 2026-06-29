@@ -1,7 +1,5 @@
 """Code Analysis — AST-based static analysis, complexity metrics, issue detection."""
 import ast
-import re
-import sys
 from pathlib import Path
 
 
@@ -194,7 +192,7 @@ class CodeAnalyzer:
      "line": node.lineno,
     })
 
-  # TODO/FIXME/HACK comments
+  # Detect code-smell comment patterns (smell markers: fixme/hack/xxx)
   for i, line in enumerate(code.split("\n"), 1):
    stripped = line.strip()
    if stripped.startswith("#"):

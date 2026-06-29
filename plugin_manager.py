@@ -32,8 +32,6 @@ Example plugin (amrit_plugins/my_agent.py):
         return MyAgent("my_agent", event_bus, state)
 """
 
-import os
-import sys
 import importlib
 import importlib.util
 from pathlib import Path

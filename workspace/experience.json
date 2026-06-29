@@ -1480,5 +1480,409 @@
     },
     "success": true,
     "timestamp": "2026-04-10T10:27:03.067885"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 124 successes, 4 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 124,
+      "failures": 4,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T00:21:46.766121"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_2",
+    "task": "cycle 2: 31 successes, 1 failures",
+    "result": {
+      "cycle": 2,
+      "successes": 31,
+      "failures": 1,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T00:23:01.880844"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_3",
+    "task": "cycle 3: 38 successes, 1 failures",
+    "result": {
+      "cycle": 3,
+      "successes": 38,
+      "failures": 1,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T00:25:21.714182"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_4",
+    "task": "cycle 4: 18 successes, 1 failures",
+    "result": {
+      "cycle": 4,
+      "successes": 18,
+      "failures": 1,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T00:26:31.891790"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_5",
+    "task": "cycle 5: 13 successes, 1 failures",
+    "result": {
+      "cycle": 5,
+      "successes": 13,
+      "failures": 1,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T00:27:24.181563"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 99 successes, 5 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 99,
+      "failures": 5,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T23:25:07.595883"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_2",
+    "task": "cycle 2: 24 successes, 2 failures",
+    "result": {
+      "cycle": 2,
+      "successes": 24,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T23:26:37.137319"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_3",
+    "task": "cycle 3: 47 successes, 2 failures",
+    "result": {
+      "cycle": 3,
+      "successes": 47,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T23:28:45.430659"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_4",
+    "task": "cycle 4: 24 successes, 2 failures",
+    "result": {
+      "cycle": 4,
+      "successes": 24,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T23:29:34.724018"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_5",
+    "task": "cycle 5: 19 successes, 2 failures",
+    "result": {
+      "cycle": 5,
+      "successes": 19,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-02T23:30:38.822852"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 98 successes, 6 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 98,
+      "failures": 6,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T00:21:21.376871"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 89 successes, 7 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 89,
+      "failures": 7,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T00:25:06.690226"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 89 successes, 8 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 89,
+      "failures": 8,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T00:31:49.687825"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 88 successes, 8 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 88,
+      "failures": 8,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "coder_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:13:11.221722"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 88 successes, 8 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 88,
+      "failures": 8,
+      "scores": {
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "coder_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:19:39.016861"
+  },
+  {
+    "type": "web_learning",
+    "ts": "2026-05-03T12:19:42.434246",
+    "content": ":root { --tab-size-preference: 4; } pre, code { tab-size: var(--tab-size-preference); } {\"locale\":\"en\",\"featureFlags\":[\"actions_custom_images_storage_billing_ui_visibility\",\"actions_image_version_event\",\"actions_workflow_language_service_allow_concurrency_queue\",\"agent_conflict_resolution\",\"alternate_user_config_repo\",\"arianotify_comprehensive_migration\",\"billing_discount_threshold_notification\",\"code_scanning_dfa_degraded_experience_notice\",\"codespaces_prebuild_region_target_update\",\"codespaces_tab_react\",\"coding_agent_model_selection\",\"coding_agent_model_selection_all_skus\",\"comment_viewer_copy_raw_markdown\",\"contentful_primer_code_blocks\",\"copilot_agent_snippy\",\"copilot_api_agentic_issue_marshal_yaml\",\"copilot_ask_mode_dropdown\",\"copilot_automation_session_author\",\"copilot_chat_attach_multiple_images\",\"copilot_chat_category_rate_limit_messages\",\"copilot_chat_clear_model_selection_for_default_change\",\"copilot_chat_contextual_suggestions_updated\",\"copilot_chat_enable_tool_call_logs\",\"copilot_chat_file_redirect\",\"copilot_chat_input_commands\",\"copilot_chat_opening_thread_switch\",\"copilot_chat_prettify_pasted_code\",\"copilot_chat_reduce_quota_checks\",\"copilot_chat_search_bar_redirect\",\"copilot_chat_selection_attachments\",\"copilot_chat_vision_in_claude\",\"copilot_chat_vision_preview_gate\",\"copilot_custom_copilots\",\"copilot_custom_copilots_feature_preview\",\"copilot_diff_explain_conversation_intent\",\"copilot_diff_reference_context\",\"copilot_duplicate_thread\",\"copilot_extensions_hide_in_dotcom_chat\",\"copilot_extensions_removal_on_marketplace\",\"copilot_features_sql_server_logo\",\"copilot_file_block_ref_matching\",\"copilot_ftp_hyperspace_upgrade_prompt\",\"copilot_icebreakers_experiment_dashboard\",\"copilot_icebreakers_experiment_hyperspace\",\"copilot_immersive_code_block_transition_wrap\",\"copilot_immersive_embedded\",\"copilot_immersive_embedded_deferred_payload\",\"copilot_immersive_embedded_draggable\",\"copilot_immersive_embedded_header_button\",\"copilot_immersive_embedded_implicit_re"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 88 successes, 8 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 88,
+      "failures": 8,
+      "scores": {
+        "llm_router.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:32:59.050915"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 88 successes, 8 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 88,
+      "failures": 8,
+      "scores": {
+        "llm_router.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "coder_agent.py": 0.8,
+        "debugger_agent.py": 0.8500000000000001
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:36:32.210985"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 89 successes, 7 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 89,
+      "failures": 7,
+      "scores": {
+        "coder_agent.py": 0.7,
+        "llm_router.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "swarm.py": 0.9
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:37:57.027961"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 90 successes, 6 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 90,
+      "failures": 6,
+      "scores": {
+        "coder_agent.py": 0.7,
+        "llm_router.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:49:06.751619"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 90 successes, 5 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 90,
+      "failures": 5,
+      "scores": {
+        "coder_agent.py": 0.7,
+        "llm_router.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8,
+        "debugger_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:50:40.319500"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 92 successes, 5 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 92,
+      "failures": 5,
+      "scores": {
+        "coder_agent.py": 0.7,
+        "llm_router.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "amrit_autoevolve.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-05-03T12:57:20.498048"
   }
 ]

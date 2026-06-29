@@ -1,5 +1,4 @@
 """Vision Agent — Image description, OCR, video frames, object detection."""
-import base64
 from pathlib import Path
 from base_agent import BaseAgent
 from visual_memory import VisualMemory
