@@ -31,7 +31,7 @@ soundfile>=0.12.1      # required by kokoro
 openwakeword>=0.6.0    # Wake word: "Hey Amrit" — fully offline
 
 # Vision
-Pillow>=10.0.0
+Pillow>=12.2.0
 opencv-python>=4.8.0
 pytesseract>=0.3.10
 # llava:7b via Ollama — no pip needed, pull with: ollama pull llava:7b
