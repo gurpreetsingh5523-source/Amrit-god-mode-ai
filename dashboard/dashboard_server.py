@@ -10,7 +10,8 @@ for _sd in _subdirs:
     if _path_str not in sys.path:
         sys.path.insert(0, _path_str)
 # ───────────────────────────────────────────
-\n"""Tiny HTTP server for Amrit God Mode Dashboard.
+
+"""Tiny HTTP server for Amrit God Mode Dashboard.
 
 Serves dashboard.html and provides live API endpoints:
   GET /              → dashboard.html

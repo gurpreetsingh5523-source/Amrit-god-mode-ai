@@ -3,7 +3,7 @@ import json
 import asyncio
 from pathlib import Path
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 from logger import setup_logger
 
 logger = setup_logger("StateManager")

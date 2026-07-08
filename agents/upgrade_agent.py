@@ -8,7 +8,6 @@ from patch_safety import validate_patch, backup_file, auto_recover, record_patch
 
 class UpgradeAgent(BaseAgent):
     async def apply_patch_and_test(self, file_path: str, new_code: str, tester_agent=None, task_name="auto_patch"):
-        from experience_log import ExperienceLog
         old_code = Path(file_path).read_text(errors="ignore")
         backup_file(file_path)
         Path(file_path).write_text(new_code)

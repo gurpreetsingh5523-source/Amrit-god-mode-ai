@@ -6,9 +6,8 @@ Voice Agent — Full God Mode Voice Control.
   Loop: Continuous listen → understand → execute goal → speak result
 """
 import asyncio
-import time
 from base_agent import BaseAgent
-from tts_engine import speak_async, speak
+from tts_engine import speak_async
 
 
 class VoiceAgent(BaseAgent):

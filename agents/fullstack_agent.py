@@ -9,7 +9,6 @@ Capabilities:
   - Docker + deployment configs
   - Multi-file project awareness (uses 262K context of qwen3.5:9b)
 """
-import asyncio
 import json
 from pathlib import Path
 from base_agent import BaseAgent

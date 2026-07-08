@@ -10,7 +10,8 @@ for _sd in _subdirs:
     if _path_str not in sys.path:
         sys.path.insert(0, _path_str)
 # ───────────────────────────────────────────
-\n"""
+
+"""
 AMRIT GODMODE — MCP (Model Context Protocol) Server
 =====================================================
 Lightweight MCP server exposing AMRIT tools to Claude Code / Codex.

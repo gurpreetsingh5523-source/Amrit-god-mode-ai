@@ -67,7 +67,8 @@ Make a real, working app with navigation, list view, detail view, and data model
         response = await self.ask_llm(prompt, max_tokens=3000)
         files_written = []
         try:
-            import re, json
+            import re
+            import json
             m = re.search(r'\{[\s\S]*\}', response)
             if m:
                 data = json.loads(m.group())

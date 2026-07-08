@@ -83,7 +83,7 @@ class VerifierAgent:
 
         try:
             raw = self.agent.execute(prompt).output
-        except Exception as e:
+        except Exception:
             # agent ਫ਼ੇਲ੍ਹ → ਸੁਰੱਖਿਅਤ ਪਾਸੇ: ਕੋਈ confident claim ਨਹੀਂ
             return VerifyResult(no_issues=False, issues=[], confidence=0.0, validity=0.0)
 

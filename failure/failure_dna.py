@@ -12,9 +12,10 @@
 ╚══════════════════════════════════════════════════════╝
 """
 
-import sqlite3, json, hashlib, time
+import sqlite3
+import hashlib
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 from config import CFG
 from llm_client import LLMClient
 
