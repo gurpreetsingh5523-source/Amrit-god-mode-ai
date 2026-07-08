@@ -1,0 +1,459 @@
+{
+  "agents": [
+    "coder",
+    "dataset",
+    "db",
+    "debugger",
+    "fullstack",
+    "internet",
+    "memory",
+    "monitor",
+    "planner",
+    "researcher",
+    "simulation",
+    "swift",
+    "tester",
+    "tool",
+    "translator",
+    "ui",
+    "upgrade",
+    "vision",
+    "voice"
+  ],
+  "agent_count": 19,
+  "skills": [
+    {
+      "id": "build_a_new_file_github_learner_py_with_",
+      "steps": 5,
+      "uses": 0,
+      "tokens_saved": 0
+    },
+    {
+      "id": "upgrade_workspace_amrit_dashboard_index_",
+      "steps": 5,
+      "uses": 0,
+      "tokens_saved": 0
+    },
+    {
+      "id": "build_a_fastapi_analytics_dashboard_with",
+      "steps": 1,
+      "uses": 0,
+      "tokens_saved": 0
+    },
+    {
+      "id": "create_file_index_html_in_folder_workspa",
+      "steps": 5,
+      "uses": 0,
+      "tokens_saved": 0
+    },
+    {
+      "id": "rebuild_the_file_index_html_in_folder_wo",
+      "steps": 5,
+      "uses": 2,
+      "tokens_saved": 1600
+    }
+  ],
+  "skill_count": 5,
+  "tokens_saved": 1600,
+  "failure_patterns": [
+    {
+      "type": "deleted_functions",
+      "count": 3,
+      "severity": 0.9500000000000001
+    },
+    {
+      "type": "test_err",
+      "count": 3,
+      "severity": 0.9500000000000001
+    },
+    {
+      "type": "deleted_functions",
+      "count": 3,
+      "severity": 0.9500000000000001
+    },
+    {
+      "type": "deleted_functions",
+      "count": 1,
+      "severity": 0.5
+    }
+  ],
+  "failure_count": 4,
+  "lesson_count": 79,
+  "generated_tests": 1,
+  "self_verify": {
+    "dual_brain": true,
+    "web_verify": true,
+    "tester_loop": true
+  },
+  "subsystems": [
+    "self_graph",
+    "evaluation_engine",
+    "reward_engine",
+    "error_analyzer",
+    "task_decomposer",
+    "strategy_builder",
+    "priority_engine",
+    "model_selector",
+    "dependency_resolver",
+    "self_learning_loop",
+    "self_upgrade",
+    "auto_refactor",
+    "skill_evolver",
+    "mutation_lab",
+    "dream_engine",
+    "git_ops",
+    "module_installer",
+    "web_scraper",
+    "search_engine",
+    "crawler",
+    "information_extractor",
+    "local_llm",
+    "image_reader",
+    "object_detector",
+    "video_reader",
+    "speech_to_text",
+    "text_to_speech",
+    "amrit_kv_cache",
+    "dataset_trainer"
+  ],
+  "subsystem_count": 29,
+  "nodes": [
+    {
+      "id": "core",
+      "name": "Amrit Core",
+      "group": "core",
+      "color": "#ffcf5c",
+      "val": 18
+    },
+    {
+      "id": "coder",
+      "name": "coder",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "dataset",
+      "name": "dataset",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "db",
+      "name": "db",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "debugger",
+      "name": "debugger",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "fullstack",
+      "name": "fullstack",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "internet",
+      "name": "internet",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "memory",
+      "name": "memory",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "monitor",
+      "name": "monitor",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "planner",
+      "name": "planner",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "researcher",
+      "name": "researcher",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "simulation",
+      "name": "simulation",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "swift",
+      "name": "swift",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "tester",
+      "name": "tester",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "tool",
+      "name": "tool",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "translator",
+      "name": "translator",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "ui",
+      "name": "ui",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "upgrade",
+      "name": "upgrade",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "vision",
+      "name": "vision",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "voice",
+      "name": "voice",
+      "group": "agent",
+      "color": "#7aa2ff",
+      "val": 5
+    },
+    {
+      "id": "memory",
+      "name": "memory",
+      "group": "sys",
+      "color": "#4ade80",
+      "val": 8
+    },
+    {
+      "id": "tools",
+      "name": "tools",
+      "group": "sys",
+      "color": "#4ade80",
+      "val": 8
+    },
+    {
+      "id": "self-verify",
+      "name": "self-verify",
+      "group": "sys",
+      "color": "#4ade80",
+      "val": 8
+    },
+    {
+      "id": "skill:build_a_new_fi",
+      "name": "skill:build_a_new_fi",
+      "group": "skill",
+      "color": "#a875ff",
+      "val": 4
+    },
+    {
+      "id": "skill:upgrade_worksp",
+      "name": "skill:upgrade_worksp",
+      "group": "skill",
+      "color": "#a875ff",
+      "val": 4
+    },
+    {
+      "id": "skill:build_a_fastap",
+      "name": "skill:build_a_fastap",
+      "group": "skill",
+      "color": "#a875ff",
+      "val": 4
+    },
+    {
+      "id": "skill:create_file_in",
+      "name": "skill:create_file_in",
+      "group": "skill",
+      "color": "#a875ff",
+      "val": 4
+    },
+    {
+      "id": "skill:rebuild_the_fi",
+      "name": "skill:rebuild_the_fi",
+      "group": "skill",
+      "color": "#a875ff",
+      "val": 4
+    }
+  ],
+  "links": [
+    {
+      "source": "core",
+      "target": "coder",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "dataset",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "db",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "debugger",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "fullstack",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "internet",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "memory",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "monitor",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "planner",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "researcher",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "simulation",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "swift",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "tester",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "tool",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "translator",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "ui",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "upgrade",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "vision",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "voice",
+      "label": "agent"
+    },
+    {
+      "source": "core",
+      "target": "memory",
+      "label": "system"
+    },
+    {
+      "source": "core",
+      "target": "tools",
+      "label": "system"
+    },
+    {
+      "source": "core",
+      "target": "self-verify",
+      "label": "system"
+    },
+    {
+      "source": "core",
+      "target": "skill:build_a_new_fi",
+      "label": "skill"
+    },
+    {
+      "source": "core",
+      "target": "skill:upgrade_worksp",
+      "label": "skill"
+    },
+    {
+      "source": "core",
+      "target": "skill:build_a_fastap",
+      "label": "skill"
+    },
+    {
+      "source": "core",
+      "target": "skill:create_file_in",
+      "label": "skill"
+    },
+    {
+      "source": "core",
+      "target": "skill:rebuild_the_fi",
+      "label": "skill"
+    }
+  ],
+  "tests": {
+    "godmode": 23,
+    "integration": 18
+  }
+}

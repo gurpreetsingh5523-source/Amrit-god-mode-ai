@@ -69,29 +69,64 @@ class Queen:
     Lightweight: no extra LLM calls for coordination, pure logic.
     """
 
-    def __init__(self, event_bus: EventBus, agents: dict, state: StateManager):
-        self.bus = event_bus
-        self.agents = agents         # name → BaseAgent
-        self.state = state
-        self.workers: dict[str, WorkerInfo] = {}
-        self.task_queue: list[SwarmTask] = []
-        self.completed_tasks: list[SwarmTask] = []
-        self.topology = SwarmTopology.HIERARCHY
-        self.max_parallel = 4        # max concurrent workers
-        self._running = False
+    def __init__(self, event_bus: EventBus, agents: dict[str, BaseAgent], state: StateManager) -> None:
+        """
+        Initialize SwarmManager.
 
-        # Register all agents as workers
-        for name in agents:
-            self.workers[name] = WorkerInfo(agent_name=name)
+        Args:
+            event_bus (EventBus): The event bus for inter-component communication.
+            agents (dict[str, BaseAgent]): Dictionary mapping agent names to BaseAgent instances.
+            state (StateManager): The shared state manager.
 
-        # Listen for worker events
-        self.bus.subscribe("swarm.task.done", self._on_task_done)
-        self.bus.subscribe("swarm.task.failed", self._on_task_failed)
-        self.bus.subscribe("swarm.worker.report", self._on_worker_report)
+        Raises:
+            TypeError: If event_bus, agents, or state have unexpected types.
+            ValueError: If invalid values are provided.
+            AttributeError: If required attributes are missing.
+            Exception: For any other unexpected error during initialization.
+        """
+        from logger import setup_logger
+        logger = setup_logger(__name__)
+        try:
+            logger.info("Initializing SwarmManager with event_bus=%s, agents=%s, state=%s", type(event_bus).__name__, list(agents.keys()), type(state).__name__)
+            self.bus = event_bus
+            self.agents = agents         # name → BaseAgent
+            self.state = state
+            self.workers: dict[str, WorkerInfo] = {}
+            self.task_queue: list[SwarmTask] = []
+            self.completed_tasks: list[SwarmTask] = []
+            self.topology = SwarmTopology.HIERARCHY
+            self.max_parallel = 4        # max concurrent workers
+            self._running = False
 
-    async def spawn_swarm(self, objective: str, tasks: list[dict]) -> dict:
+            # Register all agents as workers
+            for name in agents:
+                self.workers[name] = WorkerInfo(agent_name=name)
+            logger.debug("Registered %d workers: %s", len(self.workers), list(self.workers.keys()))
+
+            # Listen for worker events
+            self.bus.subscribe("swarm.task.done", self._on_task_done)
+            self.bus.subscribe("swarm.task.failed", self._on_task_failed)
+            self.bus.subscribe("swarm.worker.report", self._on_worker_report)
+            logger.debug("Subscribed to swarm events: task.done, task.failed, worker.report")
+        except TypeError as e:
+            logger.error("Type error during SwarmManager initialization: %s", e)
+            raise
+        except ValueError as e:
+            logger.error("Value error during SwarmManager initialization: %s", e)
+            raise
+        except AttributeError as e:
+            logger.error("Attribute error during SwarmManager initialization: %s", e)
+            raise
+        except Exception as e:
+            logger.error("Unexpected error during SwarmManager initialization: %s", e)
+            raise
+
+    async def spawn_swarm(self, objective: str, tasks: list[dict],
+                          allow_crystallize: bool = True) -> dict:
         """
         Main entry: decompose objective into tasks, run swarm.
+        allow_crystallize=False when tasks came from a replayed skill — never
+        crystallize a replay (it would poison the skill with a degraded path).
         tasks = [{"name": "...", "agent": "coder", "data": {...}, "priority": 1, "depends_on": []}]
         """
         self._running = True
@@ -132,14 +167,29 @@ class Queen:
         }
         logger.info(f"🐝 Swarm complete: {summary['completed']}/{summary['total']} done")
         await self.bus.publish("swarm.complete", summary, source="queen")
+
+        # 💎 Crystallize the execution path if the task largely succeeded —
+        # so a future similar goal can replay it cheaply (skip planning).
+        try:
+            if allow_crystallize and summary["completed"] >= max(1, summary["total"] - 1):
+                from skill_crystallizer import SkillCrystallizer
+                SkillCrystallizer().crystallize(objective, tasks, success=True)
+        except Exception as e:
+            logger.debug(f"crystallize skipped: {e}")
+
         return summary
 
     async def _run_loop(self) -> list[dict]:
         """Core swarm execution loop — lightweight async scheduling."""
         results = []
         running_tasks: dict[str, asyncio.Task] = {}  # task_id → asyncio.Task
+        deadline = time.time() + getattr(self, "max_wall_seconds", 600)  # hard cap
 
         while self._running:
+            # Safety: never hang forever
+            if time.time() > deadline:
+                logger.warning("   ⏰ Swarm wall-clock limit reached — stopping")
+                break
             # Check if all tasks are done/failed
             pending = [t for t in self.task_queue if t.status in ("pending", "running")]
             if not pending and not running_tasks:
@@ -178,13 +228,21 @@ class Queen:
                     timeout=2.0,
                     return_when=asyncio.FIRST_COMPLETED,
                 )
+                # Always remove finished asyncio tasks from running_tasks —
+                # match by the Task object, NOT the result. A retry returns {}
+                # (falsy) which previously left the done task stuck → infinite spin.
                 for completed_task in done:
-                    result = completed_task.result()
+                    finished_ids = [tid for tid, at in running_tasks.items()
+                                    if at is completed_task]
+                    for tid in finished_ids:
+                        running_tasks.pop(tid, None)
+                    try:
+                        result = completed_task.result()
+                    except Exception as e:
+                        logger.error(f"   ❌ worker task crashed: {e}")
+                        result = None
                     if result:
                         results.append(result)
-                        # Remove from running
-                        tid = result.get("task_id")
-                        running_tasks.pop(tid, None)
             else:
                 await asyncio.sleep(0.1)
 
@@ -259,11 +317,32 @@ class Queen:
             return {"task_id": task.id, "status": "failed", "error": error}
 
     def _deps_met(self, task: SwarmTask) -> bool:
-        """Check if all dependencies are completed."""
+        """Check if all dependencies are completed.
+        Tolerant: a dep may be a task NAME, ID, index, or partial name (LLM
+        planners are inconsistent). A dep that resolves to NO known task is
+        ignored — otherwise a phantom dependency stalls the whole swarm forever.
+        """
         if not task.depends_on:
             return True
-        done_names = {t.name for t in self.task_queue if t.status == "done"}
-        return all(dep in done_names for dep in task.depends_on)
+        by_name = {t.name: t for t in self.task_queue}
+        by_id = {t.id: t for t in self.task_queue}
+        for dep in task.depends_on:
+            dep_s = str(dep).strip()
+            t = by_name.get(dep_s) or by_id.get(dep_s)
+            if t is None and dep_s.isdigit():
+                idx = int(dep_s)
+                if 0 <= idx < len(self.task_queue):
+                    t = self.task_queue[idx]
+            if t is None:  # fuzzy substring match
+                for cand in self.task_queue:
+                    if dep_s and (dep_s in cand.name or cand.name in dep_s):
+                        t = cand
+                        break
+            if t is None or t is task:
+                continue  # unresolvable or self-dependency → ignore (don't block)
+            if t.status != "done":
+                return False
+        return True
 
     def _pick_worker(self, preferred_agent: str) -> Optional[WorkerInfo]:
         """Pick best available worker — prefer the requested agent type."""
@@ -315,29 +394,33 @@ class Queen:
         Simple majority consensus — ask workers to vote on a decision.
         Returns majority answer. Lightweight: one LLM call per voter.
         """
-        if voters is None:
-            voters = list(self.agents.keys())[:3]  # max 3 voters for speed
+        try:
+            if voters is None:
+                voters = list(self.agents.keys())[:3]  # max 3 voters for speed
 
-        votes = {}
-        for name in voters:
-            agent = self.agents.get(name)
-            if not agent:
-                continue
-            try:
-                answer = await agent.ask_llm(
-                    f"Vote YES or NO on: {question}\nAnswer only YES or NO.",
-                    max_tokens=10,
-                )
-                vote = "YES" if "YES" in answer.upper() else "NO"
-                votes[name] = vote
-            except Exception:
-                votes[name] = "ABSTAIN"
+            votes = {}
+            for name in voters:
+                agent = self.agents.get(name)
+                if not agent:
+                    continue
+                try:
+                    answer = await agent.ask_llm(
+                        f"Vote YES or NO on: {question}\nAnswer only YES or NO.",
+                        max_tokens=10,
+                    )
+                    vote = "YES" if "YES" in answer.upper() else "NO"
+                    votes[name] = vote
+                except Exception:
+                    votes[name] = "ABSTAIN"
 
-        yes_count = sum(1 for v in votes.values() if v == "YES")
-        no_count = sum(1 for v in votes.values() if v == "NO")
-        decision = "YES" if yes_count > no_count else "NO"
+            yes_count = sum(1 for v in votes.values() if v == "YES")
+            no_count = sum(1 for v in votes.values() if v == "NO")
+            decision = "YES" if yes_count > no_count else "NO"
 
-        result = {"question": question, "votes": votes, "decision": decision}
-        logger.info(f"🗳️ Consensus: {decision} ({yes_count}Y/{no_count}N)")
-        await self.bus.publish("swarm.vote", result, source="queen")
-        return result
+            result = {"question": question, "votes": votes, "decision": decision}
+            logger.info(f"🗳️ Consensus: {decision} ({yes_count}Y/{no_count}N)")
+            await self.bus.publish("swarm.vote", result, source="queen")
+            return result
+        except Exception as e:
+            logger.error(f"Vote failed for question '{question}': {e}")
+            return {"question": question, "votes": {}, "decision": "NO"}

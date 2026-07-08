@@ -1480,5 +1480,4204 @@
     },
     "success": true,
     "timestamp": "2026-04-10T10:27:03.067885"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 122 successes, 4 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 122,
+      "failures": 4,
+      "scores": {
+        "llm_router.py": 0.7,
+        "punjabi_trainer.py": 0.8,
+        "internet_agent.py": 0.8,
+        "voice_agent.py": 0.8,
+        "coder_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-19T09:59:30.222698"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 122 successes, 5 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 122,
+      "failures": 5,
+      "scores": {
+        "llm_router.py": 0.7,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8,
+        "coder_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-21T00:04:39.152202"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_2",
+    "task": "cycle 2: 30 successes, 1 failures",
+    "result": {
+      "cycle": 2,
+      "successes": 30,
+      "failures": 1,
+      "scores": {
+        "llm_router.py": 0.7,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8,
+        "coder_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-21T00:10:19.497776"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_1",
+    "task": "cycle 1: 118 successes, 5 failures",
+    "result": {
+      "cycle": 1,
+      "successes": 118,
+      "failures": 5,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-25T13:39:31.096995"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_2",
+    "task": "cycle 2: 32 successes, 2 failures",
+    "result": {
+      "cycle": 2,
+      "successes": 32,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-25T13:55:35.970029"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_3",
+    "task": "cycle 3: 32 successes, 2 failures",
+    "result": {
+      "cycle": 3,
+      "successes": 32,
+      "failures": 2,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": false,
+    "timestamp": "2026-06-25T14:05:56.723303"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_4",
+    "task": "cycle 4: 19 successes, 0 failures",
+    "result": {
+      "cycle": 4,
+      "successes": 19,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T14:16:22.020184"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_5",
+    "task": "cycle 5: 14 successes, 0 failures",
+    "result": {
+      "cycle": 5,
+      "successes": 14,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T14:30:11.369567"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_6",
+    "task": "cycle 6: 17 successes, 0 failures",
+    "result": {
+      "cycle": 6,
+      "successes": 17,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T14:46:58.319000"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_7",
+    "task": "cycle 7: 6 successes, 0 failures",
+    "result": {
+      "cycle": 7,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T14:51:59.464389"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_8",
+    "task": "cycle 8: 5 successes, 0 failures",
+    "result": {
+      "cycle": 8,
+      "successes": 5,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:07:59.311641"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_9",
+    "task": "cycle 9: 11 successes, 0 failures",
+    "result": {
+      "cycle": 9,
+      "successes": 11,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:17:27.706514"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_10",
+    "task": "cycle 10: 8 successes, 0 failures",
+    "result": {
+      "cycle": 10,
+      "successes": 8,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:26:44.238619"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_11",
+    "task": "cycle 11: 4 successes, 0 failures",
+    "result": {
+      "cycle": 11,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:31:04.473924"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_12",
+    "task": "cycle 12: 7 successes, 0 failures",
+    "result": {
+      "cycle": 12,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:44:40.198344"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_13",
+    "task": "cycle 13: 4 successes, 0 failures",
+    "result": {
+      "cycle": 13,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T21:47:54.451440"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_14",
+    "task": "cycle 14: 4 successes, 0 failures",
+    "result": {
+      "cycle": 14,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:00:03.539135"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_15",
+    "task": "cycle 15: 7 successes, 0 failures",
+    "result": {
+      "cycle": 15,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:07:01.167271"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_16",
+    "task": "cycle 16: 4 successes, 0 failures",
+    "result": {
+      "cycle": 16,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:13:08.957304"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_17",
+    "task": "cycle 17: 4 successes, 0 failures",
+    "result": {
+      "cycle": 17,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:31:54.576656"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_18",
+    "task": "cycle 18: 10 successes, 0 failures",
+    "result": {
+      "cycle": 18,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:40:35.969182"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_19",
+    "task": "cycle 19: 4 successes, 0 failures",
+    "result": {
+      "cycle": 19,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:50:23.010249"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_20",
+    "task": "cycle 20: 4 successes, 0 failures",
+    "result": {
+      "cycle": 20,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:54:16.819221"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_21",
+    "task": "cycle 21: 7 successes, 0 failures",
+    "result": {
+      "cycle": 21,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T22:58:02.319181"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_22",
+    "task": "cycle 22: 4 successes, 0 failures",
+    "result": {
+      "cycle": 22,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:01:55.963189"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_23",
+    "task": "cycle 23: 4 successes, 0 failures",
+    "result": {
+      "cycle": 23,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:02:18.430285"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_24",
+    "task": "cycle 24: 7 successes, 0 failures",
+    "result": {
+      "cycle": 24,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:02:56.339442"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_25",
+    "task": "cycle 25: 4 successes, 0 failures",
+    "result": {
+      "cycle": 25,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:06:42.992474"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_26",
+    "task": "cycle 26: 4 successes, 0 failures",
+    "result": {
+      "cycle": 26,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:06:59.939884"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_27",
+    "task": "cycle 27: 7 successes, 0 failures",
+    "result": {
+      "cycle": 27,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:07:48.657351"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_28",
+    "task": "cycle 28: 4 successes, 0 failures",
+    "result": {
+      "cycle": 28,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:08:05.586956"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_29",
+    "task": "cycle 29: 4 successes, 0 failures",
+    "result": {
+      "cycle": 29,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:08:29.881939"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_30",
+    "task": "cycle 30: 7 successes, 0 failures",
+    "result": {
+      "cycle": 30,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:09:05.888086"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_31",
+    "task": "cycle 31: 4 successes, 0 failures",
+    "result": {
+      "cycle": 31,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:09:31.949327"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_32",
+    "task": "cycle 32: 4 successes, 0 failures",
+    "result": {
+      "cycle": 32,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:09:48.889704"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_33",
+    "task": "cycle 33: 7 successes, 0 failures",
+    "result": {
+      "cycle": 33,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:10:30.039057"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_34",
+    "task": "cycle 34: 4 successes, 0 failures",
+    "result": {
+      "cycle": 34,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:10:45.819878"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_35",
+    "task": "cycle 35: 4 successes, 0 failures",
+    "result": {
+      "cycle": 35,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:11:05.748538"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_36",
+    "task": "cycle 36: 7 successes, 0 failures",
+    "result": {
+      "cycle": 36,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:11:42.563373"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_37",
+    "task": "cycle 37: 4 successes, 0 failures",
+    "result": {
+      "cycle": 37,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:12:04.036873"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_38",
+    "task": "cycle 38: 4 successes, 0 failures",
+    "result": {
+      "cycle": 38,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:12:21.636452"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_39",
+    "task": "cycle 39: 7 successes, 0 failures",
+    "result": {
+      "cycle": 39,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:13:04.552070"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_40",
+    "task": "cycle 40: 4 successes, 0 failures",
+    "result": {
+      "cycle": 40,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:13:21.409226"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_41",
+    "task": "cycle 41: 4 successes, 0 failures",
+    "result": {
+      "cycle": 41,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:13:45.516859"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_42",
+    "task": "cycle 42: 7 successes, 0 failures",
+    "result": {
+      "cycle": 42,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:14:23.336603"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_43",
+    "task": "cycle 43: 4 successes, 0 failures",
+    "result": {
+      "cycle": 43,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:14:45.558239"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_44",
+    "task": "cycle 44: 4 successes, 0 failures",
+    "result": {
+      "cycle": 44,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:15:03.414675"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_45",
+    "task": "cycle 45: 7 successes, 0 failures",
+    "result": {
+      "cycle": 45,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:15:44.908383"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_46",
+    "task": "cycle 46: 4 successes, 0 failures",
+    "result": {
+      "cycle": 46,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:16:01.573910"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_47",
+    "task": "cycle 47: 4 successes, 0 failures",
+    "result": {
+      "cycle": 47,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:16:22.348476"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_48",
+    "task": "cycle 48: 7 successes, 0 failures",
+    "result": {
+      "cycle": 48,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:16:58.515861"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_49",
+    "task": "cycle 49: 4 successes, 0 failures",
+    "result": {
+      "cycle": 49,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:17:21.670965"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_50",
+    "task": "cycle 50: 4 successes, 0 failures",
+    "result": {
+      "cycle": 50,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:17:40.722835"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_51",
+    "task": "cycle 51: 10 successes, 0 failures",
+    "result": {
+      "cycle": 51,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:18:42.146114"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_52",
+    "task": "cycle 52: 4 successes, 0 failures",
+    "result": {
+      "cycle": 52,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:18:59.083920"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_53",
+    "task": "cycle 53: 4 successes, 0 failures",
+    "result": {
+      "cycle": 53,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:19:20.001250"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_54",
+    "task": "cycle 54: 10 successes, 0 failures",
+    "result": {
+      "cycle": 54,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:20:19.283595"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_55",
+    "task": "cycle 55: 4 successes, 0 failures",
+    "result": {
+      "cycle": 55,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:20:42.558878"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_56",
+    "task": "cycle 56: 4 successes, 0 failures",
+    "result": {
+      "cycle": 56,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:21:01.874195"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_57",
+    "task": "cycle 57: 7 successes, 0 failures",
+    "result": {
+      "cycle": 57,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:21:46.448457"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_58",
+    "task": "cycle 58: 4 successes, 0 failures",
+    "result": {
+      "cycle": 58,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:22:04.422824"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_59",
+    "task": "cycle 59: 4 successes, 0 failures",
+    "result": {
+      "cycle": 59,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:22:27.003192"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_60",
+    "task": "cycle 60: 7 successes, 0 failures",
+    "result": {
+      "cycle": 60,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:23:06.445440"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_61",
+    "task": "cycle 61: 4 successes, 0 failures",
+    "result": {
+      "cycle": 61,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:23:34.955817"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_62",
+    "task": "cycle 62: 4 successes, 0 failures",
+    "result": {
+      "cycle": 62,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:23:55.163658"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_63",
+    "task": "cycle 63: 6 successes, 0 failures",
+    "result": {
+      "cycle": 63,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:24:32.549745"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_64",
+    "task": "cycle 64: 4 successes, 0 failures",
+    "result": {
+      "cycle": 64,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:24:50.676239"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_65",
+    "task": "cycle 65: 4 successes, 0 failures",
+    "result": {
+      "cycle": 65,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:25:18.227750"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_66",
+    "task": "cycle 66: 7 successes, 0 failures",
+    "result": {
+      "cycle": 66,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:25:55.225167"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_67",
+    "task": "cycle 67: 4 successes, 0 failures",
+    "result": {
+      "cycle": 67,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:26:20.105884"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_68",
+    "task": "cycle 68: 4 successes, 0 failures",
+    "result": {
+      "cycle": 68,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:26:40.228213"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_69",
+    "task": "cycle 69: 7 successes, 0 failures",
+    "result": {
+      "cycle": 69,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:27:25.367025"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_70",
+    "task": "cycle 70: 4 successes, 0 failures",
+    "result": {
+      "cycle": 70,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:27:44.239484"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_71",
+    "task": "cycle 71: 4 successes, 0 failures",
+    "result": {
+      "cycle": 71,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:28:09.565813"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_72",
+    "task": "cycle 72: 10 successes, 0 failures",
+    "result": {
+      "cycle": 72,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:28:58.152524"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_73",
+    "task": "cycle 73: 4 successes, 0 failures",
+    "result": {
+      "cycle": 73,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:29:22.420226"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_74",
+    "task": "cycle 74: 4 successes, 0 failures",
+    "result": {
+      "cycle": 74,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:29:42.725625"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_75",
+    "task": "cycle 75: 7 successes, 0 failures",
+    "result": {
+      "cycle": 75,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:30:26.736795"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_76",
+    "task": "cycle 76: 4 successes, 0 failures",
+    "result": {
+      "cycle": 76,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:30:45.206561"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_77",
+    "task": "cycle 77: 4 successes, 0 failures",
+    "result": {
+      "cycle": 77,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:31:07.275272"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_78",
+    "task": "cycle 78: 7 successes, 0 failures",
+    "result": {
+      "cycle": 78,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:31:46.472711"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_79",
+    "task": "cycle 79: 4 successes, 0 failures",
+    "result": {
+      "cycle": 79,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:32:12.510582"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_80",
+    "task": "cycle 80: 4 successes, 0 failures",
+    "result": {
+      "cycle": 80,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:32:34.178214"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_81",
+    "task": "cycle 81: 7 successes, 0 failures",
+    "result": {
+      "cycle": 81,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:33:24.911173"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_82",
+    "task": "cycle 82: 4 successes, 0 failures",
+    "result": {
+      "cycle": 82,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:33:43.897900"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_83",
+    "task": "cycle 83: 4 successes, 0 failures",
+    "result": {
+      "cycle": 83,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:34:07.510377"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_84",
+    "task": "cycle 84: 7 successes, 0 failures",
+    "result": {
+      "cycle": 84,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:34:44.573704"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_85",
+    "task": "cycle 85: 4 successes, 0 failures",
+    "result": {
+      "cycle": 85,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:35:09.980382"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_86",
+    "task": "cycle 86: 4 successes, 0 failures",
+    "result": {
+      "cycle": 86,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:35:31.220863"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_87",
+    "task": "cycle 87: 7 successes, 0 failures",
+    "result": {
+      "cycle": 87,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:36:15.404471"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_88",
+    "task": "cycle 88: 4 successes, 0 failures",
+    "result": {
+      "cycle": 88,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:36:35.147563"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_89",
+    "task": "cycle 89: 4 successes, 0 failures",
+    "result": {
+      "cycle": 89,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:36:59.134285"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_90",
+    "task": "cycle 90: 7 successes, 0 failures",
+    "result": {
+      "cycle": 90,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:37:39.905948"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_91",
+    "task": "cycle 91: 4 successes, 0 failures",
+    "result": {
+      "cycle": 91,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:38:21.679131"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_92",
+    "task": "cycle 92: 4 successes, 0 failures",
+    "result": {
+      "cycle": 92,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:38:47.566335"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_93",
+    "task": "cycle 93: 7 successes, 0 failures",
+    "result": {
+      "cycle": 93,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:39:41.749187"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_94",
+    "task": "cycle 94: 4 successes, 0 failures",
+    "result": {
+      "cycle": 94,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:40:07.028279"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_95",
+    "task": "cycle 95: 4 successes, 0 failures",
+    "result": {
+      "cycle": 95,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:40:38.096561"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_96",
+    "task": "cycle 96: 7 successes, 0 failures",
+    "result": {
+      "cycle": 96,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:41:25.141799"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_97",
+    "task": "cycle 97: 4 successes, 0 failures",
+    "result": {
+      "cycle": 97,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:42:01.618938"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_98",
+    "task": "cycle 98: 4 successes, 0 failures",
+    "result": {
+      "cycle": 98,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:42:28.027283"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_99",
+    "task": "cycle 99: 7 successes, 0 failures",
+    "result": {
+      "cycle": 99,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:43:13.717420"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_100",
+    "task": "cycle 100: 4 successes, 0 failures",
+    "result": {
+      "cycle": 100,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:43:33.561110"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_101",
+    "task": "cycle 101: 4 successes, 0 failures",
+    "result": {
+      "cycle": 101,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:44:00.535909"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_102",
+    "task": "cycle 102: 7 successes, 0 failures",
+    "result": {
+      "cycle": 102,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:44:41.674217"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_103",
+    "task": "cycle 103: 4 successes, 0 failures",
+    "result": {
+      "cycle": 103,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:45:08.252763"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_104",
+    "task": "cycle 104: 4 successes, 0 failures",
+    "result": {
+      "cycle": 104,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:45:30.866174"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_105",
+    "task": "cycle 105: 7 successes, 0 failures",
+    "result": {
+      "cycle": 105,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:46:21.034395"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_106",
+    "task": "cycle 106: 4 successes, 0 failures",
+    "result": {
+      "cycle": 106,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:46:42.237580"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_107",
+    "task": "cycle 107: 4 successes, 0 failures",
+    "result": {
+      "cycle": 107,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:47:07.005083"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_108",
+    "task": "cycle 108: 7 successes, 0 failures",
+    "result": {
+      "cycle": 108,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:47:46.996049"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_109",
+    "task": "cycle 109: 4 successes, 0 failures",
+    "result": {
+      "cycle": 109,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:48:14.137250"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_110",
+    "task": "cycle 110: 4 successes, 0 failures",
+    "result": {
+      "cycle": 110,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:48:37.302833"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_111",
+    "task": "cycle 111: 7 successes, 0 failures",
+    "result": {
+      "cycle": 111,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:49:26.169933"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_112",
+    "task": "cycle 112: 4 successes, 0 failures",
+    "result": {
+      "cycle": 112,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:49:46.756457"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_113",
+    "task": "cycle 113: 4 successes, 0 failures",
+    "result": {
+      "cycle": 113,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:50:10.492786"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_114",
+    "task": "cycle 114: 10 successes, 0 failures",
+    "result": {
+      "cycle": 114,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:51:04.941192"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_115",
+    "task": "cycle 115: 4 successes, 0 failures",
+    "result": {
+      "cycle": 115,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:51:34.098238"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_116",
+    "task": "cycle 116: 4 successes, 0 failures",
+    "result": {
+      "cycle": 116,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:51:59.501265"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_117",
+    "task": "cycle 117: 7 successes, 0 failures",
+    "result": {
+      "cycle": 117,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:52:47.473353"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_118",
+    "task": "cycle 118: 4 successes, 0 failures",
+    "result": {
+      "cycle": 118,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:53:08.399812"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_119",
+    "task": "cycle 119: 4 successes, 0 failures",
+    "result": {
+      "cycle": 119,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:53:32.434231"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_120",
+    "task": "cycle 120: 7 successes, 0 failures",
+    "result": {
+      "cycle": 120,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:54:13.696960"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_121",
+    "task": "cycle 121: 4 successes, 0 failures",
+    "result": {
+      "cycle": 121,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:54:45.124563"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_122",
+    "task": "cycle 122: 4 successes, 0 failures",
+    "result": {
+      "cycle": 122,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:55:09.193343"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_123",
+    "task": "cycle 123: 7 successes, 0 failures",
+    "result": {
+      "cycle": 123,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:55:55.989100"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_124",
+    "task": "cycle 124: 4 successes, 0 failures",
+    "result": {
+      "cycle": 124,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:56:18.156732"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_125",
+    "task": "cycle 125: 4 successes, 0 failures",
+    "result": {
+      "cycle": 125,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:56:43.294787"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_126",
+    "task": "cycle 126: 7 successes, 0 failures",
+    "result": {
+      "cycle": 126,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:57:24.921018"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_127",
+    "task": "cycle 127: 4 successes, 0 failures",
+    "result": {
+      "cycle": 127,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:57:53.517432"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_128",
+    "task": "cycle 128: 4 successes, 0 failures",
+    "result": {
+      "cycle": 128,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:58:18.049571"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_129",
+    "task": "cycle 129: 7 successes, 0 failures",
+    "result": {
+      "cycle": 129,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:59:04.310919"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_130",
+    "task": "cycle 130: 4 successes, 0 failures",
+    "result": {
+      "cycle": 130,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:59:26.152934"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_131",
+    "task": "cycle 131: 4 successes, 0 failures",
+    "result": {
+      "cycle": 131,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-25T23:59:54.867470"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_132",
+    "task": "cycle 132: 6 successes, 0 failures",
+    "result": {
+      "cycle": 132,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:00:26.776544"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_133",
+    "task": "cycle 133: 4 successes, 0 failures",
+    "result": {
+      "cycle": 133,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:00:57.305102"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_134",
+    "task": "cycle 134: 4 successes, 0 failures",
+    "result": {
+      "cycle": 134,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:01:24.038579"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_135",
+    "task": "cycle 135: 6 successes, 0 failures",
+    "result": {
+      "cycle": 135,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:02:05.785361"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_136",
+    "task": "cycle 136: 4 successes, 0 failures",
+    "result": {
+      "cycle": 136,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:02:28.341588"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_137",
+    "task": "cycle 137: 4 successes, 0 failures",
+    "result": {
+      "cycle": 137,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:03:00.994125"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_138",
+    "task": "cycle 138: 7 successes, 0 failures",
+    "result": {
+      "cycle": 138,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:03:47.732970"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_139",
+    "task": "cycle 139: 4 successes, 0 failures",
+    "result": {
+      "cycle": 139,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:04:20.544743"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_140",
+    "task": "cycle 140: 4 successes, 0 failures",
+    "result": {
+      "cycle": 140,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:04:47.093697"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_141",
+    "task": "cycle 141: 7 successes, 0 failures",
+    "result": {
+      "cycle": 141,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:05:46.682235"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_142",
+    "task": "cycle 142: 4 successes, 0 failures",
+    "result": {
+      "cycle": 142,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:06:10.820993"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_143",
+    "task": "cycle 143: 4 successes, 0 failures",
+    "result": {
+      "cycle": 143,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:06:38.686203"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_144",
+    "task": "cycle 144: 7 successes, 0 failures",
+    "result": {
+      "cycle": 144,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:07:25.314840"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_145",
+    "task": "cycle 145: 4 successes, 0 failures",
+    "result": {
+      "cycle": 145,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:07:56.135069"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_146",
+    "task": "cycle 146: 4 successes, 0 failures",
+    "result": {
+      "cycle": 146,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:08:23.055622"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_147",
+    "task": "cycle 147: 7 successes, 0 failures",
+    "result": {
+      "cycle": 147,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:09:16.625372"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_148",
+    "task": "cycle 148: 4 successes, 0 failures",
+    "result": {
+      "cycle": 148,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:09:40.124860"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_149",
+    "task": "cycle 149: 4 successes, 0 failures",
+    "result": {
+      "cycle": 149,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:10:08.137223"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_150",
+    "task": "cycle 150: 7 successes, 0 failures",
+    "result": {
+      "cycle": 150,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:10:57.177011"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_151",
+    "task": "cycle 151: 4 successes, 0 failures",
+    "result": {
+      "cycle": 151,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:11:34.277386"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_152",
+    "task": "cycle 152: 4 successes, 0 failures",
+    "result": {
+      "cycle": 152,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:12:01.294398"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_153",
+    "task": "cycle 153: 7 successes, 0 failures",
+    "result": {
+      "cycle": 153,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:12:49.647397"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_154",
+    "task": "cycle 154: 4 successes, 0 failures",
+    "result": {
+      "cycle": 154,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:13:19.873421"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_155",
+    "task": "cycle 155: 4 successes, 0 failures",
+    "result": {
+      "cycle": 155,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:13:46.093681"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_156",
+    "task": "cycle 156: 7 successes, 0 failures",
+    "result": {
+      "cycle": 156,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:14:29.706952"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_157",
+    "task": "cycle 157: 4 successes, 0 failures",
+    "result": {
+      "cycle": 157,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:15:01.679803"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_158",
+    "task": "cycle 158: 4 successes, 0 failures",
+    "result": {
+      "cycle": 158,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:15:30.077794"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_159",
+    "task": "cycle 159: 6 successes, 0 failures",
+    "result": {
+      "cycle": 159,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:16:14.398892"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_160",
+    "task": "cycle 160: 4 successes, 0 failures",
+    "result": {
+      "cycle": 160,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:16:38.262158"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_161",
+    "task": "cycle 161: 4 successes, 0 failures",
+    "result": {
+      "cycle": 161,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:17:07.296402"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_162",
+    "task": "cycle 162: 7 successes, 0 failures",
+    "result": {
+      "cycle": 162,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:17:51.569556"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_163",
+    "task": "cycle 163: 4 successes, 0 failures",
+    "result": {
+      "cycle": 163,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:18:24.845203"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_164",
+    "task": "cycle 164: 4 successes, 0 failures",
+    "result": {
+      "cycle": 164,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:18:52.902152"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_165",
+    "task": "cycle 165: 7 successes, 0 failures",
+    "result": {
+      "cycle": 165,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:19:48.308909"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_166",
+    "task": "cycle 166: 4 successes, 0 failures",
+    "result": {
+      "cycle": 166,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:20:15.701747"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_167",
+    "task": "cycle 167: 4 successes, 0 failures",
+    "result": {
+      "cycle": 167,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:20:48.311068"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_168",
+    "task": "cycle 168: 10 successes, 0 failures",
+    "result": {
+      "cycle": 168,
+      "successes": 10,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:22:11.020959"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_169",
+    "task": "cycle 169: 4 successes, 0 failures",
+    "result": {
+      "cycle": 169,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:22:48.191031"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_170",
+    "task": "cycle 170: 4 successes, 0 failures",
+    "result": {
+      "cycle": 170,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:23:19.363467"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_171",
+    "task": "cycle 171: 7 successes, 0 failures",
+    "result": {
+      "cycle": 171,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:24:24.280916"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_172",
+    "task": "cycle 172: 4 successes, 0 failures",
+    "result": {
+      "cycle": 172,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:24:52.577758"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_173",
+    "task": "cycle 173: 4 successes, 0 failures",
+    "result": {
+      "cycle": 173,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:25:26.742375"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_174",
+    "task": "cycle 174: 7 successes, 0 failures",
+    "result": {
+      "cycle": 174,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:26:17.612282"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_175",
+    "task": "cycle 175: 4 successes, 0 failures",
+    "result": {
+      "cycle": 175,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:27:02.308426"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_176",
+    "task": "cycle 176: 4 successes, 0 failures",
+    "result": {
+      "cycle": 176,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:27:34.494426"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_177",
+    "task": "cycle 177: 7 successes, 0 failures",
+    "result": {
+      "cycle": 177,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:28:34.477726"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_178",
+    "task": "cycle 178: 4 successes, 0 failures",
+    "result": {
+      "cycle": 178,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:29:01.824983"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_179",
+    "task": "cycle 179: 4 successes, 0 failures",
+    "result": {
+      "cycle": 179,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:29:34.277386"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_180",
+    "task": "cycle 180: 7 successes, 0 failures",
+    "result": {
+      "cycle": 180,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:30:27.119996"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_181",
+    "task": "cycle 181: 4 successes, 0 failures",
+    "result": {
+      "cycle": 181,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:31:11.822813"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_182",
+    "task": "cycle 182: 4 successes, 0 failures",
+    "result": {
+      "cycle": 182,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:31:44.900996"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_183",
+    "task": "cycle 183: 7 successes, 0 failures",
+    "result": {
+      "cycle": 183,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:32:40.350913"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_184",
+    "task": "cycle 184: 4 successes, 0 failures",
+    "result": {
+      "cycle": 184,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:33:07.718019"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_185",
+    "task": "cycle 185: 4 successes, 0 failures",
+    "result": {
+      "cycle": 185,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:33:40.243256"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_186",
+    "task": "cycle 186: 7 successes, 0 failures",
+    "result": {
+      "cycle": 186,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:34:30.426842"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_187",
+    "task": "cycle 187: 4 successes, 0 failures",
+    "result": {
+      "cycle": 187,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:35:10.201540"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_188",
+    "task": "cycle 188: 4 successes, 0 failures",
+    "result": {
+      "cycle": 188,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:35:44.208018"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_189",
+    "task": "cycle 189: 7 successes, 0 failures",
+    "result": {
+      "cycle": 189,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:36:44.345572"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_190",
+    "task": "cycle 190: 4 successes, 0 failures",
+    "result": {
+      "cycle": 190,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:37:13.435693"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_191",
+    "task": "cycle 191: 4 successes, 0 failures",
+    "result": {
+      "cycle": 191,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:37:50.335851"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_192",
+    "task": "cycle 192: 6 successes, 0 failures",
+    "result": {
+      "cycle": 192,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:38:31.946247"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_193",
+    "task": "cycle 193: 4 successes, 0 failures",
+    "result": {
+      "cycle": 193,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:39:11.792880"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_194",
+    "task": "cycle 194: 4 successes, 0 failures",
+    "result": {
+      "cycle": 194,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:39:45.436114"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_195",
+    "task": "cycle 195: 7 successes, 0 failures",
+    "result": {
+      "cycle": 195,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:40:49.177295"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_196",
+    "task": "cycle 196: 4 successes, 0 failures",
+    "result": {
+      "cycle": 196,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:41:19.359993"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_197",
+    "task": "cycle 197: 4 successes, 0 failures",
+    "result": {
+      "cycle": 197,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:41:53.736904"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_198",
+    "task": "cycle 198: 6 successes, 0 failures",
+    "result": {
+      "cycle": 198,
+      "successes": 6,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:42:37.524621"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_199",
+    "task": "cycle 199: 4 successes, 0 failures",
+    "result": {
+      "cycle": 199,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:43:17.360489"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_200",
+    "task": "cycle 200: 4 successes, 0 failures",
+    "result": {
+      "cycle": 200,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:43:48.785209"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_201",
+    "task": "cycle 201: 7 successes, 0 failures",
+    "result": {
+      "cycle": 201,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:44:44.896786"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_202",
+    "task": "cycle 202: 4 successes, 0 failures",
+    "result": {
+      "cycle": 202,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:45:11.177280"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_203",
+    "task": "cycle 203: 4 successes, 0 failures",
+    "result": {
+      "cycle": 203,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:45:40.085913"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_204",
+    "task": "cycle 204: 7 successes, 0 failures",
+    "result": {
+      "cycle": 204,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:46:25.748082"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_205",
+    "task": "cycle 205: 4 successes, 0 failures",
+    "result": {
+      "cycle": 205,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:47:00.869123"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_206",
+    "task": "cycle 206: 4 successes, 0 failures",
+    "result": {
+      "cycle": 206,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:47:31.931498"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_207",
+    "task": "cycle 207: 7 successes, 0 failures",
+    "result": {
+      "cycle": 207,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:48:24.890349"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_208",
+    "task": "cycle 208: 4 successes, 0 failures",
+    "result": {
+      "cycle": 208,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:48:51.333685"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_209",
+    "task": "cycle 209: 4 successes, 0 failures",
+    "result": {
+      "cycle": 209,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:49:19.881538"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_210",
+    "task": "cycle 210: 7 successes, 0 failures",
+    "result": {
+      "cycle": 210,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:50:06.068374"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_211",
+    "task": "cycle 211: 4 successes, 0 failures",
+    "result": {
+      "cycle": 211,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:50:45.215327"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_212",
+    "task": "cycle 212: 4 successes, 0 failures",
+    "result": {
+      "cycle": 212,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:51:18.891299"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_213",
+    "task": "cycle 213: 7 successes, 0 failures",
+    "result": {
+      "cycle": 213,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:52:12.658753"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_214",
+    "task": "cycle 214: 4 successes, 0 failures",
+    "result": {
+      "cycle": 214,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:52:41.416160"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_215",
+    "task": "cycle 215: 4 successes, 0 failures",
+    "result": {
+      "cycle": 215,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:53:12.428836"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_216",
+    "task": "cycle 216: 7 successes, 0 failures",
+    "result": {
+      "cycle": 216,
+      "successes": 7,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:53:59.298605"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_217",
+    "task": "cycle 217: 4 successes, 0 failures",
+    "result": {
+      "cycle": 217,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:54:36.654156"
+  },
+  {
+    "agent": "self_evolution",
+    "action": "evolution_cycle_218",
+    "task": "cycle 218: 4 successes, 0 failures",
+    "result": {
+      "cycle": 218,
+      "successes": 4,
+      "failures": 0,
+      "scores": {
+        "llm_router.py": 0.7,
+        "swarm.py": 0.8,
+        "self_graph.py": 0.8,
+        "punjabi_trainer.py": 0.8,
+        "voice_agent.py": 0.8
+      }
+    },
+    "success": true,
+    "timestamp": "2026-06-26T00:55:10.693715"
   }
 ]

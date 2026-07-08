@@ -10,9 +10,9 @@
         "worked": true
       }
     ],
-    "count": 1578,
+    "count": 2840,
     "first_seen": "2026-04-01T12:59:31.852249",
-    "last_seen": "2026-04-11T11:00:06.058091"
+    "last_seen": "2026-07-08T22:18:41.717544"
   },
   {
     "error_key": "fix regression: before=74ok/16fail, after=73ok/17fail",
@@ -30,9 +30,9 @@
     "agent": "self_evolution",
     "task": "fix embedding_model.py",
     "fixes": [],
-    "count": 47,
+    "count": 64,
     "first_seen": "2026-04-01T13:44:19.701589",
-    "last_seen": "2026-04-10T10:21:42.942985"
+    "last_seen": "2026-06-25T13:55:35.966945"
   },
   {
     "error_key": "regressed",
@@ -164,5 +164,15 @@
     "last_seen": "2026-04-07T22:40:26.691340",
     "fix": null,
     "fixes": []
+  },
+  {
+    "error_key": "2 consecutive failures",
+    "error": "2 consecutive failures",
+    "agent": "self_evolution",
+    "task": "blacklist skill_hunter.py",
+    "fixes": [],
+    "count": 2,
+    "first_seen": "2026-06-25T14:05:56.722067",
+    "last_seen": "2026-06-25T14:05:56.722171"
   }
 ]

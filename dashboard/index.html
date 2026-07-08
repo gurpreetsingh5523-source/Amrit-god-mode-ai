@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>counter</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+        .card {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 2rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+        #count {
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 600;
+            min-width: 3.5rem;
+            text-align: right;
+            padding: 0.2rem 0.5rem;
+            background: #f1f5f9;
+            border-radius: 0.75rem;
+            margin: 0 0.25rem;
+            font-variant-numeric: tabular-nums;
+        }
+        #btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            margin-top: 1.25rem;
+            letter-spacing: 0.02em;
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.2);
+        }
+        #btn:hover {
+            background: #1e293b;
+        }
+        #btn:active {
+            transform: scale(0.96);
+            background: #334155;
+        }
+        #btn:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 3px;
+        }
+        .label {
+            font-size: 1.2rem;
+            color: #334155;
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="label">counter</div>
+        <span id="count">0</span>
+        <br>
+        <button id="btn">+1</button>
+    </div>
+    <script>
+        (function() {
+            'use strict';
+            const countSpan = document.getElementById('count');
+            const button = document.getElementById('btn');
+            if (!countSpan || !button) {
+                console.error('Required elements (#count, #btn) not found.');
+                return;
+            }
+            let currentValue = 0;
+            function updateDisplay(value) {
+                countSpan.textContent = value;
+            }
+            function handleIncrement() {
+                currentValue += 1;
+                updateDisplay(currentValue);
+            }
+            button.addEventListener('click', handleIncrement);
+        })();
+    </script>
+</body>
+</html>
