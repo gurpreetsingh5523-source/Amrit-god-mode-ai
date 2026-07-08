@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # ੴ Amrit God Mode AI Bootstrapper
-import os
 import sys
 import asyncio
 from pathlib import Path

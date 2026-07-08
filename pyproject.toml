@@ -1,0 +1,16 @@
+[tool.ruff]
+exclude = ["workspace"]
+
+[tool.ruff.lint]
+ignore = [
+    "F401",  # Unused imports (intentional fallback testing)
+    "F841",  # Unused variables
+    "E702",  # Semicolon statement separation
+    "E401",  # Multiple imports on one line
+    "F821",  # Undefined name (e.g. dynamic/conditional modules)
+    "F811",  # Redefinition of unused name
+    "E402",  # Module-level import not at top of file
+    "E701",  # Multiple statements on one line (colon)
+    "E741",  # Ambiguous variable name
+]
+

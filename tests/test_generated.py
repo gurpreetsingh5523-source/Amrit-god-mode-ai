@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime, timedelta
 from decimal import Decimal
 from typing import Optional, List
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 # Assuming these are the classes and functions to test
 class User(BaseModel):

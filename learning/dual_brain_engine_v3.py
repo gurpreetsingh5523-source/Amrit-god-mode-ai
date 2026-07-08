@@ -566,7 +566,7 @@ if __name__ == "__main__":
     print(f"   Highest fitness : {result['highest_fitness']:.3f}")
     print(f"   Turns taken     : {len(result['history'])}")
     print(f"   Plan entry_point: {result['plan'].get('entry_point')}")
-    print(f"   Final code:\n")
+    print("   Final code:\n")
     for ln in result["final_code"].splitlines():
         print("       " + ln)
 

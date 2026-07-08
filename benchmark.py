@@ -10,8 +10,6 @@ and tested). Gives a repeatable baseline number to track improvement against.
 import json
 import re
 import sys
-import traceback
-from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))

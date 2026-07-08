@@ -6,7 +6,6 @@ Falcon3-10B-Instruct (ਸਭ ਤੋਂ ਵੱਡਾ ਉਪਲਬਧ BitNet b1.58
 
 import subprocess
 import sys
-import os
 from pathlib import Path
 
 BITNET_DIR = Path.home() / "BitNet"

@@ -1,5 +1,4 @@
 """Tester Agent — pytest execution, test generation, code validation."""
-import asyncio
 import subprocess
 import os
 import re

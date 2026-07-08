@@ -68,7 +68,6 @@ def test_refactor_project_empty_directory():
     """Test refactor_project with empty directory returns zero files."""
     refactor = AutoRefactor()
     import tempfile
-    import os
     import asyncio
     with tempfile.TemporaryDirectory() as tmpdir:
         result = asyncio.run(refactor.refactor_project(root=tmpdir))

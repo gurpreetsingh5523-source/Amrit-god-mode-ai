@@ -15,7 +15,6 @@ It continuously:
 import asyncio
 import time
 import json
-import os
 import sys
 import subprocess
 from amrit_core.adaptive_layer import AdaptiveLayer
@@ -1672,7 +1671,11 @@ class SelfEvolution:
     async def _phase_additive_evolution(self):
         """Phase 9: Add a new passing test for an untested module (coverage++)."""
         logger.info("➕ Phase 9: Additive Evolution / ਨਵੀਂ value ਜੋੜੋ")
-        import glob, json, subprocess, sys as _sys, re
+        import glob
+        import json
+        import subprocess
+        import sys as _sys
+        import re
 
         gen_dir = Path("generated_tests")
         gen_dir.mkdir(exist_ok=True)

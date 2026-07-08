@@ -259,7 +259,7 @@ class ToolAgent(BaseAgent):
             matches = self._file_ops.search_text(query, ext)
             return self.ok(query=query, matches=matches, count=len(matches))
         # Fallback: basic grep (in a thread so it never blocks the event loop)
-        import subprocess, asyncio
+        import subprocess
         r = await asyncio.to_thread(
             subprocess.run,
             ["grep", "-rn", "--include", f"*{ext}", query, "workspace"],

@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 """Test all AMRIT GODMODE brain upgrades — standalone (no LLM needed for most)."""
 import traceback
-import ast
-import sys
-import json
 from pathlib import Path
 
 PASS = 0
@@ -36,7 +33,7 @@ def test_complexity_estimator():
     assert estimate_complexity("build an API server with routes") == "medium"
 
 def test_cache():
-    from reasoning_engine import _cache_key, _CACHE
+    from reasoning_engine import _cache_key
     k1 = _cache_key("hello world")
     k2 = _cache_key("hello world")
     k3 = _cache_key("different prompt")

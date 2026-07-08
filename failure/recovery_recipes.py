@@ -12,7 +12,7 @@ from typing import Optional, Callable, Awaitable
 import asyncio
 import time
 from logger import setup_logger
-from failure_taxonomy import ClassifiedFailure, FailureClass, Severity
+from failure_taxonomy import ClassifiedFailure, FailureClass
 
 logger = setup_logger("RecoveryRecipes")
 
