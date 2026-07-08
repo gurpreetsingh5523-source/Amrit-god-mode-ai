@@ -1,4 +1,4 @@
-# AMRIT GODMODE v2.0 Dependencies
+# AMRIT GODMODE v3.0 Dependencies
 
 # Core
 pyyaml>=6.0
@@ -10,27 +10,45 @@ openai>=1.0.0
 anthropic>=0.20.0
 groq>=0.4.0
 google-generativeai>=0.4.0
+ollama>=0.1.0
 
 # Embeddings / Vector
 sentence-transformers>=2.5.0
 faiss-cpu>=1.7.4
 chromadb>=0.4.0
 
-# Voice
+# Voice — STT
 openai-whisper>=20231117
-pyttsx3>=2.90
 SpeechRecognition>=3.10.0
 pyaudio>=0.2.13
+
+# Voice — TTS (ElevenLabs-quality open-source alternatives)
+pyttsx3>=2.90          # fallback robot voice (always works)
+kokoro>=0.9.2          # PRIMARY: highest quality, MIT, fully local
+soundfile>=0.12.1      # required by kokoro
+# TTS                  # Coqui TTS (pip install TTS) — alternative
+# piper-tts            # Piper (pip install piper-tts) — very fast
+openwakeword>=0.6.0    # Wake word: "Hey Amrit" — fully offline
 
 # Vision
 Pillow>=10.0.0
 opencv-python>=4.8.0
 pytesseract>=0.3.10
+# llava:7b via Ollama — no pip needed, pull with: ollama pull llava:7b
+
+# Screen Control — God Mode full Mac control
+pyautogui>=0.9.54      # mouse, keyboard, screenshot
+# pyobjc-framework-Cocoa  # macOS native app control (macOS only)
 
 # Web / Browser
 playwright>=1.40.0
+selenium>=4.15.0
 beautifulsoup4>=4.12.0
 requests>=2.31.0
+duckduckgo-search>=5.3.0
+
+# Telegram Bot
+python-telegram-bot>=20.0
 
 # Data
 pandas>=2.0.0
@@ -46,6 +64,9 @@ transformers>=4.35.0
 peft>=0.6.0
 accelerate>=0.25.0
 
+# Database
+aiosqlite>=0.19.0
+
 # Git
 gitpython>=3.1.40
 
@@ -53,7 +74,11 @@ gitpython>=3.1.40
 rich>=13.0.0
 httpx>=0.25.0
 aiofiles>=23.0.0
+pyperclip>=1.8.2
 
 # Video
 moviepy>=1.0.3
 imageio-ffmpeg>=0.4.7
+
+# MCP Protocol (Claude Code integration)
+# mcp>=0.9.0           # install: pip install mcp

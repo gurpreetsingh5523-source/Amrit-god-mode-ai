@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amrit Dashboard · Obsidian</title>
+    <!-- 3d-force-graph (vanilla) from jsdelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.73.0/dist/3d-force-graph.min.js"></script>
+    <!-- Font for clean UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0f14;
+            font-family: 'Inter', sans-serif;
+            color: #e3e6ee;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #graph-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* ----- data panels (left) ----- */
+        #stats-panel {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 20;
+            background: rgba(13, 15, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #2f3542;
+            border-radius: 20px;
+            padding: 18px 22px;
+            min-width: 180px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+        }
+
+        #stats-panel h2 {
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #9aa3b5;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #2a2f3a;
+            padding-bottom: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #1f232b;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #b6bdd0;
+            font-weight: 400;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #f0f4ff;
+        }
+
+        .stat-value.gold {
+            color: #ffd700;
+        }
+
+        .stat-value.green {
+            color: #5ceb9a;
+        }
+
+        .stat-value.red {
+            color: #ff6b6b;
+        }
+
+        /* ----- chat panel (top right) ----- */
+        #chat-panel {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            z-index: 30;
+            width: 300px;
+            max-height: 420px;
+            background: rgba(13, 15, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #2f3542;
+            border-radius: 24px;
+            padding: 18px 18px 14px 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #c8cfdf;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border-bottom: 1px solid #2a2f3a;
+            padding-bottom: 8px;
+        }
+
+        #chat-header span {
+            background: #2f3542;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #b0b9ce;
+        }
+
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 230px;
+            padding-right: 4px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #chat-messages .msg {
+            background: #1e222b;
+            padding: 8px 12px;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            width: fit-content;
+            max-width: 90%;
+            color: #e6eaf3;
+            line-height: 1.4;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        #chat-messages .msg.bot {
+            background: #262c38;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 4px;
+            align-self: flex-start;
+        }
+
+        #chat-messages .msg.user {
+            background: #2f3b4e;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 18px;
+        }
+
+        #chat-input-area {
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #282e3a;
+            padding-top: 10px;
+        }
+
+        #chat-input {
+            flex: 1;
+            background: #1b1f28;
+            border: 1px solid #363d4b;
+            border-radius: 40px;
+            padding: 10px 16px;
+            color: #f0f4ff;
+            font-size: 0.85rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        #chat-input:focus {
+            border-color: #5a6a85;
+        }
+
+        #chat-send {
+            background: #2f3b4e;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-weight: 500;
+            color: #dfe6f2;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+
+        #chat-send:hover {
+            background: #3e4b63;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #14181f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a4253;
+            border-radius: 10px;
+        }
+
+        /* small responsiveness */
+        @media (max-width: 700px) {
+            #chat-panel {
+                width: 240px;
+                right: 12px;
+                top: 12px;
+                max-height: 360px;
+            }
+            #stats-panel {
+                left: 12px;
+                top: 12px;
+                padding: 14px 16px;
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="graph-container"></div>
+
+<!-- left stats panel (real data) -->
+<div id="stats-panel">
+    <h2>⚡ AMRIT CORE</h2>
+    <div class="stat-item"><span class="stat-label">Agents</span><span class="stat-value green">19</span></div>
+    <div class="stat-item"><span class="stat-label">Subsystems</span><span class="stat-value">12</span></div>
+    <div class="stat-item"><span class="stat-label">Skills</span><span class="stat-value gold">47</span></div>
+    <div class="stat-item"><span class="stat-label">Failures</span><span class="stat-value red">0</span></div>
+    <div class="stat-item" style="margin-top: 8px; border-top: 1px solid #2a2f3a; padding-top: 10px;"><span class="stat-label">⚡ Power flow</span><span class="stat-value gold" id="power-indicator">● active</span></div>
+</div>
+
+<!-- chat panel (top right) -->
+<div id="chat-panel">
+    <div id="chat-header">
+        <span>🤖 AMRIT CHAT</span>
+        <span>live</span>
+    </div>
+    <div id="chat-messages">
+        <div class="msg bot">Core online. 19 agents ready.</div>
+    </div>
+    <div id="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Message Amrit..." autocomplete="off">
+        <button id="chat-send">Send</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- graph data (real panels + memory node linked to Core) ----------
+        const NODE_ID = {
+            CORE: 'Core',
+            MEMORY: 'memory',
+            SUBSYSTEMS: ['sub_alpha', 'sub_beta', 'sub_gamma', 'sub_delta'],
+            AGENTS: Array.from({ length: 19 }, (_, i) => `agent_${i+1}`),
+            SKILLS: ['skill_01', 'skill_02', 'skill_03', 'skill_04', 'skill_05', 'skill_06', 'skill_07']
+        };
+
+        // build nodes
+        const nodes = [
+            { id: 'Core', group: 'core', val: 18 },
+            { id: 'memory', group: 'memory', val: 12 },
+            ...NODE_ID.SUBSYSTEMS.map(id => ({ id, group: 'subsystem', val: 8 })),
+            ...NODE_ID.AGENTS.map(id => ({ id, group: 'agent', val: 5 })),
+            ...NODE_ID.SKILLS.map(id => ({ id, group: 'skill', val: 4 }))
+        ];
+
+        // links: Core -> subsystems (active), Core -> memory (visible), subsystems -> agents, agents -> skills
+        const links = [];
+
+        // Core -> subsystems (ACTIVE = gold particles)
+        NODE_ID.SUBSYSTEMS.forEach(sub => {
+            links.push({
+                source: 'Core',
+                target: sub,
+                active: true,          // gold particles only on active links from Core
+                color: '#5a7a9a'
+            });
+        });
+
+        // Core -> memory (VERY IMPORTANT: no floating)
+        links.push({
+            source: 'Core',
+            target: 'memory',
+            active: true,
+            color: '#7a9ac0'
+        });
+
+        // subsystems -> agents (active: false -> no gold particles)
+        NODE_ID.SUBSYSTEMS.forEach((sub, idx) => {
+            // each subsystem connects to a few agents
+            const agentsForSub = NODE_ID.AGENTS.slice(idx * 4, idx * 4 + 4);
+            agentsForSub.forEach(agent => {
+                if (agent) {
+                    links.push({
+                        source: sub,
+                        target: agent,
+                        active: false,
+                        color: '#4a5a6a'
+                    });
+                }
+            });
+        });
+
+        // agents -> skills
+        NODE_ID.AGENTS.forEach((agent, i) => {
+            const skill = NODE_ID.SKILLS[i % NODE_ID.SKILLS.length];
+            links.push({
+                source: agent,
+                target: skill,
+                active: false,
+                color: '#4a5a6a'
+            });
+        });
+
+        // a few extra links to fill out (some cross)
+        links.push({ source: 'sub_alpha', target: 'sub_beta', active: false, color: '#3d4b5a' });
+        links.push({ source: 'memory', target: 'sub_delta', active: false, color: '#3d4b5a' });
+
+        // ---------- force graph ----------
+        const container = document.getElementById('graph-container');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const Graph = ForceGraph3D()(container)
+            .graphData({ nodes, links })
+            .nodeLabel(node => `${node.id} (${node.group})`)
+            .nodeColor(node => {
+                if (node.id === 'Core') return '#ffd700';
+                if (node.id === 'memory') return '#a77bff';
+                if (node.group === 'subsystem') return '#5b8ec9';
+                if (node.group === 'agent') return '#6fcf97';
+                if (node.group === 'skill') return '#e8b87a';
+                return '#aaaaaa';
+            })
+            .nodeVal(node => node.val || 6)
+            .nodeRelSize(5)
+            .linkColor(link => link.color || '#4a5a6a')
+            .linkWidth(link => link.active ? 1.8 : 0.9)
+            .linkOpacity(0.6)
+            .linkDirectionalParticles(link => {
+                // gold particles only on active Core links
+                if (link.active && link.source && link.source.id === 'Core') {
+                    return 3;   // particle count = 3 per active link from Core
+                }
+                return 0;
+            })
+            .linkDirectionalParticleColor(link => {
+                if (link.active && link.source && link.source.id === 'Core') {
+                    return '#FFD700';  // gold
+                }
+                return '#ffffff';
+            })
+            .linkDirectionalParticleWidth(2)
+            .linkDirectionalParticleSpeed(0.01)
+            .linkDirectionalParticleTailLength(4)
+            .backgroundColor('#0d0f14')
+            .d3AlphaDecay(0.02)
+            .d3VelocityDecay(0.3)
+            .warmupTicks(200)
+            .cooldownTicks(50)
+            .enableNodeDrag(true)
+            .enableZoomInteraction(true)
+            .enablePanInteraction(true);
+
+        // set static initial viewpoint
+        Graph.cameraPosition({ x: 180, y: 100, z: 200 });
+
+        // minor: adjust graph size on resize
+        window.addEventListener('resize', () => {
+            Graph.width(window.innerWidth);
+            Graph.height(window.innerHeight);
+        });
+
+        // ---------- chat (POST /api/chat) ----------
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('chat-send');
+
+        function addMessage(text, sender = 'bot') {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender);
+            msgDiv.textContent = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendChatMessage(message) {
+            if (!message.trim()) return;
+            addMessage(message, 'user');
+            chatInput.value = '';
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                addMessage(data.reply || 'No response', 'bot');
+            } catch (err) {
+                addMessage('⚠️ connection error (server offline?)', 'bot');
+            }
+        }
+
+        sendBtn.addEventListener('click', () => {
+            sendChatMessage(chatInput.value);
+        });
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage(chatInput.value);
+            }
+        });
+    })();
+</script>
+</body>
+</html>
