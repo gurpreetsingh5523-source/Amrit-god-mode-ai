@@ -13,11 +13,9 @@ import re
 import ast
 import sys
 import subprocess
-import traceback
 import tempfile
 from pathlib import Path
 from base_agent import BaseAgent
-import asyncio
 
 # ── Common Error Patterns (no LLM needed) ─────────────────────
 _ERROR_PATTERNS = {

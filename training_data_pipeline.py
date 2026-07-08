@@ -86,7 +86,8 @@ _BATCH_SYS = (
 
 def generate_batched(router, rounds=2, per_call=6):
     """Token-saver: one LLM call returns MANY exercises; verify each by running it."""
-    import asyncio, random
+    import asyncio
+    import random
     _DIFF = ["beginner", "intermediate", "advanced", "tricky edge-case"]
     _THEME = ["finance", "gaming", "biology", "text", "geometry", "scheduling",
               "inventory", "music", "sports", "weather", "robotics", "cooking"]
@@ -131,7 +132,8 @@ _CATEGORIES = [
 def generate_self_verified(router, per_category=5):
     """Scaler: DeepSeek proposes problem+solution+test; keep only those that PASS
     their own test. Every kept example is therefore verified-correct."""
-    import asyncio, random
+    import asyncio
+    import random
     _DIFF = ["beginner", "intermediate", "advanced", "tricky edge-case-heavy"]
     _THEME = ["finance", "gaming", "biology", "text processing", "geometry",
               "scheduling", "inventory", "music", "sports stats", "weather"]

@@ -413,10 +413,10 @@ class Orchestrator:
     async def _run_skill_status(self):
         """Show installed skills status."""
         try:
-            from skill_hunter import SkillHunter, registry
+            from skill_hunter import SkillHunter
             hunter = SkillHunter(self)
             status = hunter.get_status()
-            print(f"\n  🎯 Skill Status:")
+            print("\n  🎯 Skill Status:")
             print(f"     Known skills: {status['total_known_skills']}")
             print(f"     Registered:   {status['registered_skills']}")
             print(f"     Installed:    {status['installed_skills']}")

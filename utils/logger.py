@@ -1,6 +1,5 @@
 """Colored, leveled, file+console logger."""
 import logging
-import os
 from pathlib import Path
 from datetime import datetime
 

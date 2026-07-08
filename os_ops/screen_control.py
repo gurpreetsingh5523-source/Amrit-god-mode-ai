@@ -13,8 +13,6 @@ Capabilities:
   - do_goal_on_screen(goal) → fully autonomous: see screen, plan, act
 """
 
-import asyncio
-import os
 import time
 import subprocess
 from pathlib import Path
@@ -70,10 +68,10 @@ async def understand_screen(path: str = "", goal: str = "") -> dict:
         return {"error": "No screenshot available"}
 
     prompt = (
-        f"You are controlling a Mac computer. Look at this screenshot carefully.\n"
-        f"1. What application/window is currently active?\n"
-        f"2. What is visible on screen? (menus, buttons, text, dialogs)\n"
-        f"3. What is the current state? (idle, loading, error, form, etc)\n"
+        "You are controlling a Mac computer. Look at this screenshot carefully.\n"
+        "1. What application/window is currently active?\n"
+        "2. What is visible on screen? (menus, buttons, text, dialogs)\n"
+        "3. What is the current state? (idle, loading, error, form, etc)\n"
     )
     if goal:
         prompt += f"4. To achieve the goal: '{goal}' — what exact steps should be taken? List them numbered."

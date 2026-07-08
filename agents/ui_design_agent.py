@@ -13,7 +13,6 @@ Capabilities:
   - Animation with Framer Motion
   - Design critique and improvement
 """
-import json
 from pathlib import Path
 from base_agent import BaseAgent
 

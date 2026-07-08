@@ -19,9 +19,7 @@ Usage:
         safety.safe_delete("/path/file")     # -> Trash
 """
 
-import os
 import re
-import shutil
 import json
 import subprocess
 from pathlib import Path

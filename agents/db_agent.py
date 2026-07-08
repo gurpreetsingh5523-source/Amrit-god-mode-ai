@@ -10,7 +10,6 @@ Capabilities:
   - SQLite / PostgreSQL / MySQL support
 """
 import json
-import subprocess
 from pathlib import Path
 from datetime import datetime
 from base_agent import BaseAgent

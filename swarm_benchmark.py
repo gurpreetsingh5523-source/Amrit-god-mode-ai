@@ -68,7 +68,6 @@ def task_multifile():
     if not (calc.exists() and main.exists()):
         return False, f"missing files (calc={calc.exists()}, main={main.exists()})"
     try:
-        import importlib.util
         nsc = {}
         exec(calc.read_text(), nsc)
         ok = nsc["add"](2, 3) == 5 and nsc["sub"](10, 4) == 6

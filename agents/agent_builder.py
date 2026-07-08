@@ -16,9 +16,11 @@
 ╚══════════════════════════════════════════════════════════════╝
 """
 
-import sqlite3, json, hashlib, time
+import sqlite3
+import json
+import hashlib
 from datetime import datetime
-from typing import Dict, List, Optional, Any, Callable
+from typing import Dict, List
 from dataclasses import dataclass, field
 from config import CFG
 from llm_client import LLMClient
@@ -657,5 +659,5 @@ if __name__ == "__main__":
         pipeline=["Khoj", "Nirman", "Vivek"]
     )
 
-    print(f"\n✨ Final output preview:")
+    print("\n✨ Final output preview:")
     print(pipeline_result["final_output"][:300])
