@@ -14,3 +14,7 @@ ignore = [
     "E741",  # Ambiguous variable name
 ]
 
+[tool.pytest.ini_options]
+norecursedirs = ["workspace", ".venv", ".git"]
+
+
