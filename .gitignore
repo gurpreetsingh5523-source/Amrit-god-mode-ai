@@ -55,6 +55,26 @@ workspace/pending_improvements.json
 workspace/knowledge_vectors.json
 workspace/training_metrics.json
 workspace/learning_lessons.json
+workspace/*.db
+workspace/*.db-journal
+workspace/llm_cache.json
+workspace/voice_log.json
+workspace/task_memory.json
+workspace/success.txt
+workspace/dual_brain/
+workspace/amrit_lora_adapter*/
+workspace/a_*.py
+workspace/implement_*.py
+workspace/outline_*.py
+workspace/*benchmark_results.json
+workspace/additive_coverage.json
+workspace/api.py
+workspace/finetune_data.jsonl
+workspace/finetune_data/
+workspace/learned_patterns/
+workspace/safety_audit.json
+workspace/skill_registry.json
+workspace/skills/
 
 # Logs and cache
 logs/
@@ -75,6 +95,7 @@ workspace/training_log.txt
 .vscode/
 *.swp
 *.swo
+*.bak
 
 # Byte-compiled
 *.egg-info/

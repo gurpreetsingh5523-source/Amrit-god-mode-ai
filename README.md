@@ -1,410 +1,197 @@
 <div align="center">
 
-# ☬ AMRIT GODMODE v3.0
+# ☬ AMRIT GODMODE v3.1 ☬
 
 ### ਆਟੋਨੋਮਸ AI ਪਲੇਟਫਾਰਮ — Self-Evolving, Self-Fixing, Self-Learning
+**Clean Architecture · 19 Specialized Agents · 121 Unit & Integration Tests Passing · Punjabi NLP**
 
-**97 Python modules · 13,500+ lines · 23 tests passing · Punjabi NLP**
-
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-23%2F23%20passing-brightgreen.svg)]()
-[![Ollama](https://img.shields.io/badge/LLM-Ollama%20Local-orange.svg)](https://ollama.com)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg?style=for-the-badge&logo=python)](https://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-121%2F121%20passing-brightgreen.svg?style=for-the-badge&logo=pytest)](https://pytest.org)
+[![Ollama](https://img.shields.io/badge/LLM-Ollama%20Local-orange.svg?style=for-the-badge&logo=ollama)](https://ollama.com)
 
 </div>
 
 ---
 
-## What is AMRIT GODMODE?
+## 🚀 Overview
 
-AMRIT GODMODE is an **autonomous AI agent platform** that can:
+**AMRIT GODMODE v3.1** is a state-of-the-art, fully autonomous AI agent platform designed to run locally with metal-accelerated performance on Apple Silicon. Following a major architectural modularization, the system features a robust **Dual-Brain Cognitive Loop**, a **7-Phase Self-Evolution Pipeline**, and a network of **19 specialized autonomous agents** communicating over a unified asynchronous event bus.
 
-- **Write, test, and fix its own code** — the self-evolution engine scans all 97 modules, finds weaknesses, generates improvements, tests them, and applies only if tests pass
-- **Research the internet** — searches arXiv for latest papers and feeds findings into code improvements
-- **Talk and listen** — voice control via Whisper STT + TTS
-- **See and understand** — vision mode with image/video analysis
-- **Learn from mistakes** — LearningLayer tracks what worked and what didn't
-- **Run fully autonomously** — godmode monitors, self-upgrades, and self-heals
-
-Built for **Apple Silicon** (M1/M2/M3/M4/M5) with Metal GPU acceleration.
+With **121/121 unit and integration tests passing**, AMRIT has a verified self-evolution feedback loop that lets it write, test, debug, and upgrade its own code safely within a secure runtime sandbox.
 
 ---
 
-## Architecture
+## 🧱 Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    main.py (Entry)                   │
-├─────────────────────────────────────────────────────┤
-│              orchestrator.py (Brain)                 │
-│         Coordinates 14 specialized agents            │
-├──────────┬──────────┬───────────┬───────────────────┤
-│  Planner │  Coder   │  Research │  Vision/Voice     │
-│  Agent   │  Agent   │  Agent    │  Agents           │
-├──────────┴──────────┴───────────┴───────────────────┤
-│               llm_router.py (LLM Hub)                │
-│   Ollama (7B) ──→ AirLLM (32B) ──→ Cloud APIs       │
-├─────────────────────────────────────────────────────┤
-│            self_evolution.py (Self-Upgrade)           │
-│   Analyze → Test → Fix → Refactor → Learn → Train   │
-├─────────────────────────────────────────────────────┤
-│  Memory Stack: Context │ Vector │ Episodic │ Semantic│
-├─────────────────────────────────────────────────────┤
-│  Security: Sandbox │ Ethical Guard │ Code Safety     │
-└─────────────────────────────────────────────────────┘
+                      ┌────────────────────────────────────────┐
+                      │             main.py (Entry)            │
+                      └───────────────────┬────────────────────┘
+                                          │
+                      ┌───────────────────▼────────────────────┐
+                      │        core/orchestrator.py (Brain)    │
+                      │      Coordinates 19 agents & events    │
+                      └──────┬──────────────────────────┬──────┘
+                             │                          │
+           ┌─────────────────▼─────────┐      ┌─────────▼─────────────────┐
+           │        core/event_bus.py  │      │      core/task_graph.py   │
+           │  Asynchronous Event Hub   │      │   DAG Dependency Resolver │
+           └───────────────────────────┘      └───────────────────────────┘
+                             │                          │
+  ┌──────────────────────────┼──────────────────────────┼──────────────────────────┐
+  │                          │                          │                          │
+┌─▼─────────────┐          ┌─▼─────────────┐          ┌─▼─────────────┐          ┌─▼─────────────┐
+│ agents/       │          │ memory/       │          │ learning/     │          │ failure/      │
+│ 19 Agents     │          │ Context, FAISS│          │ Self-Evolution│          │ Error DNA &   │
+│ (Planner,     │          │ Episodic,     │          │ Crystallizer, │          │ Recovery      │
+│ Coder, Tester)│          │ Semantic      │          │ Mutation Lab  │          │ Recipes       │
+└───────────────┘          └───────────────┘          └───────────────┘          └───────────────┘
 ```
 
 ---
 
-## Quick Start
+## 🛠️ Folder Structure
+
+The project directory is structured cleanly into functional modular layers:
+
+*   [**`core/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core) — The orchestration engine: [Orchestrator](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/orchestrator.py), [EventBus](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/event_bus.py), [TaskGraph](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/task_graph.py), and [AutonomyLoop](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/autonomy_loop.py).
+*   [**`agents/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents) — 19 specialized worker agents including the [CoderAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/coder_agent.py), [PlannerAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/planner_agent.py), and [TesterAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/tester_agent.py).
+*   [**`memory/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory) — Hybrid multi-layer memory storage: [ContextBuffer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/context_buffer.py), [VectorStore](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/vector_store.py), [EpisodicMemory](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/episodic_memory.py), and [SemanticMemory](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/semantic_memory.py).
+*   [**`learning/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning) — The cognitive self-improvement pipeline: [SelfEvolution](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/self_evolution.py), [LearningLayer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/learning_layer.py), [SkillCrystallizer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/skill_crystallizer.py), and [MutationLab](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/mutation_lab.py).
+*   [**`failure/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure) — Diagnostics and healing layers: [ErrorAnalyzer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure/error_analyzer.py) and [RecoveryRecipes](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure/recovery_recipes.py).
+*   [**`os_ops/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops) — OS-level tool bindings: [TerminalOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/terminal_ops.py), [FileOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/file_ops.py), [GitOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/git_ops.py), and [BrowserOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/browser_ops.py).
+*   [**`punjabi/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi) — Local Gurmukhi NLP: [PunjabiTrainer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi/punjabi_trainer.py) and [NaamFilter](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi/naam_filter.py) ethical guard.
+*   [**`voice/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/voice) — Audio processing pipeline: Whisper STT, TTS, and cached playback.
+*   [**`dashboard/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/dashboard) — Local telemetry dashboard and MCP (Model Context Protocol) API.
+*   [**`tests/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/tests) — Clean, comprehensive test suite backed by a global [conftest.py](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/tests/conftest.py).
+
+---
+
+## ⚡ Quick Start
 
 ### Prerequisites
 
-- **Python 3.11+**
-- **Ollama** installed ([ollama.com](https://ollama.com)) with at least one model:
-  ```bash
-  ollama pull gemma3:4b           # Fast 4B model (recommended to start)
-  ollama pull mistral:7b-instruct-q4_K_M  # General purpose
-  ```
+1.  **Python 3.12+**
+2.  **Ollama** installed ([ollama.com](https://ollama.com)) with your models running locally:
+    ```bash
+    ollama pull gemma3:4b
+    ollama pull mistral:7b-instruct-q4_K_M
+    ```
 
 ### Installation
 
 ```bash
-# Clone the repo
+# Clone the repository
 git clone https://github.com/gurpreetsingh5523-source/Amrit-god-mode-ai.git
 cd Amrit-god-mode-ai
 
-# Create virtual environment
+# Create and activate virtual environment
 python3 -m venv .venv
-source .venv/bin/activate    # macOS/Linux
-# .venv\Scripts\activate     # Windows
+source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-### Run
+### Execution Modes
+
+AMRIT can be launched in several specialized operating modes:
 
 ```bash
-# Interactive chat mode (default)
+# 1. Interactive Chat Mode (Default)
 python main.py
 
-# Give it a goal
-python main.py --goal "Build a web scraper for news headlines"
+# 2. Autonomous Goal Mode (Resolves, codes, and verifies automatically!)
+python main.py --goal "Create a text file in the workspace directory named success.txt containing 'Done'"
 
-# Full autonomous mode (self-monitors + self-upgrades)
+# 3. Godmode (Monitors, self-upgrades, and self-heals in the background)
 python main.py --mode godmode
 
-# Self-fix mode (scans all code, fixes issues, runs tests)
+# 4. Selffix Mode (Scans modules, locates import/syntax issues, runs tests and self-repairs)
 python main.py --mode selffix
 
-# Self-evolution (multi-cycle improvement)
+# 5. Evolve Mode (Executes a multi-cycle self-evolution training loop)
 python main.py --mode evolve
 
-# Deep research on any topic
+# 6. Deep Research Mode (Aggregates information from DuckDuckGo, arXiv, and PubMed)
 python main.py --mode research --goal "quantum computing applications in 2026"
 
-# Voice control
-python main.py --mode voice
-
-# Vision mode
-python main.py --mode vision
+# 7. Swarm Mode (Launches a cooperative multi-agent swarm to achieve a complex goal)
+python main.py --mode swarm --goal "Build a REST API for managing tasks"
 ```
 
 ---
 
-## Modes
+## 🤖 Network of 19 Specialized Agents
 
-| Mode | Command | What it does |
-|------|---------|-------------|
-| **Interactive** | `python main.py` | Chat-based control, ask anything |
-| **Autonomous** | `python main.py --goal "..."` | Goal-driven execution with task decomposition |
-| **Godmode** | `python main.py --mode godmode` | Fully autonomous — monitors, self-upgrades, self-heals |
-| **Selffix** | `python main.py --mode selffix` | Scans all 97 modules, fixes bugs, runs tests |
-| **Evolve** | `python main.py --mode evolve` | Multi-cycle self-evolution (analyze→test→fix→refactor→learn) |
-| **Research** | `python main.py --mode research --goal "..."` | Deep internet/arXiv research |
-| **Voice** | `python main.py --mode voice` | Voice-controlled via Whisper + TTS |
-| **Vision** | `python main.py --mode vision` | Image/video analysis |
-| **Internet** | `python main.py --mode internet` | Web browsing and information extraction |
+AMRIT orchestrates 19 specialized agents, each dynamically mapped to specific task signatures:
 
----
-
-## Modules Overview
-
-### Core (Brain)
-| Module | Purpose |
-|--------|---------|
-| `orchestrator.py` | Central brain — coordinates all agents |
-| `event_bus.py` | Pub/sub event system between modules |
-| `task_graph.py` | DAG-based task execution with dependencies |
-| `workflow_engine.py` | YAML workflow definitions |
-| `state_manager.py` | Global state persistence |
-
-### Agents (14 Specialized)
-| Agent | Purpose |
-|-------|---------|
-| `planner_agent.py` | Breaks goals into executable task plans |
-| `coder_agent.py` | Writes, reviews, and improves code |
-| `debugger_agent.py` | Finds and fixes bugs |
-| `tester_agent.py` | Generates and runs tests |
-| `research_agent.py` | Deep research with internet access |
-| `internet_agent.py` | Web search (DuckDuckGo, arXiv, PubMed) |
-| `vision_agent.py` | Image understanding and analysis |
-| `voice_agent.py` | Voice interaction (STT + TTS) |
-| `memory_agent.py` | Manages all memory types |
-| `monitor_agent.py` | System health monitoring |
-| `upgrade_agent.py` | Self-upgrade capabilities |
-| `dataset_agent.py` | Dataset creation and management |
-| `tool_agent.py` | Dynamic tool use |
-| `telegram_agent.py` | Telegram bot interface |
-
-### LLM Infrastructure
-| Module | Purpose |
-|--------|---------|
-| `llm_router.py` | Smart routing across models (8 categories) |
-| `model_selector.py` | Picks best model for each task |
-| `local_llm.py` | Ollama integration |
-| `cloud_llm.py` | OpenAI/Anthropic/Groq/Gemini APIs |
-
-### Self-Evolution
-| Module | Purpose |
-|--------|---------|
-| `self_evolution.py` | 7-phase self-improvement engine |
-| `self_learning_loop.py` | Learns from successes and failures |
-| `learning_layer.py` | Observe → Reflect → Correct cycle |
-| `self_upgrade.py` | Scans TODOs, generates upgrades |
-| `auto_refactor.py` | Automated code refactoring |
-| `skill_evolver.py` | Develops new capabilities |
-
-### Memory Stack
-| Module | Purpose |
-|--------|---------|
-| `context_buffer.py` | Short-term conversation context |
-| `vector_store.py` | FAISS vector similarity search |
-| `long_term_memory.py` | Persistent memory across sessions |
-| `episodic_memory.py` | Records experiences and outcomes |
-| `semantic_memory.py` | Knowledge graph storage |
-| `planning_memory.py` | Remembers plans and strategies |
-| `visual_memory.py` | Stores visual observations |
-| `voice_memory.py` | Remembers voice interactions |
-
-### Security
-| Module | Purpose |
-|--------|---------|
-| `sandbox.py` | Isolated code execution |
-| `ethical_guard.py` | Blocks harmful requests |
-| `code_safety.py` | Detects hardcoded secrets, injection risks |
-| `permission_manager.py` | RBAC access controls |
-
-### Skills
-| Module | Purpose |
-|--------|---------|
-| `file_ops.py` | File read/write/edit operations |
-| `terminal_ops.py` | Shell command execution |
-| `git_ops.py` | Git version control operations |
-| `browser_ops.py` | Web browser automation (Playwright) |
-| `web_scraper.py` | HTML/page scraping |
-| `crawler.py` | Multi-page web crawling |
-| `api_client.py` | REST API calls |
-| `search_engine.py` | Web search aggregation |
+| Agent | Module | Core Functionality |
+| :--- | :--- | :--- |
+| **Planner** | `planner_agent.py` | Decomposes high-level natural language goals into topological DAG task graphs. |
+| **Coder** | `coder_agent.py` | Writes, reviews, and refactors clean python code based on spec and syntax checks. |
+| **Debugger** | `debugger_agent.py` | Analyzes execution stacks, tracks logs, and generates code patch fixes. |
+| **Tester** | `tester_agent.py` | Auto-generates pytest scripts and validates running logic locally. |
+| **Tool** | `tool_agent.py` | Manages file operations, executes shell commands, and automates browser flows. |
+| **Upgrade** | `upgrade_agent.py` | Modifies, patches, and safely applies code upgrades to active engine modules. |
+| **Monitor** | `monitor_agent.py` | Tracks system health, memory consumption, and checks agent liveness. |
+| **Internet** | `internet_agent.py` | Performs web lookups, fetches papers from arXiv, and scrapes API docs. |
+| **Voice** | `voice_agent.py` | Whisper-based speech-to-text and natural voice output generation. |
+| **Vision** | `vision_agent.py` | Image description, object detection, and visual system checks. |
+| **Dataset** | `dataset_agent.py` | Builds, formats, and manages fine-tuning data pipelines for self-learning. |
+| **Simulation** | `simulation_agent.py` | Evaluates hypothetical scenarios and tests model variance prior to execution. |
+| **Fullstack** | `fullstack_agent.py` | Creates web layouts, configures databases, and wires up API endpoints. |
+| **UI Design** | `ui_design_agent.py` | Designs visual interfaces, layouts, and reviews user interface components. |
+| **Swift** | `swift_agent.py` | Generates native swift, Xcode assets, and compiles macOS/iOS system scripts. |
+| **DB** | `db_agent.py` | Manages database schemas, executes SQL queries, and optimizes SQLite connections. |
+| **Translator** | `example_translator.py` | Translates documents and inputs across languages using local context. |
+| **Memory** | `memory_agent.py` | Manages read/write pipelines across the hybrid memory stack. |
 
 ---
 
-## Self-Evolution Engine
+## 🧬 Self-Evolution Cycle
 
-The heart of AMRIT. When you run `--mode selffix` or `--mode evolve`, it does:
+The core capability of AMRIT is its **7-Phase Self-Evolution Pipeline**. Running `--mode evolve` triggers a full cognitive improvement loop:
 
 ```
-Phase 1: ANALYZE  → Scans all 97 modules, scores quality (0-1)
-Phase 2: TEST     → Runs 23 unit tests, identifies failures
-Phase 3: FIX      → Fixes import errors, syntax issues, test failures
-Phase 4: REFACTOR → Improves weakest-scoring modules
-Phase 5: OPTIMIZE → Performance improvements
-Phase 6: LEARN    → Applies improvements, runs before/after tests
-Phase 7: TRAIN    → Feeds learnings back into the model
+[Phase 1] ANALYZE  ──→ Scans all python files, scoring code quality metrics.
+[Phase 2] TEST     ──→ Runs all 121 unit & integration tests to gather metrics.
+[Phase 3] FIX      ──→ Detects syntax/import errors and resolves them immediately.
+[Phase 4] REFACTOR ──→ Regenerates weak modules to improve structural scoring.
+[Phase 5] OPTIMIZE ──→ Speeds up slow-running operations.
+[Phase 6] LEARN    ──→ Evaluates the differences and commits successful runs.
+[Phase 7] TRAIN    ──→ Pipelines training metrics to prep local weights fine-tuning.
 ```
 
-### 7B → 32B Escalation
-
-When the fast 7B model fails to generate good refactoring code:
-1. **Attempt 1-2**: Uses Ollama 7B (fast, ~2s/response)
-
-This works on 16GB RAM — AirLLM loads one layer at a time through Metal GPU.
-
-### arXiv Research Pipeline
-
-During self-evolution, the engine searches arXiv for latest papers on:
-- Autonomous AI self-improvement
-- Code generation techniques
-- Self-healing systems
-
-Paper summaries are injected into the LLM prompt so improvements are informed by latest research.
+> [!TIP]
+> **Autonomy Loop Stability**: AMRIT automatically tracks task execution indices and resolves depends_on mapping dynamically, ensuring that multi-step plans execute sequentially without locking up.
 
 ---
 
-## Configuration
+## 🔒 Security & Guardrails
 
-All settings in `config.yaml`:
-
-```yaml
-llm:
-  model: "mistral:7b-instruct-q4_K_M"    # Default model
-  reasoning_model: "gemma3:4b"            # For reasoning tasks
-  coding_model: "gemma3:4b"               # For code generation
-  fast_model: "gemma3:4b"                 # Quick responses
-  openai_base_url: "http://127.0.0.1:11434/v1"  # Ollama endpoint
-  request_timeout: 90                     # Seconds
-
-autonomy:
-  max_tokens: 400
-  task_timeout: 90
-
-memory:
-  context_buffer_size: 40
-  persist_path: "workspace/state.json"
-
-security:
-  sandbox_enabled: true
-  ethical_guard: true
-```
-
-### Using Cloud LLMs (Optional)
-
-Set API keys as environment variables:
-```bash
-export OPENAI_API_KEY="sk-..."
-export ANTHROPIC_API_KEY="sk-ant-..."
-export GROQ_API_KEY="gsk_..."
-export GEMINI_API_KEY="..."
-```
+AMRIT takes local execution security seriously with three layers of safety enforcement:
+1.  **Ethical Guardrail (`ethical_guard.py`)** — Inspects inputs and code blocks to filter out dangerous requests.
+2.  **Sandbox Execution (`sandbox.py`)** — Python scripts and test codes are run in an isolated subprocess sandbox.
+3.  **Naam Filter Gurmukhi Guard (`naam_filter.py`)** — Implements core ethical constraints derived from Gurmukhi principles (*Dharam, Sach, Daya*) to reject destructive commands in both English and Punjabi.
 
 ---
 
-## Running Tests
+## 🧪 Testing
+
+The entire codebase is verified by 121 unit and integration tests. Run tests locally using:
 
 ```bash
-# Run all tests
-python -m pytest test_godmode.py -v
-
-# Expected: 23/23 passing
+# Execute pytest across the suite
+python -m pytest -v
 ```
-
-Tests cover: event_bus, sandbox, orchestrator, code_analysis, goal_parser, llm_router, learning_layer, code_safety, config_loader, context_buffer, internet_agent, logger, and more.
-
----
-
-## Docker
-
-```bash
-docker build -t amrit-godmode .
-docker run -it amrit-godmode
-```
-
-Note: For Ollama models, you'll need to either:
-- Mount the Ollama socket: `-v /var/run/ollama:/var/run/ollama`
-- Or set cloud LLM API keys via `-e GROQ_API_KEY=...`
-
----
-
-## Telegram Bot
-
-Control AMRIT via Telegram:
-
-1. Create a bot with [@BotFather](https://t.me/BotFather)
-2. Set the token: `export TELEGRAM_BOT_TOKEN="your-token"`
-3. Run: `python telegram_agent.py`
-4. Send: `/goal Build a CSV downloader` to your bot
-
----
-
-## LoRA Training (Punjabi)
-
-AMRIT includes a LoRA fine-tuning pipeline for Punjabi language:
-
-```bash
-python punjabi_trainer.py train
-
-# Deploy to Ollama
-python punjabi_trainer.py deploy
-```
-
-Training stats: 45K samples, validation loss 0.536 (65% reduction).
-
----
-
-## Project Structure
-
-```
-Amrit-god-mode-ai/
-├── main.py                 # Entry point
-├── orchestrator.py         # Central brain
-├── config.yaml             # Configuration
-├── requirements.txt        # Dependencies
-├── Dockerfile              # Docker support
-│
-├── llm_router.py           # Smart model routing
-├── self_evolution.py        # Self-improvement engine
-├── learning_layer.py        # Observe/reflect/correct
-│
-├── *_agent.py              # 14 specialized agents
-├── *_memory.py             # 8 memory types
-├── *_ops.py                # File/terminal/git/browser ops
-│
-├── test_godmode.py         # 23 unit tests
-├── workspace/              # Runtime workspace
-│   ├── evolution_log.json  # Self-evolution history
-│   ├── experience.json     # Learning experiences
-│   └── tools/              # Self-generated tools
-│
-└── .gitignore              # Excludes models/videos/venvs
-```
-
----
-
-## Hardware Requirements
-
-| Setup | RAM | What works |
-|-------|-----|-----------|
-| **Minimum** | 8 GB | Cloud LLMs only (Groq/OpenAI) |
-| **Recommended** | 16 GB | Ollama 7B + AirLLM 32B (layer-wise) |
-| **Ideal** | 32+ GB | Multiple models simultaneously |
-
-Best on **Apple Silicon** (M1-M5) with Metal GPU acceleration.
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-1. Fork the repo
-2. Create a feature branch
-3. Make changes and add tests
-4. Run `python -m pytest test_godmode.py -v` (all 23 must pass)
-5. Submit a pull request
-
----
-
-## License
-
-MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 <div align="center">
 
-**☬ ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਹਿ ॥**
-
-*Built with ❤️ and ਪੰਜਾਬੀ ਜਜ਼ਬਾਤ*
+**☬ ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਹਿ ॥**  
+*Built with ❤️, Local LLM orchestration, and Punjabi Spirit*
 
 </div>
-
-Files of interest
-- `workspace/stock_analysis/fetch_price.py` — fallback script that writes `workspace/stock_analysis/price.txt` when invoked.
-- `llm_router.py` — prompt trimming and automatic fallback logic lives here.
-- `base_agent.py` — iterative summarization before LLM calls.
-
-## ZIP Contents
-- **ZIP 1** — Core + Agents + Planning + Models + Config
-- **ZIP 2** — Memory + Skills + Security + Autonomy + Internet
-- **ZIP 3** — Learning + Voice + Vision + Tests + Docker

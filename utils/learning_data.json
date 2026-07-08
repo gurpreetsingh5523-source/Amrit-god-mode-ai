@@ -1,0 +1,575 @@
+[
+  {
+    "topic": "fastapi",
+    "repos": [
+      "fastapi/fastapi"
+    ],
+    "patterns": [
+      "**Pitfall:** Mixing `Body()` and `Form()` parameters without explicit `File()`/`UploadFile()` for file uploads causes validation errors.",
+      "Use `Query(default=None, max_length=10)` to validate and constrain query parameters in function arguments.",
+      "`response_model=List[Item]` in decorators enforces response serialization and OpenAPI schema generation.",
+      "`app.get(\"/items/{item_id}\")` defines a path operation decorator for GET requests with a path parameter.",
+      "**Pitfall:** Forgetting `async` on route functions blocks the event loop when using synchronous database calls.",
+      "`Depends()` creates dependency injection for reusable logic like authentication or database sessions."
+    ],
+    "timestamp": "2026-06-21T21:55:01.319496"
+  },
+  {
+    "topic": "3d-force-graph",
+    "repos": [
+      "vasturiano/3d-force-graph"
+    ],
+    "patterns": [
+      "**Pitfall: missing `id` in nodes** \u2013 each node object must have a unique `id` field for links to resolve; otherwise links may break or cause errors.",
+      "**`Graph()` constructor** creates the 3D force simulation; call it as `const Graph = ForceGraph3D()` to get the instance.",
+      "**Pitfall: performance with large datasets** \u2013 disable animations or reduce `d3AlphaDecay` via `.d3AlphaDecay()` to prevent jank above ~1000 nodes.",
+      "Use `graph.nodeColor(node => node.color)` in constructor options for per-node coloring; returns string.",
+      "Pitfall: `graph.d3Force('center')` is auto-set; override with `graph.d3Force('center', null)` to disable centering.",
+      "Pitfall: Modifying `graph.d3Force()` returns the force object, not the graph instance\u2014cannot chain directly.",
+      "**Pitfall: mutating `graphData` directly** \u2013 always use `.graphData(newData)` to trigger re-render; modifying the array in-place won\u2019t update the visualization.",
+      "**`.nodeLabel()`** and **`.linkLabel()`** define hover tooltips (e.g., `.nodeLabel('name')` or `.nodeLabel(d => d.name)`).",
+      "Access individual force via `graph.d3Force('charge')` and set strength with `.strength(-400)` for repulsion.",
+      "**`.graphData()`** sets or gets the graph data (expects `{ nodes: [...], links: [...] }`); call it after initialization or on update to re-simulate.",
+      "Call `graph.d3ReheatSimulation()` after changing forces to restart the simulation with new parameters.",
+      "**`.zoomToFit()`** re-centers and scales the view to fit all nodes; call with optional transition duration (e.g., `.zoomToFit(400)`).",
+      "Use `graph.d3Force('link').distance(50)` to override default link distance; default is 30.",
+      "**`.onNodeClick()`** and **`.onLinkClick()`** attach click event handlers (e.g., `.onNodeClick(node => console.log(node.id))`).",
+      "Call `graph.zoomToFit(400, 50)` to animate camera to fit all nodes within 50px padding over 400ms.",
+      "**`.nodeColor()`** and **`.linkColor()`** accept a function (e.g., `.nodeColor(d => d.color)`) for dynamic styling; default uses a fixed color."
+    ],
+    "timestamp": "2026-06-21T21:56:22.713928"
+  },
+  {
+    "topic": "Hermes AI agent",
+    "repos": [
+      "NousResearch/hermes-agent",
+      "thedotmack/claude-mem"
+    ],
+    "patterns": [
+      "**Gateway Platform Adapter pattern**: Implement as `gateway/platforms/api_server.py` extending `BasePlatformAdapter` to reuse session management, auth, context building, and interrupt support",
+      "The `stream=True` parameter in `run()` enables token-by-token output via an async generator: `async for chunk in agent.run(prompt, stream=True):`.",
+      "**GET `/v1/models`**: Returns `hermes-agent` as an available model, enabling UI model selection",
+      "**GET `/health`**: Simple health check endpoint for monitoring and load balancers",
+      "`agent.set_system_prompt(\"You are...\")` overrides the default system message; must be called before `run()` or it has no effect on the current turn.",
+      "**API startup**: Set `API_SERVER_ENABLED=true` in `~/.hermes/.env` and run `hermes gateway` to start the OpenAI-compatible server alongside other adapters",
+      "Pitfall: `HermesAgent` silently truncates conversation history beyond `max_turns=10` (default), causing unexpected loss of context in multi-turn interactions.",
+      "`hermes_agent.run(prompt)` is the core method to execute an agent task; returns a `HermesResponse` object with `.text` and `.tool_calls` attributes.",
+      "`agent.reset_conversation()` clears all stored messages; call this between independent user sessions to avoid state bleed.",
+      "**Pitfall**: Do NOT create a standalone server; integrate as a platform adapter within the gateway to avoid duplicating infrastructure and losing built-in features like session persistence",
+      "**POST `/v1/chat/completions`**: Main chat endpoint supporting both SSE streaming and non-streaming responses, accepting standard OpenAI message format",
+      "Use `agent.add_tool(MyTool())` to register custom tools before calling `run()`; tools must implement a `.execute(context)` method.",
+      "Always wrap tool execution in try/except: unhandled exceptions in `.execute()` crash the agent loop with no error propagation to the caller."
+    ],
+    "timestamp": "2026-06-21T22:20:21.502072"
+  },
+  {
+    "topic": "agent:MetaGPT",
+    "repos": [
+      "FoundationAgents/MetaGPT"
+    ],
+    "patterns": [
+      "Use `metagpt --help` to list all available CLI commands and options for MetaGPT.",
+      "Run `metagpt \"Write a snake game\"` to generate a project from a natural language requirement.",
+      "Set `OPENAI_API_KEY` environment variable before running MetaGPT to authenticate API calls.",
+      "Use `metagpt --config config.yaml` to load custom configurations instead of default settings.",
+      "Pitfall: Long-running tasks may hit token limits; use `--max_tokens` parameter to control output length.",
+      "Call `Role.run()` method in code to execute a specific agent role's workflow programmatically.",
+      "Use `Team.run()` to orchestrate multiple roles in a collaborative software development simulation.",
+      "Pitfall: Ensure `metagpt` is installed in a Python 3.9+ environment to avoid compatibility issues.",
+      "`Role` class: define agents with `__init__(self, name, profile, goal, constraints)` and `run(self, msg)` for action execution.",
+      "`Task` class: create structured tasks via `Task(instruction, accept_messages, callback)` for workflow orchestration.",
+      "`Team.run(idea)` method: execute a multi-agent workflow from a one-line requirement, returning structured outputs like PRD, design, and code.",
+      "`Message` class: pass data between roles using `Message(content, role, cause_by)` for inter-agent communication.",
+      "Pitfall: agents may hallucinate dependencies; always validate generated API specs and data structures before integration.",
+      "Pitfall: long-running teams (e.g., `Team.run()`) can exceed token limits; use `max_turn` parameter to cap conversation rounds.",
+      "Pitfall: default role prompts may produce generic outputs; override `Role.__init__` with specific `goal` and `constraints` for domain accuracy."
+    ],
+    "timestamp": "2026-06-21T22:55:49.066076"
+  },
+  {
+    "topic": "agent:autogen",
+    "repos": [
+      "microsoft/autogen"
+    ],
+    "patterns": [
+      "Use `pip install -U \"autogen-agentchat\" \"autogen-ext[openai]\"` to install the latest AutoGen agentchat and OpenAI extension.",
+      "Create an agent with `from autogen_agentchat.agents import AssistantAgent; agent = AssistantAgent(\"assistant\", model_client=...)`.",
+      "Use `from autogen_ext.models.openai import OpenAIChatCompletionClient` to configure an OpenAI model client for agents.",
+      "Call `await agent.run(task=\"your prompt\")` to execute an agent synchronously in an async context.",
+      "Pitfall: AutoGen v0.2 APIs are deprecated; always use `autogen-agentchat` and `autogen-ext` packages for current stable versions.",
+      "Pitfall: Do not mix old `autogen` package imports with new `autogen_agentchat`\u2014they are incompatible.",
+      "Pitfall: The `AssistantAgent` requires a `model_client` parameter; omitting it raises a `TypeError`.",
+      "Use `from autogen_agentchat.teams import RoundRobinGroupChat` to create a team of agents that take turns.",
+      "Call `await team.run(task=\"...\")` to execute a multi-agent conversation with automatic turn management.",
+      "`autogen.ConversableAgent.initiate_chat(recipient, message)` starts a two-way conversation; the recipient agent processes the message and returns a reply.",
+      "`autogen.AssistantAgent` (e.g., `AssistantAgent(name=\"assistant\", llm_config=llm_config)`) is a built-in agent that uses an LLM to generate responses based on the conversation history.",
+      "`autogen.UserProxyAgent` (e.g., `UserProxyAgent(name=\"user\", human_input_mode=\"ALWAYS\")`) can simulate human input or execute code; set `human_input_mode=\"TERMINATE\"` to auto-stop on specific conditions.",
+      "Use `agent.register_reply([TriggeredByAgent], custom_reply_func)` to override or extend reply logic with a custom function that returns `(True, reply_string)` or `(False, None)`.",
+      "Pitfall: Agents accumulate full conversation history in `agent.chat_messages`, which can exceed LLM token limits; use `max_consecutive_auto_reply` or manually prune history.",
+      "`autogen.GroupChat` and `autogen.GroupChatManager` enable multi-agent conversations; use `speaker_selection_method=\"round_robin\"` or a custom function to control turn order."
+    ],
+    "timestamp": "2026-06-21T22:56:01.233652"
+  },
+  {
+    "topic": "agent:crewAI",
+    "repos": [
+      "crewAIInc/crewAI"
+    ],
+    "patterns": [
+      "**`from crewai import Agent, Task, Crew, Process`** \u2013 Core imports for defining agents, tasks, crews, and execution process.",
+      "**`Agent(role='Researcher', goal='Find data', backstory='...', llm='gpt-4')`** \u2013 Create an agent with a specific role, goal, backstory, and optional LLM model.",
+      "**`Task(description='Analyze X', expected_output='Report', agent=researcher)`** \u2013 Define a task with description, expected output, and assign it to a specific agent.",
+      "**`Crew(agents=[...], tasks=[...], process=Process.sequential)`** \u2013 Assemble agents and tasks into a crew; use `Process.sequential` for ordered execution or `Process.hierarchical` for manager-led flows.",
+      "**`crew.kickoff()`** \u2013 Execute the entire crew pipeline; returns a `CrewOutput` object with results.",
+      "**`from crewai import Process`** \u2013 Import `Process` enum to choose between `sequential` (default) or `hierarchical` execution modes.",
+      "**Pitfall: Missing `expected_output` in `Task` causes vague agent responses** \u2013 Always define a clear `expected_output` string to guide the agent's output format.",
+      "**Pitfall: Agents without `backstory` lack context** \u2013 Provide a `backstory` in `Agent()` to give the agent persona and improve decision-making.",
+      "**`crewai create`**: Scaffolds a new CrewAI project structure from the CLI without needing the full framework installed",
+      "**`crewai run`**: Executes the crew defined in the project; requires `crewai` package in the environment or prints a clear error if missing",
+      "**`crewai train`**: Runs training on the crew\u2019s tasks/agents; fails gracefully if `crewai` is not installed",
+      "**`crewai test`**: Runs test scenarios against the crew; same dependency requirement as `run`/`train`",
+      "**`crewai deploy push`**: Deploys the crew to a remote server; requires `crewai` installed in the project\u2019s environment",
+      "**`crewai tool publish`**: Publishes a custom tool for reuse; fails explicitly if `crewai` is missing",
+      "**`crewai reset-memories`**: Clears the crew\u2019s stored memory; only works when `crewai` is present"
+    ],
+    "timestamp": "2026-06-21T22:56:14.256572"
+  },
+  {
+    "topic": "agent:langgraph",
+    "repos": [
+      "langchain-ai/langgraph"
+    ],
+    "patterns": [
+      "**`StateGraph`** defines agent state; use `StateGraph(State)` with `add_node` and `add_edge` to construct the graph.",
+      "**`graph.compile()`** returns a `CompiledGraph`; always compile before invoking with `invoke` or `stream`.",
+      "**`graph.invoke(input)`** runs the graph to completion; **`graph.stream(input)`** yields intermediate state updates for step-by-step debugging.",
+      "**`NodeInterrupt`** (raised inside a node) pauses execution for human-in-the-loop; inspect and resume via `graph.resume()`.",
+      "**Pitfall**: Forgetting to define `State` as a `TypedDict` or `dataclass` with a `__getitem__` method causes silent schema errors.",
+      "**`add_conditional_edges`** routes based on node output; the routing function must return the name of the next node or a list of names for parallel branches.",
+      "**`Command(resume=value)`** resumes an interrupted graph with a payload; use `Command(goto=node_name)` to dynamically jump to a node.",
+      "**Pitfall**: Mutating state inside a node without returning the updated state dict leads to unpersisted changes in durable execution.",
+      "No specific API methods or functions are extractable; the source only states the directory is archival and points to external docs.",
+      "Use `graph.update_state()` (OSS) or LangGraph Server SDK's `update_state()` to re-apply recovered channel data from the dump script.",
+      "`DeltaChannel` format (langgraph >= 1.2) stores channel values as `EXT_DELTA_SNAPSHOT` msgpack; older runtimes silently return empty list when reading these.",
+      "`checkpoints`, `checkpoint_blobs`, `checkpoint_writes` tables are shared between OSS `checkpoint-postgres` and langgraph-api; read them directly with psycopg.",
+      "`add_messages` on langgraph < 1.2 does not handle `EXT_DELTA_SNAPSHOT` code; use the dump script + manual `update_state` as a workaround.",
+      "Pitfall: `--checkpoint-ns` defaults to `\"\"` (empty string), not `None`; omitting it when namespace is `None` causes mismatch.",
+      "Output `writes` array is ordered oldest-to-newest; replay order matters for reducer correctness."
+    ],
+    "timestamp": "2026-06-21T22:56:24.847463"
+  },
+  {
+    "topic": "agent:hermes-agent",
+    "repos": [
+      "NousResearch/hermes-agent"
+    ],
+    "patterns": [
+      "**`hermes model`** command: switch between 200+ providers (OpenAI, OpenRouter, Nous Portal, NVIDIA NIM, Hugging Face, etc.) at runtime with zero code changes.",
+      "**`hermes skill`** command: create, list, and edit reusable skills from past interactions; the agent auto-generates skills from experience and improves them during use.",
+      "**`hermes memory`** command: search and manage persistent cross-session memory; the agent builds a deepening user model across conversations.",
+      "**`hermes chat`** command: launch the full TUI terminal interface with multiline editing, syntax highlighting, and streaming responses.",
+      "**`hermes run --task`** pattern: execute Hermes Agent headlessly on a cloud VM or $5 VPS; it continues working even when your laptop is off.",
+      "**`hermes serve`** API: expose the agent as a serverless endpoint (costs nearly nothing when idle); connect Telegram bots or other clients.",
+      "**Pitfall \u2014 provider rate limits**: switching models with `hermes model` can silently hit API rate limits if the new provider enforces stricter quotas; always verify provider-specific limits before switching.",
+      "**Pitfall \u2014 skill persistence**: auto-generated skills from experience are stored locally by default; if you redeploy the agent on a new VM without migrating the skills directory, all learned skills are lost.",
+      "Based on the provided documentation for Hermes Desktop, here are the concrete, reusable facts:",
+      "**`hermes desktop`** is the CLI command to build and launch the GUI from an existing Hermes CLI installation, sharing the same config, keys, sessions, and skills.",
+      "The app provides **side-by-side previews** that render web pages, files, and tool outputs in a right-hand pane while the user continues chatting.",
+      "It includes a **built-in file browser** to explore and preview the working directory without leaving the application.",
+      "**Voice** functionality allows users to talk to Hermes and receive audio responses.",
+      "The **Settings & onboarding** UI manages providers, models, tools, and credentials, with a first-run setup that gets the user to their first message in seconds.",
+      "**Built-in updates** pull the latest agent version and rebuild the app in place, keeping the installation current without manual reinstallation."
+    ],
+    "timestamp": "2026-06-21T22:56:37.268191"
+  },
+  {
+    "topic": "ecc:agent-introspection-debugging",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "**`tool_call` inspection**: Use `inspect the last N tool calls for repetition` to detect loops when hitting maximum tool call limits.",
+      "**Context pressure diagnosis**: Check for `unbounded notes, repeated plans, oversized logs` by inspecting recent context for duplication and low-signal bulk.",
+      "**`ECONNREFUSED` / timeout**: Diagnose as `service unavailable or wrong host/port` \u2014 verify service status and endpoint configuration.",
+      "**File existence check**: Use `verify file existence` before assuming environment state matches expectations.",
+      "**`git status` / `git log`**: Check branch and recent commits when environment assumptions (cwd, branch) are suspected mismatched.",
+      "**Pitfall: blind retry**: Never retry before running Phase 1 failure capture \u2014 record error type, stack trace, and last tool call sequence first.",
+      "**Pitfall: context bloat**: Avoid appending duplicate plans or oversized logs; use the `Failure Capture` template to keep diagnosis structured and bounded.",
+      "**Pitfall: scope creep**: Do not use this skill for feature verification (use `verification-loop` instead) or framework-specific debugging if a narrower ECC skill exists."
+    ],
+    "timestamp": "2026-06-21T23:20:55.876822"
+  },
+  {
+    "topic": "ecc:tdd-workflow",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "Use `describe('ComponentName', () => { it('behavior description', async () => { ... }) })` to structure tests before writing implementation code",
+      "Run `npm test` initially to confirm tests fail (red phase), then implement minimal code to pass tests",
+      "Run `npm run test:coverage` to enforce the 80% minimum coverage threshold across unit, integration, and E2E tests",
+      "Test edge cases like empty query strings (`it('handles empty query gracefully')`) and fallback behavior (e.g., Redis unavailable)",
+      "Write user journeys in format `As a [role], I want to [action], so that [benefit]` to guide test case generation",
+      "Pitfall: Skipping the \"tests fail first\" step can lead to false positives\u2014always verify red phase before green",
+      "Pitfall: Writing too much implementation code upfront violates TDD; write only enough to make the current failing test pass"
+    ],
+    "timestamp": "2026-06-21T23:20:59.495254"
+  },
+  {
+    "topic": "ecc:verification-loop",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "`npm run build 2>&1 | tail -20` \u2014 build verification command; if build fails, STOP and fix before continuing",
+      "`npx tsc --noEmit 2>&1 | head -30` \u2014 TypeScript type check; report all type errors, fix critical ones",
+      "`pyright . 2>&1 | head -30` \u2014 Python type check alternative",
+      "`npm run lint 2>&1 | head -30` \u2014 lint check for JS/TS projects",
+      "`ruff check . 2>&1 | head -30` \u2014 lint check for Python projects",
+      "`npm run test -- --coverage 2>&1 | tail -50` \u2014 run tests with coverage; target 80% minimum",
+      "`grep -rn \"sk-\" --include=\"*.ts\" --include=\"*.js\" . 2>/dev/null | head -10` \u2014 security scan for leaked secrets",
+      "`grep -rn \"console.log\" --include=\"*.ts\" --include=\"*.tsx\" src/ 2>/dev/null | head -10` \u2014 security scan for debug logs",
+      "`git diff --stat` and `git diff HEAD~1 --name-only` \u2014 diff review to check changed files",
+      "**Pitfall**: Running phases out of order (e.g., testing before fixing build errors) leads to wasted time; always STOP on build failure"
+    ],
+    "timestamp": "2026-06-21T23:21:02.904405"
+  },
+  {
+    "topic": "ecc:eval-harness",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "**`grep -q \"pattern\" file && echo \"PASS\" || echo \"FAIL\"`** \u2013 Code-based grader pattern for deterministic binary evaluation.",
+      "**`npm test -- --testPathPattern=\"pattern\" && echo \"PASS\" || echo \"FAIL\"`** \u2013 Use existing test suites as eval graders by checking exit codes.",
+      "**`npm run build && echo \"PASS\" || echo \"FAIL\"`** \u2013 Build success/failure as a simple pass/fail eval criterion.",
+      "**Capability Eval format:** `[CAPABILITY EVAL: feature-name]` with `Task:`, `Success Criteria:` checklist, and `Expected Output:` block.",
+      "**Regression Eval format:** `[REGRESSION EVAL: feature-name]` with `Baseline: SHA`, `Tests:` list, and `Result: X/Y passed (previously Y/Y)`.",
+      "**Model grader prompt structure:** Use a numbered question list (1-4) plus `Score: 1-5` and `Reasoning:` for open-ended output evaluation.",
+      "**Pitfall:** Always use `&& echo \"PASS\" || echo \"FAIL\"` (not just exit code) \u2013 some tools return non-zero on warnings, breaking strict exit code checks.",
+      "**Pitfall:** Capability evals must define success criteria *before* implementation (EDD principle) \u2013 defining after introduces confirmation bias."
+    ],
+    "timestamp": "2026-06-21T23:21:07.615949"
+  },
+  {
+    "topic": "ecc:api-design",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "Use `GET /api/v1/resources` for list retrieval and `GET /api/v1/resources/:id` for single resource detail.",
+      "Use `POST /api/v1/resources` to create a resource, returning `201 Created` with a `Location` header.",
+      "Use `PATCH /api/v1/resources/:id` for partial updates (not `PUT` unless replacing the entire resource).",
+      "Use `POST /api/v1/orders/:id/cancel` for non-CRUD actions (verbs in endpoints are acceptable sparingly).",
+      "Use nested resources like `GET /api/v1/users/:id/orders` for owned sub-resources.",
+      "Return `204 No Content` for successful `DELETE` or `PUT` with no response body.",
+      "Return `422 Unprocessable Entity` for semantically invalid data (not `400`).",
+      "Avoid verbs in URL paths (e.g., `/getUsers` is bad; use `GET /api/v1/users` instead).",
+      "Keep resource names plural, lowercase, and kebab-case (e.g., `/team-members`, not `/team_members`).",
+      "Use query parameters for filtering (e.g., `?status=active`), not path segments or verbs."
+    ],
+    "timestamp": "2026-06-21T23:21:11.510209"
+  },
+  {
+    "topic": "ecc:backend-patterns",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "Use `GET /api/markets?status=active&sort=volume&limit=20&offset=0` for filtering, sorting, and pagination via query parameters",
+      "Implement `MarketRepository` interface with `findAll(filters?)`, `findById(id)`, `create(data)`, `update(id, data)`, `delete(id)` to abstract data access",
+      "Use `SupabaseMarketRepository` class implementing `MarketRepository` to isolate database-specific logic (e.g., `.eq()`, `.limit()`)",
+      "Apply `MarketService` class with constructor injection of `MarketRepository` to separate business logic from data access",
+      "Pitfall: Forgetting to handle `error` from `supabase` queries can cause silent failures; always check and throw `new Error(error.message)`",
+      "Pitfall: Omitting `limit` and `offset` parameters in list endpoints leads to unbounded results and memory issues",
+      "Pitfall: Mixing business logic directly in route handlers instead of a service layer makes testing and reuse difficult"
+    ],
+    "timestamp": "2026-06-21T23:21:15.036910"
+  },
+  {
+    "topic": "ecc:frontend-patterns",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "**`createContext` + `useContext`**: Use `createContext<T>()` with a context value interface and `useContext` inside child components to build compound components (e.g., `Tabs`, `TabList`, `TabPanel`) without prop drilling.",
+      "**`useState` for active tab state**: In a compound `Tabs` component, store `activeTab` with `useState(defaultTab)` and pass `setActiveTab` via context to let child `Tab` buttons update the selection.",
+      "**Composition over inheritance**: Prefer splitting UI into composable parts like `Card`, `CardHeader`, `CardBody` instead of a single monolithic component with many optional props.",
+      "**`React.ReactNode` for children**: Always type the `children` prop explicitly as `React.ReactNode` to allow any renderable content (elements, strings, fragments).",
+      "**Never log credentials or tokens**: In any frontend example, avoid `console.log`, `useEffect`, or state that captures real credentials, access tokens, SSNs, or payment details\u2014use synthetic placeholder data only.",
+      "**Client-side redaction before logging**: If you must log user data (e.g., for debugging), redact sensitive fields (like email local part, SSN digits) on the client before sending to any external sink.",
+      "**Use `variant` prop for style variants**: Instead of multiple boolean props (`outlined`, `filled`), use a single `variant?: 'default' | 'outlined'` string union prop for cleaner component API.",
+      "**`createContext` initial value as `undefined`**: Set context initial value to `undefined` (not a dummy object) so `useContext` can throw a clear error if used outside the provider."
+    ],
+    "timestamp": "2026-06-21T23:21:21.109400"
+  },
+  {
+    "topic": "ecc:security-review",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "`const apiKey = process.env.OPENAI_API_KEY` \u2014 always load secrets from env vars, never hardcode strings like `\"sk-proj-xxxxx\"`.",
+      "`z.object({ email: z.string().email() }).parse(input)` \u2014 use Zod schemas to validate all user input before processing.",
+      "`if (!apiKey) { throw new Error('OPENAI_API_KEY not configured') }` \u2014 verify required secrets exist at startup to fail fast.",
+      "`file.size > 5 * 1024 * 1024` \u2014 enforce file size limits (e.g., 5MB) before accepting uploads.",
+      "`allowedTypes.includes(file.type)` \u2014 whitelist MIME types for file uploads (e.g., `['image/jpeg', 'image/png']`).",
+      "`allowedExtensions.includes(extension)` \u2014 check file extensions as a secondary guard against type spoofing.",
+      "Pitfall: hardcoding secrets in source code (e.g., `const dbPassword = \"password123\"`) is always a fail.",
+      "Pitfall: forgetting to add `.env.local` to `.gitignore` can leak production secrets into version control."
+    ],
+    "timestamp": "2026-06-21T23:21:24.669211"
+  },
+  {
+    "topic": "ecc:deep-research",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "Use `firecrawl_search(query: \"...\", limit: 8)` and `web_search_exa(query: \"...\", numResults: 8)` for each sub-question",
+      "Fetch full content with `firecrawl_scrape(url: \"...\")` or `crawling_exa(url: \"...\", tokensNum: 5000)` for deep reading",
+      "Use `web_search_advanced_exa(query: \"...\", numResults: 5, startPublishedDate: \"2025-01-01\")` to filter recent results by date",
+      "Break research into 3-5 sub-questions, then search 2-3 keyword variations per sub-question",
+      "Aim for 15-30 unique sources total; prioritize academic/official > reputable news > blogs > forums",
+      "Pitfall: Don't skip the deep-read step \u2014 scraping 3-5 key sources in full is essential for synthesis",
+      "Pitfall: Avoid relying on a single MCP tool; using both firecrawl and exa together gives best coverage",
+      "Pitfall: Don't search without first clarifying the user's goal (learning, decision, or writing) \u2014 ask 1-2 quick questions"
+    ],
+    "timestamp": "2026-06-21T23:21:27.928289"
+  },
+  {
+    "topic": "ecc:coding-standards",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "Use `const` by default; only use `let` when reassignment is absolutely necessary (immutability principle).",
+      "Name booleans with `is`, `has`, or `should` prefix: `isUserAuthenticated`, `hasPermission`.",
+      "Name functions as verbs describing action: `fetchUserData()`, `validateInput()`, not `data()` or `check()`.",
+      "Prefer self-documenting code over comments: `const marketSearchQuery = 'election'` instead of `const q = 'election' // search query`.",
+      "Apply DRY by extracting repeated logic into shared functions or utilities, not copy-pasting.",
+      "Follow KISS: choose the simplest working solution; avoid premature optimization or over-engineering.",
+      "Follow YAGNI: don't add parameters, abstractions, or features until they are actually needed.",
+      "Use descriptive, full-word variable names: `totalRevenue` instead of `x` or `rev`.",
+      "Avoid `any` type in TypeScript; prefer explicit types or `unknown` when type is not known."
+    ],
+    "timestamp": "2026-06-21T23:21:32.062207"
+  },
+  {
+    "topic": "ecc:mcp-server-patterns",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "**Register tools** using `server.tool(\"name\", schema, handler)` with Zod validation (e.g., `z.string().describe(\"query\")`).",
+      "**Register resources** using `server.resource(\"name\", \"uri-template\", handler)`; handler receives `uri` and returns `{ contents: [{ uri, text }] }`.",
+      "**Validate inputs** with `z.object({ param: z.string().min(1) })` in tool schemas; missing or invalid params cause silent failures.",
+      "**Use `server.connect(transport)`** with `StdioServerTransport` for local clients; keep tool/resource logic separate from transport setup.",
+      "**Pitfall**: SDK method names changed from `registerTool()` to `tool()`; always verify against current [MCP docs](https://modelcontextprotocol.io) or Context7.",
+      "**Streamable HTTP** is preferred for remote clients; use `new StreamableHTTPServerTransport()` (not legacy SSE) unless backward compatibility needed.",
+      "**Handle errors** in tool handlers by returning `{ content: [{ type: \"text\", text: \"Error: ...\" }] }`; do not throw exceptions.",
+      "**Pitfall**: Resources must return `contents` array with `uri` and `text` fields; omitting `uri` or using wrong field names breaks client retrieval.",
+      "**Use `z.union()`** for optional parameters in tool schemas (e.g., `z.union([z.string(), z.undefined()])`) to avoid Zod coercion bugs.",
+      "**Pitfall**: Never hardcode transport in server logic; inject transport at entrypoint to switch between stdio and HTTP without rewriting handlers."
+    ],
+    "timestamp": "2026-06-21T23:21:37.867276"
+  },
+  {
+    "topic": "ecc:e2e-testing",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "`page.locator('[data-testid=\"search-input\"]')` \u2014 use `data-testid` attributes for resilient element selection",
+      "`await page.waitForLoadState('networkidle')` \u2014 wait for all network requests to complete before proceeding",
+      "`await page.waitForResponse(resp => resp.url().includes('/api/search'))` \u2014 wait for a specific API response after an action",
+      "`await page.screenshot({ path: 'artifacts/search-results.png' })` \u2014 capture screenshots for debugging and CI artifact collection",
+      "`page.locator('[data-testid=\"item-card\"]').first()` \u2014 use `.first()` to get the first matching element from a locator",
+      "POM pattern: define `readonly` locators in constructor, expose async methods like `goto()`, `search()`",
+      "Pitfall: `waitForLoadState('networkidle')` can be flaky if the page has long-polling or streaming requests",
+      "Pitfall: using CSS classes or tag selectors instead of `data-testid` makes tests brittle to UI changes",
+      "Pitfall: failing to await page methods inside `test.beforeEach` leads to race conditions in subsequent tests"
+    ],
+    "timestamp": "2026-06-21T23:21:41.722177"
+  },
+  {
+    "topic": "ecc:benchmark-methodology",
+    "repos": [
+      "affaan-m/ECC"
+    ],
+    "patterns": [
+      "**`benchmark-methodology`** expects a scoped, tiered competitor set from `competitive-platform-analysis` and the client's established strategic tension before execution.",
+      "**Dimension 9 (Client's Strategic Tension) must be scored as two separate poles** (e.g., \"memorability\" and \"hireability\"), never averaged into a single score.",
+      "**Weights guide synthesis emphasis only** \u2014 avoid creating a single blended composite score; present per-dimension scores to prevent false precision.",
+      "**Use explicit 1\u20135 rubrics** for each of the nine dimensions; consistency requires that the same evidence yields the same score for any competitor.",
+      "**Client positioning brief** (strategic tension, differentiator, brand balance) must be established first; strategic recommendations must not break brand balance without flagging the deviation.",
+      "**Pitfall: Scoring without a fixed strategic tension** \u2014 the tension poles define the white-space; without them, dimension 9 and the report's argument collapse.",
+      "**Pitfall: Applying `benchmark-methodology` before `competitive-platform-analysis`** \u2014 the tiered set is a prerequisite; raw competitor lists break the scoring frame."
+    ],
+    "timestamp": "2026-06-21T23:21:45.430041"
+  },
+  {
+    "topic": "AI agent dashboard",
+    "repos": [
+      "ToolJet/ToolJet",
+      "raga-ai-hub/RagaAI-Catalyst"
+    ],
+    "patterns": [
+      "Pitfall: Not identifying the source code location (file/line) increases triage time for large codebases.",
+      "Usage pattern: Bug report templates enforce structured fields (Version, Environment, Expected/Current behavior) for reproducible issue tracking.",
+      "Pitfall: Failing to provide logs or traces in the designated section blocks root cause analysis.",
+      "Pitfall: Leaving \"Any possible solutions?\" blank forces maintainers to start from scratch instead of leveraging user insights.",
+      "No API methods or functions are extractable from this content; it is a bug report template, not an API documentation source.",
+      "To build an AI agent dashboard in ToolJet now, you must use the generic `ToolJet.query()` with REST API or Python backends, not a dedicated agent method.",
+      "`tooljet-dashboard` does not provide a dedicated \"AI agent dashboard\" API; the feature is a GitHub issue template, not a released component.",
+      "Pitfall: Omitting environment details (e.g., Docker vs MacOS) leads to unreproducible bugs and wasted debugging.",
+      "The issue template uses `labels: 'feature request, needs triage'` to flag that the feature is not yet implemented.",
+      "No real API methods or functions exist for \"AI agent dashboard\" in ToolJet based on this source; it is a feature request awaiting triage.",
+      "Pitfall: Confusing feature request templates with existing documentation leads to false assumptions about available API endpoints."
+    ],
+    "timestamp": "2026-06-21T23:27:32.521415"
+  },
+  {
+    "topic": "autonomous agent framework",
+    "repos": [
+      "crewAIInc/crewAI",
+      "elizaOS/eliza"
+    ],
+    "patterns": [
+      "**`uv run pre-commit install`**: Set up Git hooks to automatically run code quality checks on commit.",
+      "**`uv run ruff check lib/`**: Lint all Python files under `lib/` using Ruff.",
+      "**`uv run mypy lib/`**: Run static type checking with MyPy on the `lib/` directory.",
+      "**Branch naming pattern**: Use `<type>/<short-description>` (e.g., `feat/agent-skills`, `fix/memory-scope`) with types like `feat`, `fix`, `docs`.",
+      "**Bugcrowd report email** (`crewai-vdp-ess@submit.bugcrowd.com`) is the only valid vulnerability channel; public disclosure invalidates report.",
+      "Avoid setting `verbose=True` in production\u2014logs sensitive data (e.g., LLM prompts).",
+      "Overlapping tool names between agents cause silent failures; prefix tool names uniquely.",
+      "**Agent()** needs `role` and `goal`; missing `goal` leads to generic, low-quality outputs.",
+      "**`uv run pytest lib/crewai/tests/ -x -q`**: Run tests for the core `crewai` package, stopping on first failure (`-x`) in quiet mode (`-q`).",
+      "**.kickoff()** is blocking; use `asyncio` or threading for concurrent crews.",
+      "**`uv sync --all-groups --all-extras`**: Install all dependencies for development, including optional groups and extras.",
+      "**Pitfall**: AI-generated PRs/issues must apply the `llm-generated` label; unlabeled ones may be closed without review.",
+      "**.kickoff()** starts the agent execution; must call after defining tasks and crew.",
+      "**Pitfall**: Use built-in generics (`list[str]`) instead of `typing.List`/`typing.Dict` for type annotations.",
+      "**Task()** must set `agent` parameter; unassigned tasks are ignored during execution.",
+      "**Crew()** constructor requires `agents` and `tasks` lists; omit either causes runtime error.",
+      "**`uv run ruff format lib/`**: Auto-format all Python files under `lib/` using Ruff."
+    ],
+    "timestamp": "2026-06-21T23:32:19.788709"
+  },
+  {
+    "topic": "3d-force-graph",
+    "repos": [
+      "vasturiano/3d-force-graph"
+    ],
+    "patterns": [
+      "**Pitfall: missing `id` in nodes** \u2013 each node object must have a unique `id` field for links to resolve; otherwise links may break or cause errors.",
+      "**`Graph()` constructor** creates the 3D force simulation; call it as `const Graph = ForceGraph3D()` to get the instance.",
+      "**Pitfall: performance with large datasets** \u2013 disable animations or reduce `d3AlphaDecay` via `.d3AlphaDecay()` to prevent jank above ~1000 nodes.",
+      "Use `graph.nodeColor(node => node.color)` in constructor options for per-node coloring; returns string.",
+      "Pitfall: `graph.d3Force('center')` is auto-set; override with `graph.d3Force('center', null)` to disable centering.",
+      "Pitfall: Modifying `graph.d3Force()` returns the force object, not the graph instance\u2014cannot chain directly.",
+      "**Pitfall: mutating `graphData` directly** \u2013 always use `.graphData(newData)` to trigger re-render; modifying the array in-place won\u2019t update the visualization.",
+      "**Constructor:** `new ForceGraph3D(domElement)` \u2013 pass a DOM element directly, not a CSS selector.",
+      "**Pitfall:** If `.graphData()` is called before the DOM is ready, a \"tick error\" may occur \u2013 ensure the target `<div>` exists before instantiation.",
+      "**`.nodeLabel()`** and **`.linkLabel()`** define hover tooltips (e.g., `.nodeLabel('name')` or `.nodeLabel(d => d.name)`).",
+      "Access individual force via `graph.d3Force('charge')` and set strength with `.strength(-400)` for repulsion.",
+      "**`.graphData()`** sets or gets the graph data (expects `{ nodes: [...], links: [...] }`); call it after initialization or on update to re-simulate.",
+      "Call `graph.d3ReheatSimulation()` after changing forces to restart the simulation with new parameters.",
+      "**`.zoomToFit()`** re-centers and scales the view to fit all nodes; call with optional transition duration (e.g., `.zoomToFit(400)`).",
+      "Use `graph.d3Force('link').distance(50)` to override default link distance; default is 30.",
+      "**`.onNodeClick()`** and **`.onLinkClick()`** attach click event handlers (e.g., `.onNodeClick(node => console.log(node.id))`).",
+      "Call `graph.zoomToFit(400, 50)` to animate camera to fit all nodes within 50px padding over 400ms.",
+      "**`.nodeColor()`** and **`.linkColor()`** accept a function (e.g., `.nodeColor(d => d.color)`) for dynamic styling; default uses a fixed color.",
+      "**Method:** `.graphData(gData)` \u2013 sets the entire graph data (nodes + links) in one call; must be an object with `{ nodes: [...], links: [...] }`.",
+      "**Node shape:** Default nodes are small spheres; each node object can have an `id` property for link references.",
+      "**Link format:** Links use `source` and `target` properties that can be node IDs (or objects).",
+      "**CDN import:** Use `<script src=\"//cdn.jsdelivr.net/npm/3d-force-graph\">` for the library (no npm build needed).",
+      "**Random tree pattern:** For a tree, set each link\u2019s target to `Math.round(Math.random() * (id-1))` to avoid cycles."
+    ],
+    "timestamp": "2026-06-21T23:39:02.748750"
+  },
+  {
+    "topic": "claude-skills:Development & Code Tools",
+    "repos": [
+      "ComposioHQ/awesome-claude-skills"
+    ],
+    "patterns": [
+      "artifacts-builder \u2014 Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using mode",
+      "aws-skills \u2014 AWS development with CDK best practices, cost optimization MCP servers, and serverless/eve",
+      "building-blog \u2014 Adds an SEO-first, i18n-ready blog to a Next.js + Sanity site via a 40-question intake, a ",
+      "Changelog Generator \u2014 Automatically creates user-facing changelogs from git commits by analyzing history and tra",
+      "Chrome Relay \u2014 Drives the user's already-open Chrome session \u2014 cookies, SSO, extensions, localhost \u2014 thro",
+      "Claude Code Terminal Title \u2014 Gives each Claud-Code terminal window a dynamic title that describes the work being done s",
+      "Connect \u2014 Connect Claude to any app. Send emails, create issues, post messages, update databases - t",
+      "D3.js Visualization \u2014 Teaches Claude to produce D3 charts and interactive data visualizations. *By [@chrisvoncse",
+      "FFUF Web Fuzzing \u2014 Integrates the ffuf web fuzzer so Claude can run fuzzing tasks and analyze results for vul",
+      "finishing-a-development-branch \u2014 Guides completion of development work by presenting clear options and handling chosen work",
+      "Full-Page Screenshot \u2014 Captures full-page screenshots of web pages via Chrome DevTools Protocol with zero depende",
+      "great_cto \u2014 Claude Code plugin: 7 specialised subagents (tech-lead, senior-dev, qa-engineer, security-",
+      "iOS Simulator \u2014 Enables Claude to interact with iOS Simulator for testing and debugging iOS applications. ",
+      "jules \u2014 Delegate coding tasks to Google Jules AI agent for async bug fixes, documentation, tests, ",
+      "LangSmith Fetch \u2014 Debug LangChain and LangGraph agents by automatically fetching and analyzing execution tra"
+    ],
+    "timestamp": "2026-06-24T23:14:12.152245"
+  },
+  {
+    "topic": "claude-skills:Data & Analysis",
+    "repos": [
+      "ComposioHQ/awesome-claude-skills"
+    ],
+    "patterns": [
+      "CSV Data Summarizer \u2014 Automatically analyzes CSV files and generates comprehensive insights with visualizations ",
+      "deep-research \u2014 Execute autonomous multi-step research using Gemini Deep Research Agent for market analysi",
+      "postgres \u2014 Execute safe read-only SQL queries against PostgreSQL databases with multi-connection supp",
+      "recursive-research \u2014 Recursive research up to PhD level across any domain (science, tech, business, arts, human",
+      "root-cause-tracing \u2014 Use when errors occur deep in execution and you need to trace back to find the original tr"
+    ],
+    "timestamp": "2026-06-24T23:14:12.153474"
+  },
+  {
+    "topic": "claude-skills:Security & Systems",
+    "repos": [
+      "ComposioHQ/awesome-claude-skills"
+    ],
+    "patterns": [
+      "computer-forensics \u2014 Digital forensics analysis and investigation techniques.",
+      "file-deletion \u2014 Secure file deletion and data sanitization methods.",
+      "metadata-extraction \u2014 Extract and analyze file metadata for forensic purposes.",
+      "threat-hunting-with-sigma-rules \u2014 Use Sigma detection rules to hunt for threats and analyze security events."
+    ],
+    "timestamp": "2026-06-24T23:14:12.154273"
+  },
+  {
+    "topic": "claude-skills:Document Processing",
+    "repos": [
+      "ComposioHQ/awesome-claude-skills"
+    ],
+    "patterns": [
+      "docx \u2014 Create, edit, analyze Word docs with tracked changes, comments, formatting.",
+      "pdf \u2014 Extract text, tables, metadata, merge & annotate PDFs.",
+      "pptx \u2014 Read, generate, and adjust slides, layouts, templates.",
+      "xlsx \u2014 Spreadsheet manipulation: formulas, charts, data transformations.",
+      "Markdown to EPUB Converter \u2014 Converts markdown documents and chat summaries into professional EPUB ebook files. *By [@s",
+      "Master Claude for Legal \u2014 Skill pack for legal teams. NDA triage, multi-party version diff, citation verifier, meeti"
+    ],
+    "timestamp": "2026-06-24T23:14:12.155032"
+  },
+  {
+    "topic": "claude-skills:Productivity & Organization",
+    "repos": [
+      "ComposioHQ/awesome-claude-skills"
+    ],
+    "patterns": [
+      "File Organizer \u2014 Intelligently organizes files and folders by understanding context, finding duplicates, an",
+      "Invoice Organizer \u2014 Automatically organizes invoices and receipts for tax preparation by reading files, extrac",
+      "kaizen \u2014 Applies continuous improvement methodology with multiple analytical approaches, based on J",
+      "n8n-skills \u2014 Enables AI assistants to directly understand and operate n8n workflows.",
+      "Raffle Winner Picker \u2014 Randomly selects winners from lists, spreadsheets, or Google Sheets for giveaways and cont",
+      "solo-skills \u2014 7 bilingual (EN+\u4e2d\u6587) skills for solo founders and indie devs: launch tweets, customer email",
+      "Tailored Resume Generator \u2014 Analyzes job descriptions and generates tailored resumes that highlight relevant experienc",
+      "ship-learn-next \u2014 Skill to help iterate on what to build or learn next, based on feedback loops.",
+      "tapestry \u2014 Interlink and summarize related documents into knowledge networks."
+    ],
+    "timestamp": "2026-06-24T23:14:12.155805"
+  }
+]
