@@ -1,5 +1,4 @@
 """Object Detector — Bounding box detection using OpenCV/YOLO."""
-from pathlib import Path
 from logger import setup_logger
 logger = setup_logger("ObjectDetector")
 

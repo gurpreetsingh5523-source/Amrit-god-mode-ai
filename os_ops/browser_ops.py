@@ -1,5 +1,5 @@
 """Browser Operations — Selenium-based web automation with auto ChromeDriver detection."""
-from typing import List, Optional
+from typing import Optional
 import time
 from logger import setup_logger
 logger = setup_logger("BrowserOps")

@@ -26,14 +26,12 @@ class InternetAgent(BaseAgent):
     # urllib.urlopen is BLOCKING; run it in a thread so it never freezes
     # the async event loop (and the swarm). Hard timeout guards hangs.
     async def _fetch_text(self, req, timeout: int = 10) -> str:
-        import asyncio
         def _read():
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", errors="ignore")
         return await asyncio.wait_for(asyncio.to_thread(_read), timeout=timeout + 5)
 
     async def _fetch_json(self, req, timeout: int = 10):
-        import asyncio
         def _read():
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return json.loads(r.read())

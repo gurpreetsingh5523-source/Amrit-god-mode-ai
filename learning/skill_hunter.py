@@ -10,11 +10,9 @@ Triggered automatically during evolution cycles when:
   - User requests something the system can't do
 """
 
-import asyncio
 import json
 import subprocess
 import sys
-import tempfile
 import re
 from pathlib import Path
 from datetime import datetime

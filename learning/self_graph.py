@@ -13,10 +13,13 @@
 ╚══════════════════════════════════════════════════════════════╝
 """
 
-import sqlite3, json, time, hashlib
+import sqlite3
+import json
+import time
+import hashlib
 from datetime import datetime
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, asdict
+from typing import Dict, List
+from dataclasses import dataclass
 from config import CFG
 from llm_client import LLMClient
 
@@ -362,7 +365,7 @@ class SelfGraph:
                         UPDATE failures SET count=count+1, last_seen=? WHERE id=?
                     """, (datetime.now().isoformat(), existing[0]))
                 else:
-                    logger.debug(f"No existing failure found, inserting new record")
+                    logger.debug("No existing failure found, inserting new record")
                     c.execute("""
                         INSERT INTO failures
                         (pattern, context, module, first_seen, last_seen)

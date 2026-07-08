@@ -197,8 +197,8 @@ def verify_and_heal(html_path: str, max_rounds: int = 3,
         current = path.read_text()
         # keep prompt within budget
         prompt = (
-            f"This HTML file has browser errors. Fix them all.\n\n"
-            f"ERRORS:\n" + "\n".join(f"- {e}" for e in errs[:12]) + "\n\n"
+            "This HTML file has browser errors. Fix them all.\n\n"
+            "ERRORS:\n" + "\n".join(f"- {e}" for e in errs[:12]) + "\n\n"
             + (f"INTENT: {spec}\n\n" if spec else "")
             + f"CURRENT HTML:\n{current[:14000]}\n\n"
             "Return ONLY the complete fixed HTML."
@@ -226,7 +226,6 @@ def verify_and_heal(html_path: str, max_rounds: int = 3,
 
 # ── Self-test ────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import sys
     # Build a deliberately broken page to prove the loop heals it
     broken = """<!DOCTYPE html><html><head><title>t</title></head>
 <body><div id="app"></div>

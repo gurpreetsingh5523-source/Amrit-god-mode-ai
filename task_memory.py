@@ -93,7 +93,6 @@ class TaskMemory:
 
 
 if __name__ == "__main__":
-    import shutil
     STORE.unlink(missing_ok=True)
     tm = TaskMemory()
     tm.record("build a 3d-force-graph dashboard", True, "use ForceGraph3D()(el) factory form")

@@ -28,7 +28,6 @@ _REFLECTIONS_PATH = "workspace/dual_brain/reflections.json"
 
 def _build_agent_builder():
     """Build AgentBuilder with qwen3.5:9b for all roles."""
-    from agent_builder import AgentBuilder, AgentConfig
     from llm_client import LLMClient
 
     def _make(role_prompt):

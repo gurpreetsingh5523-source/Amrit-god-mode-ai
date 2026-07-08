@@ -29,8 +29,6 @@ MODEL_REGISTRY = {
     "coding":    "deepseek-chat",
     "fast":      "deepseek-chat",      # Fast + smart via API
     "reasoning": "deepseek-reasoner",  # DeepSeek R1 — deep reasoning
-    "creative":  "gemma3:12b",
-    "deep":      "gemma3:12b",
     "creative":  "deepseek-chat",
     "deep":      "deepseek-reasoner",  # R1 for deep analysis
     # gemma4:e4b = vision only (local, 5GB RAM, multimodal)
@@ -265,7 +263,8 @@ class LLMRouter:
             # ── Amrit's OWN fine-tuned coding brain (MLX + LoRA on verified data) ──
             if model in ("amrit-coder", "finetuned", "amrit"):
                 try:
-                    import amrit_finetuned, asyncio as _aio
+                    import amrit_finetuned
+                    import asyncio as _aio
                     if amrit_finetuned.is_available():
                         logger.info("🧠 routing to Amrit's fine-tuned model")
                         return await _aio.to_thread(amrit_finetuned.complete, prompt, system, max_tokens)
@@ -312,7 +311,7 @@ class LLMRouter:
                 # Try DeepSeek API first
                 result = await self._call_deepseek(prompt, system, chosen, max_tokens)
                 if not result or result.startswith("[ERROR]"):
-                    logger.warning(f"DeepSeek API failed → local fallback (gemma3:12b)")
+                    logger.warning("DeepSeek API failed → local fallback (gemma3:12b)")
                     result = await self._call_local(prompt, system, "gemma3:12b", max_tokens)
             else:
                 # Local model (gemma3, qwen3.5 etc)
@@ -327,7 +326,7 @@ class LLMRouter:
                 return result
 
             # Last resort: Anthropic
-            logger.warning(f"All primary failed → Anthropic last resort")
+            logger.warning("All primary failed → Anthropic last resort")
             cloud_result = await self._call_anthropic(prompt, system, max_tokens)
             if cloud_result and not cloud_result.startswith("[ERROR]"):
                 self._response_cache[ckey] = cloud_result

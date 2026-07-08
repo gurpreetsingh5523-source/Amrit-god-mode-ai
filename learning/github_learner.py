@@ -106,8 +106,8 @@ class GitHubLearner:
                 req = urllib.request.Request(url, headers={"User-Agent": "GitHubLearner/1.0"})
                 with urllib.request.urlopen(req, timeout=15) as r:
                     content = r.read().decode("utf-8", "replace")
-            except Exception as e:
-                results.append((topic, f"fetch-fail")); continue
+            except Exception:
+                results.append((topic, "fetch-fail")); continue
             patterns = self.extract_patterns(content[:3000], f"{name} skill").get("patterns", [])
             if patterns:
                 self._save_result(LearningResult(topic=topic, repos=["affaan-m/ECC"],
