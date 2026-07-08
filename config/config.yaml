@@ -1,0 +1,33 @@
+# AMRIT GODMODE v2.1 — Configuration                                                     
+llm:
+  model: "gemma3:12b"
+  reasoning_model: "gemma3:12b"
+  coding_model: "gemma3:12b"
+  fast_model: "gemma3:12b"
+  openai_base_url: "http://127.0.0.1:8080/v1"
+  openai_api_key: "mlx"
+  system_prompt: "ਪੰਜਾਬੀ ਵਿੱਚ ਜਵਾਬ ਦਿਓ। STRICT JSON ONLY."
+  request_timeout: 90
+  smart_routing: false
+
+security:
+  sandbox_enabled: true
+  ethical_guard: true
+  sandbox_timeout: 10
+  strict_mode: false
+
+voice:
+  enabled: false
+  stt_model: "whisper-base"
+  tts_engine: "pyttsx3"
+
+vision:
+  enabled: false
+
+learning:
+  enabled: true
+  learn_every_n: 10
+
+logging:
+  level: "INFO"
+  dir: "logs/"

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amrit · 3D Force Graph</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #1a1a2e;
+      color: #e0e0ff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    #graph-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    /* Amrit Core badge – animated pulse */
+    #badge {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 20;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 40px;
+      padding: 10px 22px 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    #badge-core {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #a78bfa;
+      box-shadow: 0 0 12px #a78bfa;
+      animation: pulse-core 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-core {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    #badge-text {
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      font-size: 0.95rem;
+      color: #d6d0ff;
+    }
+    #badge-stats {
+      display: flex;
+      gap: 10px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #b0b0d0;
+      margin-left: 4px;
+    }
+    .stat-item {
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(167, 139, 250, 0.15);
+    }
+    /* Chat overlay – bottom right */
+    #chat-overlay {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 380px;
+      max-width: calc(100vw - 60px);
+      background: rgba(22, 22, 40, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(200, 210, 240, 0.12);
+      border-radius: 28px;
+      padding: 18px 16px 14px;
+      z-index: 30;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+      transition: opacity 0.3s;
+    }
+    #chat-messages {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      scroll-behavior: smooth;
+    }
+    #chat-messages::-webkit-scrollbar {
+      width: 4px;
+    }
+    #chat-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #chat-messages::-webkit-scrollbar-thumb {
+      background: #3a3a5a;
+      border-radius: 10px;
+    }
+    .msg {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 14px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      max-width: 85%;
+      word-break: break-word;
+      border: 1px solid rgba(200, 210, 240, 0.06);
+    }
+    .msg.me {
+      background: rgba(167, 139, 250, 0.18);
+      align-self: flex-end;
+      border-color: rgba(167, 139, 250, 0.2);
+    }
+    #chatform {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: rgba(0,0,0,0.2);
+      border-radius: 60px;
+      padding: 4px 4px 4px 18px;
+      border: 1px solid rgba(200, 210, 240, 0.08);
+    }
+    #chatin {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f0f0ff;
+      font-size: 0.95rem;
+      padding: 10px 0;
+      outline: none;
+    }
+    #chatin::placeholder {
+      color: #7a7a9a;
+      font-weight: 300;
+    }
+    #sendbtn {
+      background: #a78bfa;
+      border: none;
+      border-radius: 40px;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #0d0d1a;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 8px rgba(167, 139, 250, 0.2);
+    }
+    #sendbtn:hover {
+      background: #b99bff;
+      transform: scale(0.97);
+    }
+    /* reset view hint */
+    #hint {
+      position: fixed;
+      bottom: 100px;
+      left: 30px;
+      z-index: 10;
+      font-size: 0.7rem;
+      color: #6a6a8a;
+      background: rgba(0,0,0,0.3);
+      padding: 6px 14px;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.03);
+      pointer-events: none;
+    }
+    code {
+      background: #2a2a4a;
+      padding: 1px 6px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+    }
+    @media (max-width: 600px) {
+      #badge { top: 16px; left: 16px; padding: 6px 14px; gap: 8px; }
+      #badge-stats { display: none; }
+      #chat-overlay { width: calc(100vw - 32px); right: 16px; bottom: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="graph-container"></div>
+
+  <!-- Amrit Core badge -->
+  <div id="badge">
+    <div id="badge-core"></div>
+    <span id="badge-text">⚛ Amrit Core</span>
+    <span id="badge-stats">
+      <span class="stat-item">🧠 19 agents</span>
+      <span class="stat-item">💎 1 crystallized</span>
+      <span class="stat-item">⚠ 4 failures</span>
+      <span class="stat-item">📘 79 lessons</span>
+    </span>
+  </div>
+
+  <div id="hint">⟳ drag · hover · reset view (double‑click)</div>
+
+  <!-- Chat overlay -->
+  <div id="chat-overlay">
+    <div id="chat-messages">
+      <div class="msg">🕉️  Amrit ready · ask me anything</div>
+    </div>
+    <form id="chatform">
+      <input id="chatin" type="text" placeholder="message..." autocomplete="off">
+      <button id="sendbtn" type="submit">send</button>
+    </form>
+  </div>
+
+  <!-- 3d-force-graph from CDN (v1) -->
+  <script src="https://cdn.jsdelivr.net/npm/3d-force-graph"></script>
+  <script>
+    // ----- fallback state (if json fails) -----
+    window.AMRIT_STATE = window.AMRIT_STATE || {
+      nodes: [
+        { id: 'alpha', group: 'Core', color: '#a78bfa' },
+        { id: 'beta', group: 'Memory', color: '#6dd5ed' },
+        { id: 'gamma', group: 'Planner', color: '#f093fb' },
+        { id: 'delta', group: 'Verify', color: '#4facfe' },
+        { id: 'epsilon', group: 'Lens', color: '#43e97b' }
+      ],
+      links: [
+        { source: 'alpha', target: 'beta' },
+        { source: 'alpha', target: 'gamma' },
+        { source: 'alpha', target: 'delta' },
+        { source: 'alpha', target: 'epsilon' },
+        { source: 'beta', target: 'gamma' }
+      ]
+    };
+
+    // ----- render function (called after data ready) -----
+    function render(data) {
+      const container = document.getElementById('graph-container');
+      // ensure container exists
+      if (!container) return;
+
+      const N = (data.nodes || []).map(n => ({ ...n, id: n.id || n.name || crypto.randomUUID() }));
+      const L = (data.links || []).map(l => ({
+        source: l.source?.id || l.source,
+        target: l.target?.id || l.target,
+        __active: false
+      }));
+
+      // Graph instance
+      const G = ForceGraph3D()(container)
+        .graphData({ nodes: N, links: L })
+        .backgroundColor('#1a1a2e')
+        .nodeColor(n => n.color || '#a78bfa')
+        .nodeLabel(n => `${n.id} (${n.group || 'node'})`)
+        .linkColor(l => l.__active ? '#a78bfa' : 'rgba(200, 210, 240, 0.25)')
+        .linkWidth(l => l.__active ? 2.2 : 0.6)
+        .linkDirectionalParticleColor(() => '#d6b4ff')
+        .linkDirectionalParticles(2)
+        .linkDirectionalParticleSpeed(0.008)
+        .nodeVal(6)
+        .linkWidth(0.6)
+        .linkOpacity(0.6)
+        .d3AlphaDecay(0.02)
+        .d3VelocityDecay(0.3)
+        .cameraPosition({ x: 100, y: 100, z: 100 });
+
+      // reset view on double-click
+      container.style.cursor = 'grab';
+      container.addEventListener('dblclick', () => {
+        G.cameraPosition({ x: 100, y: 100, z: 100 }, null, 2000);
+      });
+
+      // ----- pulseSignals (exposed globally) -----
+      window.pulseSignals = function(ids) {
+        if (!ids || !ids.length) return;
+        const idSet = new Set(ids);
+        // update links __active
+        L.forEach(l => {
+          const t = (l.target && (l.target.id || l.target)) || l.target;
+          l.__active = idSet.has(t);
+        });
+        N.forEach(n => { n.__active = idSet.has(n.id); });
+        G.graphData({ nodes: N, links: L });
+        setTimeout(() => {
+          L.forEach(l => l.__active = false);
+          N.forEach(n => n.__active = false);
+          G.graphData({ nodes: N, links: L });
+        }, 4000);
+      };
+
+      // initial random pulse for demo (after 1s)
+      setTimeout(() => {
+        if (window.pulseSignals) {
+          window.pulseSignals(['beta', 'gamma']);
+        }
+      }, 800);
+    }
+
+    // ----- activity polling (every 3s) -----
+    async function pollActivity() {
+      try {
+        const r = await fetch('/api/activity');
+        const d = await r.json();
+        if (d.active && d.active.length && window.pulseSignals) {
+          window.pulseSignals(d.active);
+        }
+      } catch (e) { /* silent */ }
+    }
+    // Only poll the API when actually served over http (file:// has no API → errors).
+    if (location.protocol.startsWith('http')) setInterval(pollActivity, 3000);
+
+    // ----- chat handler -----
+    document.getElementById('chatform').addEventListener('submit', async e => {
+      e.preventDefault();
+      const i = document.getElementById('chatin');
+      const t = i.value.trim();
+      if (!t) return;
+      const m = document.getElementById('chat-messages');
+      m.innerHTML += `<div class="msg me">🧑 ${t}</div>`;
+      i.value = '';
+      const wait = document.createElement('div');
+      wait.className = 'msg';
+      wait.textContent = '🕉️ …thinking';
+      m.appendChild(wait);
+      m.scrollTop = m.scrollHeight;
+
+      if (window.pulseSignals) window.pulseSignals(['memory', 'planner', 'self-verify']);
+
+      try {
+        const r = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: t })
+        });
+        const d = await r.json();
+        wait.innerHTML = '🕉️ ' + (d.reply || '(no reply)');
+      } catch (err) {
+        wait.innerHTML = '⚠️ Offline — start the server: <code>python dashboard_server.py</code> then open http://localhost:7777';
+      }
+      m.scrollTop = m.scrollHeight;
+    });
+
+    // ----- bootstrap: load json or fallback -----
+    if (location.protocol.startsWith('http')) {
+      fetch('amrit_state.json')
+        .then(r => r.json())
+        .then(render)
+        .catch(() => render(window.AMRIT_STATE));
+    } else {
+      render(window.AMRIT_STATE);
+    }
+
+    // small hack: expose G for debugging (optional)
+    console.log('Amrit dashboard ready · 3D force graph');
+  </script>
+</body>
+</html>
