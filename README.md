@@ -3,11 +3,11 @@
 # ☬ AMRIT GODMODE v3.1 ☬
 
 ### ਆਟੋਨੋਮਸ AI ਪਲੇਟਫਾਰਮ — Self-Evolving, Self-Fixing, Self-Learning
-**Clean Architecture · 19 Specialized Agents · 121 Unit & Integration Tests Passing · Punjabi NLP**
+**Clean Architecture · 22 Specialist Agents · 109 Tests Passing (pytest) · Punjabi NLP**
 
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg?style=for-the-badge&logo=python)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-121%2F121%20passing-brightgreen.svg?style=for-the-badge&logo=pytest)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Tests-109%20passing-brightgreen.svg?style=for-the-badge&logo=pytest)](https://pytest.org)
 [![Ollama](https://img.shields.io/badge/LLM-Ollama%20Local-orange.svg?style=for-the-badge&logo=ollama)](https://ollama.com)
 
 </div>
@@ -16,9 +16,9 @@
 
 ## 🚀 Overview
 
-**AMRIT GODMODE v3.1** is a state-of-the-art, fully autonomous AI agent platform designed to run locally with metal-accelerated performance on Apple Silicon. Following a major architectural modularization, the system features a robust **Dual-Brain Cognitive Loop**, a **7-Phase Self-Evolution Pipeline**, and a network of **19 specialized autonomous agents** communicating over a unified asynchronous event bus.
+**AMRIT GODMODE v3.1** is a fully local, autonomous multi-agent platform designed to run locally with metal-accelerated performance on Apple Silicon. Following a major architectural modularization, the system features a robust **Dual-Brain Cognitive Loop**, a **7-Phase Self-Evolution Pipeline**, and a network of **22 specialist agents** communicating over a unified asynchronous event bus.
 
-With **121/121 unit and integration tests passing**, AMRIT has a verified self-evolution feedback loop that lets it write, test, debug, and upgrade its own code safely within a secure runtime sandbox.
+With **109 tests passing** (pytest, re-run 2026-10-06), AMRIT has a verified self-evolution feedback loop that lets it write, test, debug, and upgrade its own code safely within a secure runtime sandbox.
 
 ---
 
@@ -31,7 +31,7 @@ With **121/121 unit and integration tests passing**, AMRIT has a verified self-e
                                           │
                       ┌───────────────────▼────────────────────┐
                       │        core/orchestrator.py (Brain)    │
-                      │      Coordinates 19 agents & events    │
+                      │      Coordinates 22 agents & events    │
                       └──────┬──────────────────────────┬──────┘
                              │                          │
            ┌─────────────────▼─────────┐      ┌─────────▼─────────────────┐
