@@ -55,16 +55,16 @@ With **109 tests passing** (pytest, re-run 2026-10-06), AMRIT has a verified sel
 
 The project directory is structured cleanly into functional modular layers:
 
-*   [**`core/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core) — The orchestration engine: [Orchestrator](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/orchestrator.py), [EventBus](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/event_bus.py), [TaskGraph](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/task_graph.py), and [AutonomyLoop](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/core/autonomy_loop.py).
-*   [**`agents/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents) — 19 specialized worker agents including the [CoderAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/coder_agent.py), [PlannerAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/planner_agent.py), and [TesterAgent](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/agents/tester_agent.py).
-*   [**`memory/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory) — Hybrid multi-layer memory storage: [ContextBuffer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/context_buffer.py), [VectorStore](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/vector_store.py), [EpisodicMemory](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/episodic_memory.py), and [SemanticMemory](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/memory/semantic_memory.py).
-*   [**`learning/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning) — The cognitive self-improvement pipeline: [SelfEvolution](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/self_evolution.py), [LearningLayer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/learning_layer.py), [SkillCrystallizer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/skill_crystallizer.py), and [MutationLab](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/learning/mutation_lab.py).
-*   [**`failure/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure) — Diagnostics and healing layers: [ErrorAnalyzer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure/error_analyzer.py) and [RecoveryRecipes](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/failure/recovery_recipes.py).
-*   [**`os_ops/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops) — OS-level tool bindings: [TerminalOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/terminal_ops.py), [FileOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/file_ops.py), [GitOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/git_ops.py), and [BrowserOps](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/os_ops/browser_ops.py).
-*   [**`punjabi/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi) — Local Gurmukhi NLP: [PunjabiTrainer](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi/punjabi_trainer.py) and [NaamFilter](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/punjabi/naam_filter.py) ethical guard.
-*   [**`voice/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/voice) — Audio processing pipeline: Whisper STT, TTS, and cached playback.
-*   [**`dashboard/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/dashboard) — Local telemetry dashboard and MCP (Model Context Protocol) API.
-*   [**`tests/`**](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/tests) — Clean, comprehensive test suite backed by a global [conftest.py](file:///Users/gurpreetdhillon/Amrit-god-mode-ai/tests/conftest.py).
+*   [**`core/`**](core) — The orchestration engine: [Orchestrator](core/orchestrator.py), [EventBus](core/event_bus.py), [TaskGraph](core/task_graph.py), and [AutonomyLoop](core/autonomy_loop.py).
+*   [**`agents/`**](agents) — 22 specialist agents including the [CoderAgent](agents/coder_agent.py), [PlannerAgent](agents/planner_agent.py), and [TesterAgent](agents/tester_agent.py).
+*   [**`memory/`**](memory) — Hybrid multi-layer memory storage: [ContextBuffer](memory/context_buffer.py), [VectorStore](memory/vector_store.py), [EpisodicMemory](memory/episodic_memory.py), and [SemanticMemory](memory/semantic_memory.py).
+*   [**`learning/`**](learning) — The cognitive self-improvement pipeline: [SelfEvolution](learning/self_evolution.py), [LearningLayer](learning/learning_layer.py), [SkillCrystallizer](learning/skill_crystallizer.py), and [MutationLab](learning/mutation_lab.py).
+*   [**`failure/`**](failure) — Diagnostics and healing layers: [ErrorAnalyzer](failure/error_analyzer.py) and [RecoveryRecipes](failure/recovery_recipes.py).
+*   [**`os_ops/`**](os_ops) — OS-level tool bindings: [TerminalOps](os_ops/terminal_ops.py), [FileOps](os_ops/file_ops.py), [GitOps](os_ops/git_ops.py), and [BrowserOps](os_ops/browser_ops.py).
+*   [**`punjabi/`**](punjabi) — Local Gurmukhi NLP: [PunjabiTrainer](punjabi/punjabi_trainer.py) and [NaamFilter](punjabi/naam_filter.py) ethical guard.
+*   [**`voice/`**](voice) — Audio processing pipeline: Whisper STT, TTS, and cached playback.
+*   [**`dashboard/`**](dashboard) — Local telemetry dashboard and MCP (Model Context Protocol) API.
+*   [**`tests/`**](tests) — Clean, comprehensive test suite backed by a global [conftest.py](tests/conftest.py).
 
 ---
 
@@ -123,9 +123,9 @@ python main.py --mode swarm --goal "Build a REST API for managing tasks"
 
 ---
 
-## 🤖 Network of 19 Specialized Agents
+## 🤖 Network of 22 Specialist Agents
 
-AMRIT orchestrates 19 specialized agents, each dynamically mapped to specific task signatures:
+AMRIT orchestrates 22 specialist agents, each dynamically mapped to specific task signatures:
 
 | Agent | Module | Core Functionality |
 | :--- | :--- | :--- |
@@ -156,7 +156,7 @@ The core capability of AMRIT is its **7-Phase Self-Evolution Pipeline**. Running
 
 ```
 [Phase 1] ANALYZE  ──→ Scans all python files, scoring code quality metrics.
-[Phase 2] TEST     ──→ Runs all 121 unit & integration tests to gather metrics.
+[Phase 2] TEST     ──→ Runs the full pytest suite (109 tests) to gather metrics.
 [Phase 3] FIX      ──→ Detects syntax/import errors and resolves them immediately.
 [Phase 4] REFACTOR ──→ Regenerates weak modules to improve structural scoring.
 [Phase 5] OPTIMIZE ──→ Speeds up slow-running operations.
@@ -180,7 +180,7 @@ AMRIT takes local execution security seriously with three layers of safety enfor
 
 ## 🧪 Testing
 
-The entire codebase is verified by 121 unit and integration tests. Run tests locally using:
+The entire codebase is covered by 109 pytest tests. Run tests locally using:
 
 ```bash
 # Execute pytest across the suite
