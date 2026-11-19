@@ -17,11 +17,14 @@ import sqlite3
 import json
 import time
 import hashlib
+import logging
 from datetime import datetime
 from typing import Dict, List
 from dataclasses import dataclass
 from config import CFG
 from llm_client import LLMClient
+
+logger = logging.getLogger(__name__)
 
 
 # ══════════════════════════════════════════════════════════════
