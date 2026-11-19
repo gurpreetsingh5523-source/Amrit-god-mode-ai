@@ -33,7 +33,7 @@ openwakeword>=0.6.0    # Wake word: "Hey Amrit" — fully offline
 # Vision
 Pillow>=10.0.0
 opencv-python>=4.8.0
-pytesseract>=0.3.10
+pytesseract>=0.3.13
 # llava:7b via Ollama — no pip needed, pull with: ollama pull llava:7b
 
 # Screen Control — God Mode full Mac control
