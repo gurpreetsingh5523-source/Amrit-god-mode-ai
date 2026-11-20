@@ -2,7 +2,7 @@
 
 # Core
 pyyaml>=6.0
-python-dotenv>=1.0
+python-dotenv>=1.2.4
 psutil>=5.9
 
 # LLM APIs
