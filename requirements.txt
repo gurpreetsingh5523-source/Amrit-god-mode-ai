@@ -61,7 +61,7 @@ scikit-learn>=1.9.1
 # ML / Training
 torch>=2.0.0
 transformers>=4.35.0
-peft>=0.6.0
+peft>=0.21.3
 accelerate>=0.25.0
 
 # Database
