@@ -73,7 +73,7 @@ gitpython>=3.1.40
 # Utils
 rich>=13.0.0
 httpx>=0.25.0
-aiofiles>=23.0.0
+aiofiles>=25.1.0
 pyperclip>=1.8.2
 
 # Video
